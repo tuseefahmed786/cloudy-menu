@@ -9,7 +9,7 @@ function Login() {
     e.preventDefault()
     console.log(email, password)
     try {
-      const logined = await axios.post("http://localhost:3002/login", {
+      const logined = await axios.post("https://emenu-sandy.vercel.app/login", {
         email,
         password
       }, {
