@@ -20,7 +20,7 @@ const Info = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post("http://localhost:3002/restaurant", {
+        const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
             formData
         }, {
             headers: {
