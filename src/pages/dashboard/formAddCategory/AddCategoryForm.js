@@ -7,7 +7,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
 
   useEffect(() => {
     const getIcons = async () => {
-      const res = await axios.get("http://localhost:3002/icons")
+      const res = await axios.get("https://menuserver-eight.vercel.app/icons")
       seIcons(res.data)
     }
     getIcons()
@@ -24,7 +24,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
   const handleAddCategory = async () => {
     const token = localStorage.getItem('token');
     if (editCategories && editCategories._id) {
-      const updatedCategory = await axios.put(`http://localhost:3002/updatedCategory/${editCategories._id}`, {
+      const updatedCategory = await axios.put(`https://menuserver-eight.vercel.app/updatedCategory/${editCategories._id}`, {
         title,
         selectedIcon
       }, {
@@ -35,7 +35,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
       editCategroyFunction(updatedCategory.data.category)
       setShow("edit")
     } else {
-      const createCategory = await axios.post("http://localhost:3002/addCategory", {
+      const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
         title,
         selectedIcon
       }, {

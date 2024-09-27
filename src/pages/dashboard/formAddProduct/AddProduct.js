@@ -20,7 +20,7 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
         console.log(key, value);
     }
         
-        const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
+        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
