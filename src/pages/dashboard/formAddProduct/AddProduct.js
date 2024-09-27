@@ -15,7 +15,10 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
         formData.append('description', description);
         formData.append('image', image);
 
-        console.log(formData)
+            // Log FormData entries
+    for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+    }
         
         const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
             headers: {

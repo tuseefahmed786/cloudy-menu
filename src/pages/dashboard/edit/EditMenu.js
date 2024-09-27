@@ -138,7 +138,7 @@ const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
     <div className="flex flex-col items-center" onClick={() => selectedCateg(id)}>
       <div className={`w-16 h-16 ${` ${id.title == activeCat.title ? "bg-yellow-400" : ""}`} rounded-xl flex items-center justify-center text-2xl shadow-sm`}>
 
-        <img src={`http://localhost:3002${id.icon}`} width={40} height={40} alt="icons image" />
+        <img src={`${id.icon}`} width={40} height={40} alt="icons image" />
       </div>
       <span className="whitespace-nowrap mt-2 text-sm">{id.title}</span>
       <span className="whitespace-nowrap mt-2 text-sm" onClick={() => editFunction(id)}>!</span>
@@ -153,7 +153,7 @@ const DishCard = ({ name }) => {
     <div className="flex  w-[calc(50%-1rem)] flex-col items-center border border-gray-200 rounded-lg h-40">
       {/* Toggle Switch */}
       <div className="w-full h-3/4">
-        <img className="w-full h-full object-cover rounded-t-lg" src={`http://localhost:3002/${name.imageUrl}`} />
+        <img className="w-full h-full object-cover rounded-t-lg" src={`${name.imageUrl}`} />
       </div>
       <div className="product-details h-1/4 rounded-b-lg rounded-bl-lg bg-[#fafafa] justify-between p-2 flex w-full">
         <span>{name.name}</span>

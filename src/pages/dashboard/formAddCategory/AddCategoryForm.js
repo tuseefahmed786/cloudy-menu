@@ -82,7 +82,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
                 className={`p-2 rounded-full w-20 flex items-center justify-center border ${selectedIcon === icon.url ? "border-blue-500" : "border-gray-300"
                   }`}
               >
-                <img className="text-2xl" width={40} height={40} src={`http://localhost:3002${icon.url}`} />
+                <img className="text-2xl" width={40} height={40} src={`${icon.url}`} />
               </button>
             ))}
           </div>
