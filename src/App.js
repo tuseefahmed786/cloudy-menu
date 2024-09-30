@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path='/' index element={<Register />} />
           <Route path='login' element={<Login />} />
-          <Route path='dashboard' element={<DashboardLayout />}>
+s          <Route path='dashboard' element={<DashboardLayout />}>
             <Route path='edit' element={<EditMenu />} />
             <Route path='view' element={<ViewMenu />} />
             <Route path='info' element={<Info />} />
