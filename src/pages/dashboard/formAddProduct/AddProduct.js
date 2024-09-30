@@ -1,13 +1,16 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import Isloading from '../../../components/Isloading'
 
 function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState(null)
+    const [isloading, setIsLoading] = useState(false)
 
     const handleAddProduct = async () => {
+        setIsLoading(true)
         const selectedCateg = selectedC._id
         const formData = new FormData();
         formData.append('name', name);
@@ -19,8 +22,7 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
     for (let [key, value] of formData.entries()) {
         console.log(key, value);
     }
-        
-        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/products`, formData, {
+        const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
@@ -81,9 +83,9 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
                     {/* Add Button */}
                     <button
                         onClick={handleAddProduct}
-                        className="w-full bg-blue-500 text-white p-2 rounded-full"
+                        className="w-full bg-blue-500 text-white p-2  rounded-full"
                     >
-                        Add
+                       {isloading?<Isloading width="w-6" height="h-6"/>:"Add Product"}
                     </button>
                 </div>
             </div>

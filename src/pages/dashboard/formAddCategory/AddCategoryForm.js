@@ -1,14 +1,17 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import Isloading from "../../../components/Isloading";
 const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFunction }) => {
   const [title, setTitle] = useState();
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [icons, seIcons] = useState([])
+  const [isloading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const getIcons = async () => {
-      const res = await axios.get("https://menuserver-eight.vercel.app/icons")
+      const res = await axios.get("http://localhost:3002/icons")
       seIcons(res.data)
+      setIsLoading(false)
     }
     getIcons()
   }, [])
@@ -24,7 +27,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
   const handleAddCategory = async () => {
     const token = localStorage.getItem('token');
     if (editCategories && editCategories._id) {
-      const updatedCategory = await axios.put(`https://menuserver-eight.vercel.app/updatedCategory/${editCategories._id}`, {
+      const updatedCategory = await axios.put(`http://localhost:3002/updatedCategory/${editCategories._id}`, {
         title,
         selectedIcon
       }, {
@@ -35,7 +38,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
       editCategroyFunction(updatedCategory.data.category)
       setShow("edit")
     } else {
-      const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
+      const createCategory = await axios.post("http://localhost:3002/addCategory", {
         title,
         selectedIcon
       }, {
@@ -72,7 +75,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
         </div>
 
         {/* Icon Selection */}
-        <div className="mb-4 max-h-[50%] w-full">
+        {isloading?<Isloading  width="w-14" height="h-14"/>:<div className="mb-4 max-h-[50%] w-full">
           <label className="block text-gray-700 mb-2">Choose icon (Optional)</label>
           <div className="flex items-center py-5 justify-center flex-wrap h-[90%] gap-4 overflow-y-scroll">
             {icons.map((icon, index) => (
@@ -86,7 +89,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
               </button>
             ))}
           </div>
-        </div>
+        </div>}
 
         {/* Add Button */}
         <button

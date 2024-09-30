@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Restaurant from './components/restaurant/Restaurant';
-import MenuName from './components/menuName/MenuName';
 import DashboardLayout from './pages/dashboard/Dashboard';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
@@ -17,13 +15,10 @@ function App() {
         <Routes>
           <Route path='/' index element={<Register />} />
           <Route path='login' element={<Login />} />
-          <Route path='restaurant' element={<Restaurant />} />
-          <Route path='menu' element={<MenuName />} />
           <Route path='dashboard' element={<DashboardLayout />}>
             <Route path='edit' element={<EditMenu />} />
             <Route path='view' element={<ViewMenu />} />
             <Route path='info' element={<Info />} />
-
           </Route>
         </Routes>
       </BrowserRouter>

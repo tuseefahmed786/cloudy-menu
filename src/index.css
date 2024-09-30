@@ -12,6 +12,20 @@ code {
     monospace;
 }
 
+.scrollx::-webkit-scrollbar {
+  height: 6px; /* Width of the scrollbar */
+  width: 6px;
+}
+
+.scrollx::-webkit-scrollbar-thumb {
+  border-radius: 9999px; /* Rounded edges for the thumb */
+  background: #bdc1c6; /* Color of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8d8c8c; /* Color on hover */
+  cursor: pointer
+}
 
 @tailwind base;
 @tailwind components;

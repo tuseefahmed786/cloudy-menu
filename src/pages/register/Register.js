@@ -9,7 +9,7 @@ function Register() {
         e.preventDefault()
         console.log(email,password)
        try {
-        const registered = await axios.post("https://menuserver-eight.vercel.app/signup",{
+        const registered = await axios.post("http://localhost:3002/signup",{
             email,
             password
         },{

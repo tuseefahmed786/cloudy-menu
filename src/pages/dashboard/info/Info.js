@@ -20,7 +20,7 @@ const Info = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
+        const res = await axios.post("http://localhost:3002/restaurant", {
             formData
         }, {
             headers: {
@@ -47,8 +47,9 @@ useEffect(() => {
 
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+        <div className="max-w-md mx-auto flex justify-center h-full flex-col p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-semibold mb-6">Business Info</h2>
+         
             <form onSubmit={handleSubmit}>
                 {/* Restaurant Name */}
                 <div className="mb-4">
