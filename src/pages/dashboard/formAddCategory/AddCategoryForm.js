@@ -6,6 +6,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [icons, seIcons] = useState([])
   const [isloading, setIsLoading] = useState(true)
+  const [isLoadingAddBtn, setIsLoadingAddBtn] = useState(false)
 
   useEffect(() => {
     const getIcons = async () => {
@@ -26,6 +27,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
   const handleAddCategory = async () => {
     const token = localStorage.getItem('token');
     if (editCategories && editCategories._id) {
+      setIsLoadingAddBtn(true)
       const updatedCategory = await axios.put(`https://menuserver-eight.vercel.app/updatedCategory/${editCategories._id}`, {
         title,
         selectedIcon
@@ -37,7 +39,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
       editCategroyFunction(updatedCategory.data.category)
       setShow("edit")
     } else {
-      const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
+      const createCategory = await axios.post("https://emenu-sandy.vercel.app/addCategory", {
         title,
         selectedIcon
       }, {
@@ -84,7 +86,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
                 className={`p-2 rounded-full w-20 flex items-center justify-center border ${selectedIcon === icon.url ? "border-blue-500" : "border-gray-300"
                   }`}
               >
-                <img className="text-2xl" width={40} height={40} src={`${icon.url}`} />
+                <img className="text-2xl" width={40} height={40} alt="here is icons" src={`${icon.url}`} />
               </button>
             ))}
           </div>
@@ -95,7 +97,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
           onClick={handleAddCategory}
           className="w-full bg-blue-500 text-white p-2 rounded-full"
         >
-          Add
+          {isLoadingAddBtn?<Isloading/>:"Add Category" }
         </button>
       </div>
     </div>

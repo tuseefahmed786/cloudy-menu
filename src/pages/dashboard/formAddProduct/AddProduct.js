@@ -18,10 +18,6 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
         formData.append('description', description);
         formData.append('image', image);
 
-            // Log FormData entries
-    for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-    }
         const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
@@ -43,8 +39,8 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
                     </button>
 
                     {/* Title Input */}
-                    <div className="mb-4 w-full">
-                        <label className="block text-gray-700 mb-2">Product Name</label>
+                    <div className="flex flex-col gap-2 mb-4 w-full">
+                        <label className="block text-gray-700">Product Name</label>
                         <input
                             type="text"
                             value={name}
@@ -52,7 +48,7 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
                             className="w-full border border-gray-300 p-2 rounded"
                             placeholder="Enter category title"
                         />
-                        <label className="block text-gray-700 mb-2">Product Price</label>
+                        <label className="block text-gray-700 ">Product Price</label>
                         <input
                             type="number"
                             value={price}
@@ -60,7 +56,7 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
                             className="w-full border border-gray-300 p-2 rounded"
                             placeholder="Enter category title"
                         />
-                        <label className="block text-gray-700 mb-2">Product description</label>
+                        <label className="block text-gray-700 ">Product description</label>
                         <input
                             type='text'
                             value={description}
@@ -69,7 +65,7 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
                             placeholder="Enter category title"
                         />
 
-                        <label className="block text-gray-700 mb-2">Product Image</label>
+                        <label className="block text-gray-700">Product Image</label>
                         <input
                             type="file"
                             onChange={(e) => setImage(e.target.files[0])} // Handle file selection

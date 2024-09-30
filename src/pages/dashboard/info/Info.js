@@ -1,9 +1,7 @@
 import axios from 'axios';
 import React, { useState,useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const Info = () => {
-    const Navigate = useNavigate()
     const [formData, setFormData] = useState({
         restaurantName: '',
         country: 'UAE',
@@ -20,7 +18,7 @@ const Info = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post("http://localhost:3002/restaurant", {
+        const res = await axios.post("https://emenu-sandy.vercel.app/restaurant", {
             formData
         }, {
             headers: {
