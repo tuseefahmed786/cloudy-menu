@@ -22,13 +22,13 @@ const DashboardLayout = () => {
       <aside className="w-1/4 bg-[#ffc65c] text-white p-4">
         <h1 className="text-2xl font-semibold text-black mb-4">E Menu</h1>
         <div className="mb-2">
-          <Link to="edit" className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-black rounded-md">Edit Your Menu </Link>
+          <Link to="edit" className="w-full flex text-left hover:bg-[#c2933c] px-4 py-2 border-2 border-[white]  text-black rounded-md">Edit Your Menu </Link>
         </div>
         <div className="mb-2">
-          <Link to={fetchMenuLink} className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-black rounded-md">View Your Menus</Link>
+          <Link to={fetchMenuLink} className="w-full flex hover:bg-[#c2933c] text-left px-4 py-2 border-2 border-[white]  text-black rounded-md">View Your Menus</Link>
         </div>
         <div className="mb-2">
-          <Link to="info" className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-black rounded-md">Information</Link>
+          <Link to="info" className="w-full flex text-left hover:bg-[#c2933c] px-4 py-2 border-2 border-[white]  text-black rounded-md">Your Account Info</Link>
         </div>
       </aside>
 
