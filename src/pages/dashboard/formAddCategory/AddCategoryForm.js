@@ -39,7 +39,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
       editCategroyFunction(updatedCategory.data.category)
       setShow("edit")
     } else {
-      const createCategory = await axios.post("https://emenu-sandy.vercel.app/addCategory", {
+      const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
         title,
         selectedIcon
       }, {
