@@ -121,7 +121,7 @@ const EditMenu = () => {
                     <span className="mt-4 text-sm">Add</span>
                   </div>
                   {
-                    allCategories.map((e) => {
+                    allCategories?.map((e) => {
                       return <Category editFunction={editFunction} activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
                     })
                   }
