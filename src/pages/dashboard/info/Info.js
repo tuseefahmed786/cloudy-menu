@@ -18,7 +18,7 @@ const Info = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post("https://emenu-sandy.vercel.app/restaurant", {
+        const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
             formData
         }, {
             headers: {
