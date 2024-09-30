@@ -2,12 +2,21 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AddCategoryForm from "../formAddCategory/AddCategoryForm";
 import AddProduct from "../formAddProduct/AddProduct";
+import Isloading from "../../../components/Isloading";
+import editIcon from "../../../assests/edit-text.png"
+import addIcon from "../../../assests/add-basket.png"
+import logo from "../../../assests/logo.svg"
+import account from "../../../assests/account.svg"
+import cart from "../../../assests/cart.svg"
+
+
 // import icon from './coffee-cup.png'
 const EditMenu = () => {
   const [show, setShow] = useState("edit")
   const [allCategories, setAllCategories] = useState([])
   const [selectedCateg, setselectedCateg] = useState(Number)
   const [editCategories, setEditCategories] = useState([])
+  const [isloading, setIsLoading] = useState(true)
 
   const selectedCatShowProducts = (id) => {
     setselectedCateg(id)
@@ -26,14 +35,14 @@ const EditMenu = () => {
     const fetchCategories = async () => {
       const UserId = localStorage.getItem('token')
       try {
-        const response = await axios.get('https://menuserver-eight.vercel.app/categories', {
+        const response = await axios.get('http://localhost:3002/categories', {
           headers: {
             'Authorization': `${UserId}`
           }
         });
         setAllCategories(response.data)
         setselectedCateg(response?.data[0])
-
+        setIsLoading(false)
       } catch (err) {
         console.log(err)
       }
@@ -91,48 +100,56 @@ const EditMenu = () => {
 
   return (
     <>
-      <div className="p-4 w-full max-w-md mx-auto bg-white absolute h-full shadow-xl top-0 left-0 right-0">
-        {
-          show == "edit" &&
+
+{/* absolute */}
+      <div className="p-4 w-full max-w-md mx-auto bg-white  h-full shadow-xl top-0 left-0 right-0">
+        {isloading ? <Isloading  width="w-14" height="h-14" /> :
           <>
-            <div className="restaurantName">
-              <h1>Emenu Pk</h1>
-            </div>
-            <div className="flex items-center gap-11 mb-6 p-2 pb-5 overflow-x-auto">
-              <button className="flex flex-col items-center" onClick={showCategory}>
-                <div className="w-14 h-14 bg-yellow-400 rounded-full flex items-center justify-center text-2xl shadow-md">+</div>
-                <span className="mt-2 text-sm">Add</span>
-              </button>
-              {
-                allCategories.map((e) => {
-                  return <Category editFunction={editFunction} activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
-                })
-              }
-            </div>
+            {
+              show == "edit" &&
+              <>
+                <div className="restaurantName py-3 flex justify-between">
+                <img width={20} src={account} alt="account's"/> 
+                <img width={70} src={logo} alt="logo's"/> 
+                <img width={30} src={cart} alt="account's"/> 
+                </div>
+                <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-6 py-6 pl-5 pb-5 overflow-x-auto">
+                  <div className="flex cursor-pointer flex-col items-center" onClick={showCategory}>
+                    {/* <div className="w-14 h-14 bg-yellow-400 rounded-full flex items-center justify-center text-2xl shadow-md">+</div> */}
+                   <img src={addIcon} className="min-w-12" alt="addicon"/>
+                    <span className="mt-4 text-sm">Add</span>
+                  </div>
+                  {
+                    allCategories.map((e) => {
+                      return <Category editFunction={editFunction} activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
+                    })
+                  }
+                </div>
 
-            <div className="cursor-pointer overflow-y-auto gap-4 h-4/6 flex flex-wrap">
-              <div onClick={() => setShow("product")} className="flex w-[calc(50%-1rem)] flex-col items-center justify-center border border-dashed h-40 border-gray-400 rounded-lg p-4">
-                <span className="text-gray-400">Add new dish</span>
-              </div>
-              {selectedCateg && (
-                <>{selectedCateg.products.length > 0 ?
-                  selectedCateg.products.map((p) => {
-                    return <DishCard name={p} />
-                  })
-                  : ""
-                }</>
-              )}
-            </div> </>
-        }
-
+                <div className=" scrollx overflow-y-auto gap-4 flex flex-wrap">
+                  <div onClick={() => setShow("product")} className="cursor-pointer flex w-[calc(50%-1rem)] flex-col items-center justify-center border border-dashed h-40 border-gray-400 rounded-lg p-4">
+                    <span className="text-gray-400">Add new dish</span>
+                  </div>
+                  {selectedCateg && (
+                    <>{selectedCateg.products.length > 0 ?
+                      selectedCateg.products.map((p) => {
+                        return <DishCard name={p} />
+                      })
+                      : ""
+                    }</>
+                  )}
+                </div> </>
+            }
+          </>}
         {show == "category" && <AddCategoryForm setShow={setShow} editCategroyFunction={editCategroyIntoArrray} editCategories={editCategories} newCateg={addNewCategroyIntoArrray} />}
         {show == "product" && <AddProduct setShow={setShow} selectedC={selectedCateg} addProductToSelectedCategory={addProductToSelectedCategory} />}
       </div>
+
+
     </>
   );
 };
 
-// Category Component
 const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
   return (
     <div className="flex flex-col items-center" onClick={() => selectedCateg(id)}>
@@ -140,14 +157,16 @@ const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
 
         <img src={`${id.icon}`} width={40} height={40} alt="icons image" />
       </div>
+      <div className="flex gap-4 justify-center items-baseline">
       <span className="whitespace-nowrap mt-2 text-sm">{id.title}</span>
-      <span className="whitespace-nowrap mt-2 text-sm" onClick={() => editFunction(id)}>!</span>
+        <img className="cursor-pointer" width={14} src={editIcon} alt="edit" onClick={() => editFunction(id)}/>
+      </div>
 
     </div>
   );
-};
+}; // Category Component
 
-// DishCard Component
+
 const DishCard = ({ name }) => {
   return (
     <div className="flex  w-[calc(50%-1rem)] flex-col items-center border border-gray-200 rounded-lg h-40">
@@ -161,6 +180,6 @@ const DishCard = ({ name }) => {
       </div>
     </div>
   );
-};
+};  // DishCard Component
 
 export default EditMenu;
