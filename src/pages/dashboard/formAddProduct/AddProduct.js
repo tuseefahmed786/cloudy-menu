@@ -18,7 +18,7 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
         formData.append('description', description);
         formData.append('image', image);
 
-        const createProduct = await axios.post(`https://emenu-sandy.vercel.app/categories/${selectedCateg}/products`, formData, {
+        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
