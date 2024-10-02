@@ -34,8 +34,7 @@ function FetchMenu() {
         <>
             <div className="p-4 h-screen overflow-hidden max-w-[25rem] mx-auto bg-white  h-full shadow-xl top-0 left-0 right-0">
                 {isloading ? <Isloading width="w-14" height="h-14" /> :
-                    <>
-
+                
                         <>
                             <div className="restaurantName py-3 flex justify-between">
                                 <img width={20} src={account} alt="account's" />
@@ -43,22 +42,22 @@ function FetchMenu() {
                                 <img width={30} src={cart} alt="account's" />
                             </div>
                             <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-6 py-6 pl-5 pb-5 overflow-x-auto">
-
                                 {
-                                    getResponse.map((e) => {
-                                        return <Category activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
-                                    })
-                                }
+                                getResponse?.map((e) => {
+                                return <Category activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
+                                })
+                                 }
                             </div>
-
-                            <div className="scrollx h-full px-3 overflow-y-auto gap-6 flex flex-wrap">
+                            {/* height: calc(100vh - 237px);
+                            padding-bottom: 2rem; */}
+                            <div className="scrollx px-3 h-[calc(100vh-240px)] pb-5 overflow-y-auto gap-6 flex flex-wrap">
 
                                 {selectedCateg && (
                                     <>{selectedCateg.products.length > 0 ?
                                         selectedCateg.products.map((p) => {
                                             return <DishCard name={p} />
                                         })
-                                        : ""
+                                        :  <p>No products available</p>
                                     }</>
                                 )}
 
@@ -67,11 +66,11 @@ function FetchMenu() {
     <DishCard key={p.id} name={p} />
   ))
 ) : (
-  <p>No products available</p>
+ 
 )} */}
                             </div> </>
 
-                    </>}
+                    }
             </div>
         </>
     )
@@ -93,8 +92,8 @@ const Category = ({ activeCat, selectedCateg, id }) => {
 const DishCard = ({ name }) => {
     return (
         <>
-            <div className="box w-[150px] h-fit">
-                <img src={`${name.imageUrl}`} className="rounded-2xl w-[150px] object-cover h-[140px]" alt="product image" />
+            <div className="box w-[45%] h-fit">
+                <img src={`${name.imageUrl}`} className="rounded-2xl w-[100%] object-cover h-[140px]" alt="product image" />
                 <div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
                     <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
 

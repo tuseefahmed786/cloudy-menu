@@ -8,7 +8,8 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
     const [description, setDescription] = useState('')
     const [image, setImage] = useState(null)
     const [isloading, setIsLoading] = useState(false)
-
+// hh
+// d
     const handleAddProduct = async () => {
         setIsLoading(true)
         const selectedCateg = selectedC._id

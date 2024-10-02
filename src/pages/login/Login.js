@@ -1,13 +1,17 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Isloading from '../../components/Isloading'
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  // const [loginOrError, setLoginOrError] = useState()
   const navigate = useNavigate()
+
   const loginUser = async (e) => {
     e.preventDefault()
-    console.log(email, password)
+    setIsLoading(true)
     try {
       const logined = await axios.post("http://localhost:3002/login", {
         email,
@@ -19,10 +23,10 @@ function Login() {
       })
       const token = logined.data.token;
       const restaurant = logined.data.findRestaurant
-
+      // logined.data.length > 0 ? setLoginOrError(true):setLoginOrError(false)
       localStorage.setItem('token', token);
       localStorage.setItem('resData',JSON.stringify(restaurant))
-      navigate("/dashboard/info")
+      // navigate("/dashboard/info")
     } catch (error) {
       console.log("error in register page", error)
     }
@@ -31,11 +35,7 @@ function Login() {
   return (
     <>  <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Your Company"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          className="mx-auto h-10 w-auto"
-        />
+       <h1 className='text-2xl text-center'>cloud Menu</h1>
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account
         </h2>
@@ -91,17 +91,12 @@ function Login() {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Sign in
+               {isLoading?<Isloading/>:'Sign in'}
             </button>
           </div>
         </form>
 
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?{' '}
-          <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-            Start a 14 day free trial
-          </a>
-        </p>
+       {/* {loginOrError?<p>You are logined</p>:<p>Your Email or Password is wrong</p>} */}
       </div>
     </div></>
   )
