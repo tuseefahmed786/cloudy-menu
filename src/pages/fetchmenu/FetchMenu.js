@@ -42,7 +42,7 @@ function FetchMenu() {
                                 <img width={70} src={logo} alt="logo's" />
                                 <img width={30} src={cart} alt="account's" />
                             </div>
-                            <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-6 py-6 pl-5 pb-5 overflow-x-auto">
+                            <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-4 py-4 pl-4 pb-4 overflow-x-auto">
 
                                 {
                                     getResponse.map((e) => {
@@ -51,7 +51,7 @@ function FetchMenu() {
                                 }
                             </div>
 
-                            <div className="scrollx h-[calc(100vh-240px)] px-3 overflow-y-auto gap-6 flex flex-wrap">
+                            <div className="scrollx h-[calc(100vh-220px)] px-3 pb-5 overflow-y-auto gap-6 flex flex-wrap">
 
                                 {selectedCateg && (
                                     <>{selectedCateg.products.length > 0 ?
