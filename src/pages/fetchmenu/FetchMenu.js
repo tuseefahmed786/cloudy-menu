@@ -51,7 +51,7 @@ function FetchMenu() {
                                 }
                             </div>
 
-                            <div className="scrollx h-full px-3 overflow-y-auto gap-6 flex flex-wrap">
+                            <div className="scrollx h-[calc(100vh-240px)] px-3 overflow-y-auto gap-6 flex flex-wrap">
 
                                 {selectedCateg && (
                                     <>{selectedCateg.products.length > 0 ?
@@ -93,8 +93,8 @@ const Category = ({ activeCat, selectedCateg, id }) => {
 const DishCard = ({ name }) => {
     return (
         <>
-            <div className="box w-[150px] h-fit">
-                <img src={`${name.imageUrl}`} className="rounded-2xl w-[150px] object-cover h-[140px]" alt="product image" />
+            <div className="box w-[45%] h-fit">
+                <img src={`${name.imageUrl}`} className="rounded-2xl w-[100%] object-cover h-[140px]" alt="product image" />
                 <div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
                     <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
 
