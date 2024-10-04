@@ -127,7 +127,7 @@ const EditMenu = () => {
                   }
                 </div>
 
-                <div className="scrollx h-full px-3 overflow-y-auto gap-6 flex flex-wrap">
+                <div className="scrollx h-[calc(100vh-220px)] pb-8 px-3 overflow-y-auto gap-6 flex flex-wrap">
                   <div onClick={() => setShow("product")} className="cursor-pointer flex gap-4 w-[calc(50%-1rem)] flex-col items-center justify-center border border-dashed h-40 border-black rounded-2xl p-4">
                     <img src={addDish} width={40} alt="add dish" />
                     <span className="text-[#5d5d5d]">Add new dish</span>
