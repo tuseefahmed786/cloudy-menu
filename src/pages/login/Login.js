@@ -8,7 +8,7 @@ function Login() {
   const loginUser = async (e) => {
     e.preventDefault()
     console.log(email, password)
-    try {
+    try { // https://menuserver-eight.vercel.app
       const logined = await axios.post("https://menuserver-eight.vercel.app/login", {
         email,
         password
