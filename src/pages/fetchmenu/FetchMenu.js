@@ -20,7 +20,7 @@ function FetchMenu() {
         const fetchMenuData = async (req, res) => {
             const responseMenu = await axios.get(`https://menuserver-eight.vercel.app/menu/${restaurantName}`)
             setGetResponse(responseMenu.data)
-            setselectedCateg(responseMenu?.data[0])            
+            setselectedCateg(responseMenu?.data[0])
             console.log(responseMenu.data)
             setIsLoading(false)
         }
@@ -43,21 +43,21 @@ function FetchMenu() {
                                 <img width={70} src={logo} alt="logo's" />
                                 <img width={30} src={cart} alt="account's" />
                             </div>
-                            <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-3 py-4 pl-4 pb-4 overflow-x-auto">
+                            <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
                                 {
-                                getResponse.map((e) => {
+                                    getResponse.map((e) => {
                                         return <Category activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
                                     })
                                 }
                             </div>
-                        
+
                             {selectedCateg && (
-                                    <>{selectedCateg.products.length > 0 ?
-                                        <h1 className='px-4 pb-4 text-[1.2rem]'>{selectedCateg.title}</h1>
-                                        : ""
-                                    }</>
-                                )}
-                            <div className="scrollx flex-col px-4 h-[calc(100vh-220px)] pb-5 overflow-y-auto gap-5 flex flex-wrap">
+                                <>{selectedCateg.products.length > 0 ?
+                                    <h1 className='px-4 text-[1.2rem]'>{selectedCateg.title}</h1>
+                                    : ""
+                                }</>
+                            )}
+                            <div className="scrollx flex-col h-[calc(100vh-220px)] pb-5 overflow-y-auto flex">
 
                                 {selectedCateg && (
                                     <>{selectedCateg.products.length > 0 ?
@@ -68,7 +68,7 @@ function FetchMenu() {
                                     }</>
                                 )}
 
-{/* {selectedCateg && selectedCateg.products && selectedCateg.products.length > 0 ? (
+                                {/* {selectedCateg && selectedCateg.products && selectedCateg.products.length > 0 ? (
   selectedCateg.products.map((p) => (
     <DishCard key={p.id} name={p} />
   ))
@@ -99,15 +99,14 @@ const Category = ({ activeCat, selectedCateg, id }) => {
 const DishCard = ({ name }) => {
     return (
         <>
-            <div className="box w-[40%] h-fit">
-                <img src={`${name.imageUrl}`} className="rounded-2xl w-[100%] object-cover h-[140px]" alt="product image" />
-                <div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
-                    <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
-
-                    <div className="flex gap-1">
-                        <div className="text-[9px] mb-3">KWD</div>
-                        <div className="text-[#206786] font-bold">{name.price}</div>
-                    </div>
+            <div className='flex w-full px-4 pt-4 pb-2 border-b border-b-[#80808057]'>
+                <div className='w-[75%] flex-col flex gap-1'>
+                    <h1>{name.name}</h1>
+                    <p className='text-xs text-gray-600'>Handed crispy & cheese burger laoded with savory beef with extra spicily</p>
+                    <p className='text-xs'>AED {name.price}</p>
+                </div>
+                <div className='w-[25%] h-[90px]'>
+                    <img className='object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5] ' src={name.imageUrl} alt='pic here product' />
                 </div>
             </div>
         </>
@@ -115,3 +114,15 @@ const DishCard = ({ name }) => {
 };  // DishCard Component
 
 export default FetchMenu
+
+{/* <div className="box w-[40%] h-fit">
+<img src={`${name.imageUrl}`} className="rounded-2xl w-[100%] object-cover h-[140px]" alt="product image" />
+<div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
+    <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
+
+    <div className="flex gap-1">
+        <div className="text-[9px] mb-3">KWD</div>
+        <div className="text-[#206786] font-bold">{name.price}</div>
+    </div>
+</div>
+</div> */}

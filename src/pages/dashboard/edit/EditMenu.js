@@ -9,7 +9,6 @@ import logo from "../../../assests/logo.svg"
 import account from "../../../assests/account.svg"
 import cart from "../../../assests/cart.svg"
 import addDish from "../../../assests/add-alert.png"
-import food from "../../../assests/food.jpg"
 
 
 // import icon from './coffee-cup.png'
