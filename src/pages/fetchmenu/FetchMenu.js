@@ -18,7 +18,7 @@ function FetchMenu() {
 
     useEffect(() => {
         const fetchMenuData = async (req, res) => {
-            const responseMenu = await axios.get(`https://menuserver-eight.vercel.app/menu/${restaurantName}`)
+            const responseMenu = await axios.get(`http://localhost:3002/menu/${restaurantName}`)
             setGetResponse(responseMenu.data)
             setselectedCateg(responseMenu?.data[0])
             console.log(responseMenu.data)
@@ -68,13 +68,6 @@ function FetchMenu() {
                                     }</>
                                 )}
 
-                                {/* {selectedCateg && selectedCateg.products && selectedCateg.products.length > 0 ? (
-  selectedCateg.products.map((p) => (
-    <DishCard key={p.id} name={p} />
-  ))
-) : (
-  <p>No products available</p>
-)} */}
                             </div> </>
 
                     </>}
@@ -82,6 +75,7 @@ function FetchMenu() {
         </>
     )
 }
+
 const Category = ({ activeCat, selectedCateg, id }) => {
     return (
         <div className="flex flex-col gap-3 items-center" onClick={() => selectedCateg(id)}>
@@ -102,7 +96,9 @@ const DishCard = ({ name }) => {
             <div className='flex w-full px-4 pt-4 pb-2 border-b border-b-[#80808057]'>
                 <div className='w-[75%] flex-col flex gap-1'>
                     <h1>{name.name}</h1>
-                    <p className='text-xs text-gray-600'>Handed crispy & cheese burger laoded with savory beef with extra spicily</p>
+                    <p className='text-xs text-gray-600'>{name.description}</p>
+
+                    {/* <p className='text-xs text-gray-600'>Handed crispy & cheese burger laoded with savory beef with extra spicily</p> */}
                     <p className='text-xs'>AED {name.price}</p>
                 </div>
                 <div className='w-[25%] h-[90px]'>
@@ -126,3 +122,11 @@ export default FetchMenu
     </div>
 </div>
 </div> */}
+
+                        {/* {selectedCateg && selectedCateg.products && selectedCateg.products.length > 0 ? (
+  selectedCateg.products.map((p) => (
+    <DishCard key={p.id} name={p} />
+  ))
+) : (
+  <p>No products available</p>
+)} */}
