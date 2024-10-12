@@ -18,11 +18,14 @@ const EditMenu = () => {
   const [selectedCateg, setselectedCateg] = useState([])
   const [editCategories, setEditCategories] = useState([])
   const [isloading, setIsLoading] = useState(true)
-
+  const [selectedProduct, setSelectedProduct] = useState([])
+  const productSelected = (id) => {
+    setShow("product")
+    setSelectedProduct(id)
+  }
   const selectedCatShowProducts = (id) => {
     setselectedCateg(id)
   }
-
   const showCategory = () => {
     setShow("category")
     setEditCategories('')
@@ -36,12 +39,13 @@ const EditMenu = () => {
     const fetchCategories = async () => {
       const UserId = localStorage.getItem('token')
       try {
-        const response = await axios.get('https://menuserver-eight.vercel.app/categories', {
+        const response = await axios.get('http://localhost:3002/categories', {
           headers: {
             'Authorization': `${UserId}`
           }
         });
         setAllCategories(response.data)
+        console.log(response.data)
         setselectedCateg(response?.data[0])
         setIsLoading(false)
       } catch (err) {
@@ -56,7 +60,7 @@ const EditMenu = () => {
       setselectedCateg((prev) => ({
         ...prev,
         products: [...prev.products, newProduct],
-      })); // this function add new products in selected category and we dont need to query in backend
+      })); // this function add new products in selected category and we don't need to query in backend
 
       setAllCategories((prevCategories) => {
         return prevCategories.map((foundCategory) => {
@@ -81,11 +85,11 @@ const EditMenu = () => {
     ])
     setselectedCateg(newCategory)
   }
+
   const editCategroyIntoArrray = (newCategory) => {
     setAllCategories((prev) => {
       return prev.map((categ) => {
         if (categ._id == newCategory._id) {
-          console.log(newCategory)
           return {
             ...newCategory,
             products: [...categ.products]
@@ -99,17 +103,50 @@ const EditMenu = () => {
 
   }
 
+  const editProduct = (updatedProduct) => {
+    setselectedCateg((prevCategory) => {
+      // Map through the products in the selected category to update the one with the matching _id
+      const updatedProducts = prevCategory.products.map((product) =>
+        product._id === updatedProduct._id ? updatedProduct : product
+      );
+      // Return the category with the updated products array
+      return {
+        ...prevCategory,
+        products: updatedProducts,
+      };
+    });
+
+    setAllCategories((prev) => {
+      return prev.map((category) => {
+        // Check if the category matches the selected category
+        if (category._id === selectedCateg._id) {
+          // Update the products in the matched category
+          const updatedProducts = category.products.map((product) => {
+            // Replace the product if its _id matches the updatedProduct._id
+            if (product._id === updatedProduct._id) {
+              return { ...product, ...updatedProduct };
+            }
+            return product;
+          });
+          
+          // Return the updated category with modified products
+          return { ...category, products: updatedProducts };
+        }
+        return category;
+      });
+    });
+  };
   return (
     <>
 
       {/* absolute */}
-      <div className="p-4 w-full max-w-[25rem] mx-auto bg-white  h-full shadow-xl top-0 left-0 right-0">
+      <div className="w-full max-w-[25rem] mx-auto bg-white  h-full shadow-xl top-0 left-0 right-0">
         {isloading ? <Isloading width="w-14" height="h-14" /> :
           <>
             {
               show == "edit" &&
               <>
-                <div className="restaurantName py-3 flex justify-between">
+                <div className="restaurantName px-3 py-3 flex justify-between">
                   <img width={20} src={account} alt="account's" />
                   <img width={70} src={logo} alt="logo's" />
                   <img width={30} src={cart} alt="account's" />
@@ -126,15 +163,15 @@ const EditMenu = () => {
                   }
                 </div>
 
-                <div className="scrollx h-[calc(100vh-220px)] pb-8 px-3 overflow-y-auto gap-6 flex flex-wrap">
-                  <div onClick={() => setShow("product")} className="cursor-pointer flex gap-4 w-[calc(50%-1rem)] flex-col items-center justify-center border border-dashed h-40 border-black rounded-2xl p-4">
-                    <img src={addDish} width={40} alt="add dish" />
+                <div className="scrollx h-[calc(100vh-220px)] pb-8 overflow-y-auto flex flex-wrap">
+                  <div onClick={() => setShow("product")} className="cursor-pointer mx-3 flex gap-4 w-full items-center justify-center border border-dashed h-14 border-black rounded-lg p-4">
+                    <img src={addDish} width={30} alt="add dish" />
                     <span className="text-[#5d5d5d]">Add new dish</span>
                   </div>
                   {selectedCateg && (
                     <>{selectedCateg.products.length > 0 ?
                       selectedCateg.products.map((p) => {
-                        return <DishCard name={p} />
+                        return <DishCard name={p} selectProduct={productSelected} />
                       })
                       : ""
                     }</>
@@ -143,7 +180,7 @@ const EditMenu = () => {
             }
           </>}
         {show == "category" && <AddCategoryForm setShow={setShow} editCategroyFunction={editCategroyIntoArrray} editCategories={editCategories} newCateg={addNewCategroyIntoArrray} />}
-        {show == "product" && <AddProduct setShow={setShow} selectedC={selectedCateg} addProductToSelectedCategory={addProductToSelectedCategory} />}
+        {show == "product" && <AddProduct setShow={setShow} editProduct={selectedProduct} addUpdatedProductsToArray={editProduct} selectedC={selectedCateg} addProductToSelectedCategory={addProductToSelectedCategory} />}
       </div>
 
 
@@ -166,18 +203,19 @@ const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
 }; // Category Component
 
 
-const DishCard = ({ name }) => {
+const DishCard = ({ name, selectProduct }) => {
   return (
     <>
-      <div className="box w-[150px] h-fit">
-        <img src={`${name.imageUrl}`} className="rounded-2xl w-[150px] object-cover h-[140px]" alt="product image" />
-        <div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
-          <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
+      <div className='flex w-full px-4 pt-4 pb-2 border-b border-b-[#80808057]' onClick={() => selectProduct(name)}>
+        <div className='w-[75%] flex-col flex gap-1'>
+          <h1>{name.name}</h1>
+          <p className='text-xs text-gray-600'>{name.description}</p>
 
-          <div className="flex gap-1">
-            <div className="text-[9px] mb-3">KWD</div>
-            <div className="text-[#206786] font-bold">{name.price}</div>
-          </div>
+          {/* <p className='text-xs text-gray-600'>Handed crispy & cheese burger laoded with savory beef with extra spicily</p> */}
+          <p className='text-xs'>AED {name.price}</p>
+        </div>
+        <div className='w-[25%] h-[90px]'>
+          <img className='object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5] ' src={name.imageUrl} alt='pic here product' />
         </div>
       </div>
     </>
@@ -185,3 +223,29 @@ const DishCard = ({ name }) => {
 };  // DishCard Component
 
 export default EditMenu;
+
+// <div className="box w-[150px] h-fit">
+// <img src={`${name.imageUrl}`} className="rounded-2xl w-[150px] object-cover h-[140px]" alt="product image" />
+// <div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
+//   <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
+
+//   <div className="flex gap-1">
+//     <div className="text-[9px] mb-3">KWD</div>
+//     <div className="text-[#206786] font-bold">{name.price}</div>
+//   </div>
+// </div>
+// </div>
+
+
+{/* <div className="box w-[40%] h-fit">
+<img src={`${name.imageUrl}`} className="rounded-2xl w-[100%] object-cover h-[140px]" alt="product image" />
+<div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
+    <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
+
+    <div className="flex gap-1">
+        <div className="text-[9px] mb-3">KWD</div>
+        <div className="text-[#206786] font-bold">{name.price}</div>
+    </div>
+</div>
+</div> */}
+

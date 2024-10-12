@@ -1,15 +1,50 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Isloading from '../../../components/Isloading'
 
-function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
+function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCategory,addUpdatedProductsToArray }) {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState(null)
     const [isloading, setIsLoading] = useState(false)
+    console.log(editProduct)
+
+    useEffect(() => {
+        if (editProduct) {
+            setName(editProduct.name);
+            setPrice(editProduct.price);
+            setDescription(editProduct.description);
+            setImage(editProduct.imageUrl);
+        }
+      }, [editProduct]);
 
     const handleAddProduct = async () => {
+      if (editProduct && editProduct._id) {
+        // setIsLoading(true)
+        const selectedCateg = selectedC._id
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('id',editProduct._id)
+        
+        if (typeof image === 'string') {
+            console.log("r" + image)
+            formData.append('imageUrl', image);  // Pass existing image URL separately
+          } else {
+            console.log("rw" + image)
+            formData.append('image', image); // Pass new image file
+          }
+          const createProduct = await axios.put(`http://localhost:3002/categories/${selectedCateg}/editProducts`, formData, {
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              }
+          })
+          console.log(createProduct.data.updated)
+          addUpdatedProductsToArray(createProduct.data.updated)
+          setShow("edit")
+      }else{
         setIsLoading(true)
         const selectedCateg = selectedC._id
         const formData = new FormData();
@@ -18,17 +53,18 @@ function AddProduct({ setShow, selectedC, addProductToSelectedCategory }) {
         formData.append('description', description);
         formData.append('image', image);
 
-        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/products`, formData, {
+        const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
         })
         addProductToSelectedCategory(createProduct.data.product)
         setShow("edit")
+      }
     };
     return (
         <>
-            <div className="flex justify-center h-full items-center">
+            <div className="flex px-3 justify-center h-full items-center">
 
                 <div className="w-full flex items-start flex-col h-full">
                     <button
