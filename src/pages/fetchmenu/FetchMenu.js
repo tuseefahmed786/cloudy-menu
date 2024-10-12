@@ -18,7 +18,7 @@ function FetchMenu() {
 
     useEffect(() => {
         const fetchMenuData = async (req, res) => {
-            const responseMenu = await axios.get(`http://localhost:3002/menu/${restaurantName}`)
+            const responseMenu = await axios.get(`https://menuserver-eight.vercel.app/menu/${restaurantName}`)
             setGetResponse(responseMenu.data)
             setselectedCateg(responseMenu?.data[0])
             console.log(responseMenu.data)
