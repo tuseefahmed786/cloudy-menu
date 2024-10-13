@@ -6,17 +6,31 @@ const DashboardLayout = () => {
   const [fetchMenuLink, setFetchMenuLink] = useState('')
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      const storedRes = localStorage.getItem('resData');
-      const resObject = JSON.parse(storedRes);
-      const restaurantSlug = slugify(resObject.name, { lower: true });
-      const menuLink = `/${restaurantSlug}`;
-      setFetchMenuLink(menuLink)
-    }else{
-      Navigate("/")
+    if (!token) {
+      Navigate("/login")
     }
+    const storedRes = localStorage.getItem('resData');
+    
+    if (storedRes && storedRes !== "null") { 
+      try {
+        const resObject = JSON.parse(storedRes);
+        if (resObject && resObject.name) { 
+          const restaurantSlug = slugify(resObject.name, { lower: true });
+          const menuLink = `/${restaurantSlug}`;
+          setFetchMenuLink(menuLink);
+        } else {
+          console.error("The 'name' property is missing in resData.");
+        }
+      } catch (error) {
+        console.error("Failed to parse storedRes as JSON:", error);
+      }
+    } else {
+      console.log("No valid resData found in localStorage.");
+    }
+    
+
   }, [])
-  
+
   return (
     <div className="flex w-screen h-screen">
       <aside className="w-1/4 bg-[#ffc65c] text-white p-4">
@@ -34,7 +48,7 @@ const DashboardLayout = () => {
 
       <main className="w-[75%] px-2 h-screen overflow-hidden bg-gray-100">
         {/* Main content goes here */}
-        <Outlet/>
+        <Outlet />
       </main>
     </div>
   );
@@ -43,16 +57,16 @@ const DashboardLayout = () => {
 export default DashboardLayout;
 
 
- // const fetchRestaurantData = async () => {
-      //   try {
-      //     const response = await axios('http://localhost:3002/', {
-      //       headers: {
-      //         'Authorization': `${token}`,
-      //       },
-      //     });
-      //     setRestaurantName(response.data); // Set the restaurant name from the response
-      //   } catch (error) {
-      //     console.error('Error fetching restaurant data:', error);
-      //   }
-      // };
-      //       fetchRestaurantData();
+// const fetchRestaurantData = async () => {
+//   try {
+//     const response = await axios('http://localhost:3002/', {
+//       headers: {
+//         'Authorization': `${token}`,
+//       },
+//     });
+//     setRestaurantName(response.data); // Set the restaurant name from the response
+//   } catch (error) {
+//     console.error('Error fetching restaurant data:', error);
+//   }
+// };
+//       fetchRestaurantData();

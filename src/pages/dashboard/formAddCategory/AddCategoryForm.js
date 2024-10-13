@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Isloading from "../../../components/Isloading";
 const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFunction }) => {
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState('');
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [icons, seIcons] = useState([])
   const [isloading, setIsLoading] = useState(true)
@@ -10,7 +10,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
 
   useEffect(() => {
     const getIcons = async () => {
-      const res = await axios.get("https://menuserver-eight.vercel.app/icons")
+      const res = await axios.get("http://localhost:3002/icons")
       seIcons(res.data)
       setIsLoading(false)
     }
@@ -38,7 +38,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
       })
       editCategroyFunction(updatedCategory.data.category)
       setShow("edit")
-    } else {
+    } else { //https://menuserver-eight.vercel.app
       const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
         title,
         selectedIcon
@@ -53,7 +53,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
     }
   };
   return (
-    <div className="flex justify-center h-full items-center">
+    <div className="flex p-3 justify-center h-full items-center">
 
       <div className="w-full flex justify-between items-start flex-col h-full">
         <button
@@ -68,7 +68,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
           <label className="block text-gray-700 mb-2">Title</label>
           <input
             type="text"
-            value={title}
+            value={title || ''}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full border border-gray-300 p-2 rounded"
             placeholder="Enter category title"
