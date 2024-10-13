@@ -8,20 +8,18 @@ function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCatego
     const [description, setDescription] = useState('')
     const [image, setImage] = useState(null)
     const [isloading, setIsLoading] = useState(false)
-    console.log(editProduct)
 
     useEffect(() => {
         if (editProduct) {
-            setName(editProduct.name);
-            setPrice(editProduct.price);
-            setDescription(editProduct.description);
-            setImage(editProduct.imageUrl);
+            setName(editProduct.name || '');
+            setPrice(editProduct.price || '');
+            setDescription(editProduct.description || '');
+            setImage(editProduct.imageUrl || null);
         }
       }, [editProduct]);
 
     const handleAddProduct = async () => {
       if (editProduct && editProduct._id) {
-        // setIsLoading(true)
         const selectedCateg = selectedC._id
         const formData = new FormData();
         formData.append('name', name);
@@ -30,18 +28,15 @@ function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCatego
         formData.append('id',editProduct._id)
         
         if (typeof image === 'string') {
-            console.log("r" + image)
             formData.append('imageUrl', image);  // Pass existing image URL separately
           } else {
-            console.log("rw" + image)
             formData.append('image', image); // Pass new image file
           }
-          const createProduct = await axios.put(`http://localhost:3002/categories/${selectedCateg}/editProducts`, formData, {
+          const createProduct = await axios.put(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/editProducts`, formData, {
               headers: {
                   'Content-Type': 'multipart/form-data'
               }
           })
-          console.log(createProduct.data.updated)
           addUpdatedProductsToArray(createProduct.data.updated)
           setShow("edit")
       }else{
@@ -53,7 +48,7 @@ function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCatego
         formData.append('description', description);
         formData.append('image', image);
 
-        const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
+        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
@@ -109,9 +104,6 @@ function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCatego
                         />
 
                     </div>
-
-
-
                     {/* Add Button */}
                     <button
                         onClick={handleAddProduct}

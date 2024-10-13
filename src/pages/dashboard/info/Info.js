@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Info = () => {
     const [formData, setFormData] = useState({
@@ -7,7 +7,7 @@ const Info = () => {
         country: 'UAE',
         timeZone: 'Asia/Karachi',
     });
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
 
     const handleChange = (e) => {
         setFormData({
@@ -23,31 +23,27 @@ const Info = () => {
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':`${token}`
+                'Authorization': `${token}`
             }
         })
-        console.log(res.data.restaurant)
-
-        localStorage.setItem('resData',JSON.stringify(res.data.restaurant))
-        // Navigate("/dashboard/edit")
+        localStorage.setItem('resData', JSON.stringify(res.data.restaurant))
     };
 
-useEffect(() => {
-    const storedRes = localStorage.getItem('resData');
-    const resObject = JSON.parse(storedRes);
-    console.log(resObject)
-    setFormData({
-        restaurantName: resObject?.name,
-        country: resObject?.country,
-        timeZone: resObject?.timeZone,
-    })
-}, [])
+    useEffect(() => {
+        const storedRes = localStorage.getItem('resData');
+        const resObject = JSON.parse(storedRes);
+        setFormData({
+            restaurantName: resObject?.name,
+            country: resObject?.country,
+            timeZone: resObject?.timeZone,
+        })
+    }, [])
 
 
     return (
         <div className="max-w-md mx-auto flex justify-center h-full flex-col p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-semibold mb-6">Business Info</h2>
-         
+
             <form onSubmit={handleSubmit}>
                 {/* Restaurant Name */}
                 <div className="mb-4">

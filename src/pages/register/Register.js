@@ -18,7 +18,7 @@ function Register() {
             }
         })
         console.log('you are registered',registered.data)
-        navigate("login")
+        navigate("/login")
         //  here nagivate missing
 
        } catch (error) {

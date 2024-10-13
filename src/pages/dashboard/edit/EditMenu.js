@@ -39,7 +39,7 @@ const EditMenu = () => {
     const fetchCategories = async () => {
       const UserId = localStorage.getItem('token')
       try {
-        const response = await axios.get('http://localhost:3002/categories', {
+        const response = await axios.get('https://menuserver-eight.vercel.app/categories', {
           headers: {
             'Authorization': `${UserId}`
           }
@@ -158,7 +158,7 @@ const EditMenu = () => {
                   </div>
                   {
                     allCategories?.map((e) => {
-                      return <Category editFunction={editFunction} activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
+                      return <Category key={e._id} editFunction={editFunction} activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
                     })
                   }
                 </div>
@@ -171,7 +171,7 @@ const EditMenu = () => {
                   {selectedCateg && (
                     <>{selectedCateg.products.length > 0 ?
                       selectedCateg.products.map((p) => {
-                        return <DishCard name={p} selectProduct={productSelected} />
+                        return <DishCard name={p} key={p._id} selectProduct={productSelected} />
                       })
                       : ""
                     }</>
@@ -191,7 +191,7 @@ const EditMenu = () => {
 const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
   return (
     <div className="flex flex-col gap-3 items-center" onClick={() => selectedCateg(id)}>
-      <div className={`w-16 h-16 ${` ${id.title == activeCat.title ? "bg-yellow-400" : ""}`} rounded-xl flex items-center justify-center text-2xl shadow-sm`}>
+      <div className={`w-16 h-16 ${` ${id.title == activeCat.title ? "bg-yellow-400" : ""}`} rounded-xl flex items-center justify-center text-2xl shadow-md`}>
         <img src={`${id.icon}`} width={40} height={40} alt="icons image" />
       </div>
       <div className="flex gap-4 justify-center items-baseline">
@@ -206,10 +206,14 @@ const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
 const DishCard = ({ name, selectProduct }) => {
   return (
     <>
-      <div className='flex w-full px-4 pt-4 pb-2 border-b border-b-[#80808057]' onClick={() => selectProduct(name)}>
+      <div className='flex w-full px-4 pt-4 pb-2 border-b border-b-[#80808057]' >
         <div className='w-[75%] flex-col flex gap-1'>
-          <h1>{name.name}</h1>
-          <p className='text-xs text-gray-600'>{name.description}</p>
+       <div className="flex items-center gap-2">
+       <h1>{name.name}</h1> 
+
+       <img className="cursor-pointer" width={14} src={editIcon} alt="edit" onClick={() => selectProduct(name)} />
+       </div>
+       <p className='text-xs  text-gray-600'>{name.description}</p>
 
           {/* <p className='text-xs text-gray-600'>Handed crispy & cheese burger laoded with savory beef with extra spicily</p> */}
           <p className='text-xs'>AED {name.price}</p>
