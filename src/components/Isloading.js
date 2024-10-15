@@ -4,7 +4,7 @@ function Isloading({ width, height,optionaltext }) {
   return (
     <>
       <div className='flex justify-center items-center w-full h-full flex-col gap-7'>
-        <h1 className='text-2xl font-serif'>{optionaltext}</h1>
+        {/* <h1 className='text-2xl font-serif'>{optionaltext}</h1> */}
         <svg className={`${width} ${height} text-gray-300 animate-spin`} viewBox="0 0 64 64" fill="none"
           xmlns="http://www.w3.org/2000/svg" width="24" height="24">
           <path

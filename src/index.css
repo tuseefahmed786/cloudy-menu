@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap');
+/* css font  */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
+
 
 body {
-  margin: 0;
-  font-family: "Stardos Stencil", system-ui;
-  font-weight: 400;
+  font-family: "Bricolage Grotesque", sans-serif;
   font-style: normal;
 }
 
@@ -11,7 +12,9 @@ body {
   height: 0px; /* Width of the scrollbar */
   width: 0px;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 .scrollx::-webkit-scrollbar-thumb {
   border-radius: 9999px; /* Rounded edges for the thumb */
   background: #bdc1c6; /* Color of the scrollbar thumb */
@@ -26,10 +29,12 @@ body {
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  @font-face {
-    font-family: "Stardos Stencil", system-ui;
-  font-weight: 400;
-  font-style: normal; 
+
+@layer utilities {
+  .cloud-menu-color {
+    color: #12dc5d;
+  }
+  .cloud-menu-bg {
+    background: #12dc5d;
   }
 }

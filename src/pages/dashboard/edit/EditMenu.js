@@ -164,10 +164,12 @@ const EditMenu = () => {
                 </div>
 
                 <div className="scrollx h-[calc(100vh-220px)] pb-8 overflow-y-auto flex flex-wrap">
-                  <div onClick={() => setShow("product")} className="cursor-pointer mx-3 flex gap-4 w-full items-center justify-center border border-dashed h-14 border-black rounded-lg p-4">
+                  {allCategories.length > 0 &&
+                    <div onClick={() => setShow("product")} className="cursor-pointer mx-3 flex gap-4 w-full items-center justify-center border border-dashed h-14 border-black rounded-lg p-4">
                     <img src={addDish} width={30} alt="add dish" />
                     <span className="text-[#5d5d5d]">Add new dish</span>
                   </div>
+                  }
                   {selectedCateg && (
                     <>{selectedCateg.products.length > 0 ?
                       selectedCateg.products.map((p) => {

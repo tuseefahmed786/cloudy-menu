@@ -10,7 +10,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
 
   useEffect(() => {
     const getIcons = async () => {
-      const res = await axios.get("http://localhost:3002/icons")
+      const res = await axios.get("https://menuserver-eight.vercel.app/icons")
       seIcons(res.data)
       setIsLoading(false)
     }

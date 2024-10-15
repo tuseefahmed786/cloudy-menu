@@ -1,8 +1,13 @@
 import React from 'react'
+import QRCodeGenerator from '../../../components/QRCodeGenerator'
 
 function ViewMenu() {
   return (
-    <div>ViewMenu</div>
+    <>
+    <div className="flex flex-col items-start justify-center pt-6 px-3">
+        <QRCodeGenerator />
+      </div>
+    </>
   )
 }
 
