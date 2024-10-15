@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import slugify from 'slugify'
+import logo from '../../assests/favicon.png'
 const DashboardLayout = () => {
   const Navigate = useNavigate()
   const [fetchMenuLink, setFetchMenuLink] = useState('')
@@ -33,16 +34,19 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex w-screen h-screen">
-      <aside className="w-1/4 bg-[#ffc65c] text-white p-4">
-        <h1 className="text-2xl font-semibold text-black mb-4">E Menu</h1>
+      <aside className="w-1/4 bg-[#12dc5d] text-white p-4">
+        <img src={logo} alt='Logo' className='md:w-11 border rounded mb-4'/>
         <div className="mb-2">
-          <Link to="edit" className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-black rounded-md">Edit Your Menu </Link>
+          <Link to="edit" className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-[#000000] rounded-md">Edit Your Menu </Link>
         </div>
         <div className="mb-2">
-          <Link to={fetchMenuLink} className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-black rounded-md">View Your Menus</Link>
+          <Link to={fetchMenuLink} className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-[#000000] rounded-md">View Your Menus &#x2197; </Link>
         </div>
         <div className="mb-2">
-          <Link to="info" className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-black rounded-md">Information</Link>
+          <Link to="info" className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-[#000000] rounded-md">Information</Link>
+        </div> 
+        <div className="mb-2">
+          <Link to="view" className="w-full flex text-left px-4 py-2 border-2 border-[white]  text-[#000000] rounded-md">Download QR</Link>
         </div>
       </aside>
 

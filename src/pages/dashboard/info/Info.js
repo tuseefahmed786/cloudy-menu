@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import Isloading from '../../../components/Isloading';
 
 const Info = () => {
+    const [isLoading, setIsLoading] = useState(false)
+
     const [formData, setFormData] = useState({
         restaurantName: '',
         country: 'UAE',
@@ -17,16 +20,27 @@ const Info = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
-            formData
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${token}`
-            }
-        })
-        localStorage.setItem('resData', JSON.stringify(res.data.restaurant))
+        try {
+            e.preventDefault(); //https://menuserver-eight.vercel.app
+            const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
+                formData
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${token}`
+                }
+            })
+            console.log(res.data)
+            setIsLoading(true)
+            localStorage.setItem('resData', JSON.stringify(res.data.restaurant))
+        } catch (error) {
+
+        } finally {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 5000);
+        }
+
     };
 
     useEffect(() => {
@@ -103,11 +117,35 @@ const Info = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="w-full p-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-[#2cb75f] p-3  text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     Submit
                 </button>
+              
             </form>
+            {
+                    isLoading && <div className="relative bottom-0 mt-3 max-w-lg w-full p-4 items-center bg-green-50 border border-green-200 rounded-lg flex space-x-4">
+                        <div className="flex-shrink-0">
+                            <svg
+                                className="h-6 w-6 text-green-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M9 12l2 2 4-4m0-6a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-green-800">we have updated your info</p>
+                        </div>
+                    </div>
+                }
         </div>
     );
 };
