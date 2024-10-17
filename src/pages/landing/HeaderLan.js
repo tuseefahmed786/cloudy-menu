@@ -21,7 +21,7 @@ const HeaderLan = () => {
                 <a href="#home" className="ml-4 font-bold text-gray-700 hover:text-green-500">
                   Home
                 </a>
-               
+
                 <a href="#pricing" className="ml-4 font-bold text-gray-700 hover:text-green-500">
                   Pricing
                 </a>
@@ -78,6 +78,8 @@ const HeaderLan = () => {
               <a href="#pricing" onClick={toggleNavbar}>Pricing</a>
               <a href="#pricing" onClick={toggleNavbar}>About</a>
               <a href="https://www.instagram.com/cloudmenu.ae/" onClick={toggleNavbar}>Contact</a>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Sign Up</Link>
             </nav>
           </div>
         )}

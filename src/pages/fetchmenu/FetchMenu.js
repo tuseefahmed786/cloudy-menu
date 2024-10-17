@@ -12,7 +12,6 @@ function FetchMenu() {
     const [isloading, setIsLoading] = useState(true)
     const [selectedCateg, setselectedCateg] = useState([])
 
-
     // Decode the slug to get the original name (replace '-' with ' ').
     const restaurantName = restaurant.replace(/-/g, ' ');
 
@@ -21,7 +20,6 @@ function FetchMenu() {
             const responseMenu = await axios.get(`https://menuserver-eight.vercel.app/menu/${restaurantName}`)
             setGetResponse(responseMenu.data)
             setselectedCateg(responseMenu?.data[0])
-            console.log(responseMenu.data)
             setIsLoading(false)
         }
         fetchMenuData()
@@ -29,16 +27,14 @@ function FetchMenu() {
 
     const selectedCatShowProducts = (id) => {
         setselectedCateg(id)
-        console.log(id)
     }
     return (
         <>
             <div className="h-screen overflow-hidden max-w-[25rem] mx-auto bg-white  h-full shadow-xl top-0 left-0 right-0">
-                {isloading ?  
-                <Isloading width="w-14" height="h-14" optionaltext={`we are fetching ${restaurantName}`}/> 
-                :
+                {isloading ?
+                    <Isloading width="w-14" height="h-14" optionaltext={`we are fetching ${restaurantName}`} />
+                    :
                     <>
-
                         <>
                             <div className="restaurantName py-3 px-4 flex justify-between">
                                 <img width={20} src={account} alt="account's" />
@@ -99,8 +95,6 @@ const DishCard = ({ name }) => {
                 <div className='w-[75%] flex-col flex gap-1'>
                     <h1>{name.name}</h1>
                     <p className='text-xs text-gray-600'>{name.description}</p>
-
-                    {/* <p className='text-xs text-gray-600'>Handed crispy & cheese burger laoded with savory beef with extra spicily</p> */}
                     <p className='text-xs'>AED {name.price}</p>
                 </div>
                 <div className='w-[25%] h-[90px]'>
@@ -125,7 +119,7 @@ export default FetchMenu
 </div>
 </div> */}
 
-                        {/* {selectedCateg && selectedCateg.products && selectedCateg.products.length > 0 ? (
+{/* {selectedCateg && selectedCateg.products && selectedCateg.products.length > 0 ? (
   selectedCateg.products.map((p) => (
     <DishCard key={p.id} name={p} />
   ))

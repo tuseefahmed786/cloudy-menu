@@ -40,7 +40,6 @@ const Info = () => {
                 setIsLoading(false);
             }, 5000);
         }
-
     };
 
     useEffect(() => {
@@ -55,12 +54,12 @@ const Info = () => {
 
 
     return (
-        <div className="max-w-md mx-auto flex justify-center h-full flex-col p-6 bg-white shadow-md rounded-lg">
-            <h2 className="text-2xl font-semibold mb-6">Business Info</h2>
+        <div className="max-w-md mx-auto flex justify-center h-full flex-col pt-2 px-4 sm:p-6 bg-white sm:shadow-md sm:rounded-lg">
+            <h2 className="text-2xl font-semibold mb-3 sn:mb-6">Business Info</h2>
 
             <form onSubmit={handleSubmit}>
                 {/* Restaurant Name */}
-                <div className="mb-4">
+                <div className="mb-3 sm:mb-4">
                     <label htmlFor="restaurantName" className="block text-sm font-medium mb-1">
                         Restaurant name *
                     </label>
@@ -70,14 +69,14 @@ const Info = () => {
                         id="restaurantName"
                         value={formData.restaurantName}
                         onChange={handleChange}
-                        className="w-full p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 sm:p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter restaurant name"
                         required
                     />
                 </div>
 
                 {/* Country */}
-                <div className="mb-4">
+                <div className="mb-3 sm:mb-4">
                     <label htmlFor="country" className="block text-sm font-medium mb-1">
                         Country
                     </label>
@@ -86,7 +85,7 @@ const Info = () => {
                         id="country"
                         value={formData.country}
                         onChange={handleChange}
-                        className="w-full p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 sm:p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="UAE">UAE</option>
                         <option value="Saudia Arabia">Saudia Arabia</option>
@@ -98,14 +97,14 @@ const Info = () => {
                 {/* timeZone */}
                 <div className="mb-4">
                     <label htmlFor="timeZone" className="block text-sm font-medium mb-1">
-                        timeZone
+                        Time Zone
                     </label>
                     <select
                         name="timeZone"
                         id="timeZone"
                         value={formData.timeZone}
                         onChange={handleChange}
-                        className="w-full p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 sm:p-3border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="Asia/Karachi">Asia/Karachi</option>
                         <option value="Asia/UAE">Asia/UAE</option>
@@ -117,35 +116,35 @@ const Info = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="w-full bg-[#2cb75f] p-3  text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-[#2cb75f] p-3  text-white font-semibold rounded-lg hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    Submit
+                    Submit 
                 </button>
-              
+
             </form>
             {
-                    isLoading && <div className="relative bottom-0 mt-3 max-w-lg w-full p-4 items-center bg-green-50 border border-green-200 rounded-lg flex space-x-4">
-                        <div className="flex-shrink-0">
-                            <svg
-                                className="h-6 w-6 text-green-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M9 12l2 2 4-4m0-6a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-green-800">we have updated your info</p>
-                        </div>
+                isLoading && <div className="relative bottom-0 mt-3 max-w-lg w-full p-4 items-center bg-green-50 border border-green-200 rounded-lg flex space-x-4">
+                    <div className="flex-shrink-0">
+                        <svg
+                            className="h-6 w-6 text-green-500"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 12l2 2 4-4m0-6a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
                     </div>
-                }
+                    <div>
+                        <p className="text-sm font-medium text-green-800">we have updated your info</p>
+                    </div>
+                </div>
+            }
         </div>
     );
 };
