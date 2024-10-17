@@ -19,6 +19,7 @@ const EditMenu = () => {
   const [editCategories, setEditCategories] = useState([])
   const [isloading, setIsLoading] = useState(true)
   const [selectedProduct, setSelectedProduct] = useState([])
+
   const productSelected = (id) => {
     setShow("product")
     setSelectedProduct(id)
@@ -38,7 +39,7 @@ const EditMenu = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const UserId = localStorage.getItem('token')
-      try {
+      try {//https://menuserver-eight.vercel.app
         const response = await axios.get('https://menuserver-eight.vercel.app/categories', {
           headers: {
             'Authorization': `${UserId}`
@@ -140,20 +141,20 @@ const EditMenu = () => {
     <>
 
       {/* absolute */}
-      <div className="w-full max-w-[25rem] mx-auto bg-white  h-full shadow-xl top-0 left-0 right-0">
+      <div className="w-full max-w-[25rem] mx-auto bg-white  h-full sm:shadow-xl top-0 left-0 right-0">
         {isloading ? <Isloading width="w-14" height="h-14" /> :
           <>
             {
               show == "edit" &&
               <>
-                <div className="restaurantName px-3 py-3 flex justify-between">
+                <div className="hidden restaurantName px-3 py-3 sm:flex justify-between">
                   <img width={20} src={account} alt="account's" />
                   <img width={70} src={logo} alt="logo's" />
                   <img width={30} src={cart} alt="account's" />
                 </div>
-                <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-6 py-6 pl-5 pb-5 overflow-x-auto">
+                <div className="flex cursor-pointer scrollx items-center gap-7 sm:gap-[2.9rem] sm:mb-6 py-2 sm:py-6 pl-3 sm:pl-5 pb-5 overflow-x-auto">
                   <div className="flex-shrink-0 flex cursor-pointer flex-col items-center" onClick={showCategory}>
-                    <img src={addIcon} width={52} alt="addicon" />
+                    <img src={addIcon} className="w-10 sm:w-[52px]" width={52} alt="addicon" />
                     <span className="mt-4 text-sm">Add</span>
                   </div>
                   {
@@ -165,8 +166,8 @@ const EditMenu = () => {
 
                 <div className="scrollx h-[calc(100vh-220px)] pb-8 overflow-y-auto flex flex-wrap">
                   {allCategories.length > 0 &&
-                    <div onClick={() => setShow("product")} className="cursor-pointer mx-3 flex gap-4 w-full items-center justify-center border border-dashed h-14 border-black rounded-lg p-4">
-                    <img src={addDish} width={30} alt="add dish" />
+                    <div onClick={() => setShow("product")} className="cursor-pointer mx-2 sm:mx-3 flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
+                    <img src={addDish} width={30} className="w-6 sm:w-8" alt="add dish" />
                     <span className="text-[#5d5d5d]">Add new dish</span>
                   </div>
                   }
@@ -193,12 +194,12 @@ const EditMenu = () => {
 const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
   return (
     <div className="flex flex-col gap-3 items-center" onClick={() => selectedCateg(id)}>
-      <div className={`w-16 h-16 ${` ${id.title == activeCat.title ? "bg-yellow-400" : ""}`} rounded-xl flex items-center justify-center text-2xl shadow-md`}>
-        <img src={`${id.icon}`} width={40} height={40} alt="icons image" />
+      <div className={`w-12 sm:w-16 h-12 sm:h-16 ${` ${id.title == activeCat.title ? "bg-yellow-400" : ""}`} rounded-xl flex items-center justify-center text-2xl shadow-md`}>
+        <img src={`${id.icon}`} className="w-8 sm:w-10 h-8 sm:h-10" alt="icons image" />
       </div>
-      <div className="flex gap-4 justify-center items-baseline">
-        <span className="whitespace-nowrap text-sm">{id.title}</span>
-        <img className="cursor-pointer" width={14} src={editIcon} alt="edit" onClick={() => editFunction(id)} />
+      <div className="flex gap-2 sm:gap-4 justify-center items-baseline">
+        <span className="whitespace-nowrap text-xs sm:text-sm">{id.title}</span>
+        <img className="cursor-pointer w-3 sm:w-[14px]" src={editIcon} alt="edit" onClick={() => editFunction(id)} />
       </div>
     </div>
   );
