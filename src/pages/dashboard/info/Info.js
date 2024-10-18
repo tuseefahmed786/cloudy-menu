@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Isloading from '../../../components/Isloading';
-
+import { setRestaurantData } from '../../../redux/slice/infoSlice';
+import { useDispatch } from 'react-redux';
 const Info = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
         restaurantName: '',
@@ -30,8 +32,8 @@ const Info = () => {
                     'Authorization': `${token}`
                 }
             })
-            console.log(res.data)
             setIsLoading(true)
+            dispatch(setRestaurantData(res.data.restaurant))
             localStorage.setItem('resData', JSON.stringify(res.data.restaurant))
         } catch (error) {
 
@@ -44,12 +46,14 @@ const Info = () => {
 
     useEffect(() => {
         const storedRes = localStorage.getItem('resData');
+        if (storedRes) {
         const resObject = JSON.parse(storedRes);
         setFormData({
             restaurantName: resObject?.name,
             country: resObject?.country,
             timeZone: resObject?.timeZone,
         })
+        }
     }, [])
 
 
@@ -118,7 +122,7 @@ const Info = () => {
                     type="submit"
                     className="w-full bg-[#2cb75f] p-3  text-white font-semibold rounded-lg hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    Submit 
+                    Submit
                 </button>
 
             </form>

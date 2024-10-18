@@ -15,26 +15,35 @@ import addDish from "../../../assests/add-alert.png"
 const EditMenu = () => {
   const [show, setShow] = useState("edit")
   const [allCategories, setAllCategories] = useState([])
-  const [selectedCateg, setselectedCateg] = useState([])
-  const [editCategories, setEditCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState([])
+  const [editCategory, setEditCategory] = useState([])
   const [isloading, setIsLoading] = useState(true)
   const [selectedProduct, setSelectedProduct] = useState([])
 
-  const productSelected = (id) => {
-    setShow("product")
-    setSelectedProduct(id)
+  const createNewCategory = () => {
+    setShow("category") // show Category Form for creating Category
+    setEditCategory('')  // it will remove selected Category data if we have selected because here we want create new Category.
   }
-  const selectedCatShowProducts = (id) => {
-    setselectedCateg(id)
+
+  const editExistingCategory = (id) => {
+    setEditCategory(id) // this edit function is on available on every category when we will click on this edit button it will return selected id 
+    setShow("category") //  it will show category form for editing existing category based on id which we have get from edit button
   }
-  const showCategory = () => {
-    setShow("category")
-    setEditCategories('')
+
+  const createNewProduct = () => {
+    setShow("product") //  it will show product form for creating new product
+    setSelectedProduct("") // Remove if The Selected Product for [editing] because we are re-using component
   }
-  const editFunction = (id) => {
-    setEditCategories(id)
-    setShow("category")
+
+  const editExistingProduct = (id) => {
+    setShow("product") // show the product form for editing the old product.
+    setSelectedProduct(id) // selected the click product useState > product > getByID
   }
+
+  const selectedCategoryForProducts = (id) => {
+    setSelectedCategory(id)
+  }
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -46,8 +55,7 @@ const EditMenu = () => {
           }
         });
         setAllCategories(response.data)
-        console.log(response.data)
-        setselectedCateg(response?.data[0])
+        setSelectedCategory(response?.data[0])
         setIsLoading(false)
       } catch (err) {
         console.log(err)
@@ -56,16 +64,41 @@ const EditMenu = () => {
     fetchCategories()
   }, [])
 
-  const addProductToSelectedCategory = (newProduct) => {
-    if (selectedCateg) {
-      setselectedCateg((prev) => ({
+  const addNewCategoryIntoArray = (newCategory) => {
+    setAllCategories((prev) => [
+      ...prev,
+      newCategory
+    ])
+    setSelectedCategory(newCategory)
+  }
+
+  const editCategoryIntoArray = (newCategory) => {
+    setAllCategories((prev) => {
+      return prev.map((category) => {
+        if (category._id == newCategory._id) {
+          return {
+            ...newCategory,
+            products: [...category.products]
+          }
+        }
+        return category
+      }
+      )
+    })
+    setSelectedCategory(newCategory)
+
+  }
+
+  const addNewProductToSelectedCategory = (newProduct) => {
+    if (selectedCategory) {
+      setSelectedCategory((prev) => ({
         ...prev,
         products: [...prev.products, newProduct],
       })); // this function add new products in selected category and we don't need to query in backend
 
       setAllCategories((prevCategories) => {
         return prevCategories.map((foundCategory) => {
-          if (foundCategory._id == selectedCateg._id) {
+          if (foundCategory._id == selectedCategory._id) {
             return {
               ...foundCategory,
               products: [...foundCategory.products, newProduct],
@@ -74,38 +107,12 @@ const EditMenu = () => {
           return foundCategory
         })
       }) // this function add updated cat/products in original api and here is also we dont need to fetch again in db
-
     }
 
-  };
+  }; // 
 
-  const addNewCategroyIntoArrray = (newCategory) => {
-    setAllCategories((prev) => [
-      ...prev,
-      newCategory
-    ])
-    setselectedCateg(newCategory)
-  }
-
-  const editCategroyIntoArrray = (newCategory) => {
-    setAllCategories((prev) => {
-      return prev.map((categ) => {
-        if (categ._id == newCategory._id) {
-          return {
-            ...newCategory,
-            products: [...categ.products]
-          }
-        }
-        return categ
-      }
-      )
-    })
-    setselectedCateg(newCategory)
-
-  }
-
-  const editProduct = (updatedProduct) => {
-    setselectedCateg((prevCategory) => {
+  const updatedProductIntoSelectedCategory = (updatedProduct) => {
+    setSelectedCategory((prevCategory) => {
       // Map through the products in the selected category to update the one with the matching _id
       const updatedProducts = prevCategory.products.map((product) =>
         product._id === updatedProduct._id ? updatedProduct : product
@@ -115,27 +122,24 @@ const EditMenu = () => {
         ...prevCategory,
         products: updatedProducts,
       };
-    });
+    }); // here we are adding updated/edit product into selected category
 
     setAllCategories((prev) => {
       return prev.map((category) => {
-        // Check if the category matches the selected category
-        if (category._id === selectedCateg._id) {
-          // Update the products in the matched category
+        if (category._id === selectedCategory._id) {
           const updatedProducts = category.products.map((product) => {
-            // Replace the product if its _id matches the updatedProduct._id
             if (product._id === updatedProduct._id) {
               return { ...product, ...updatedProduct };
             }
             return product;
           });
-          
+
           // Return the updated category with modified products
           return { ...category, products: updatedProducts };
         }
         return category;
       });
-    });
+    }); // here we are adding updated/edited product into original array
   };
   return (
     <>
@@ -153,37 +157,52 @@ const EditMenu = () => {
                   <img width={30} src={cart} alt="account's" />
                 </div>
                 <div className="flex cursor-pointer scrollx items-center gap-7 sm:gap-[2.9rem] sm:mb-6 py-2 sm:py-6 pl-3 sm:pl-5 pb-5 overflow-x-auto">
-                  <div className="flex-shrink-0 flex cursor-pointer flex-col items-center" onClick={showCategory}>
+                  <div className="flex-shrink-0 flex cursor-pointer flex-col items-center" onClick={createNewCategory}>
                     <img src={addIcon} className="w-10 sm:w-[52px]" width={52} alt="addicon" />
                     <span className="mt-4 text-sm">Add</span>
                   </div>
                   {
                     allCategories?.map((e) => {
-                      return <Category key={e._id} editFunction={editFunction} activeCat={selectedCateg} id={e} selectedCateg={selectedCatShowProducts} />
+                      return <Category key={e._id} editCategory={editExistingCategory} activeCat={selectedCategory} id={e} selectedCategory={selectedCategoryForProducts} />
                     })
                   }
                 </div>
 
                 <div className="scrollx h-[calc(100vh-220px)] pb-8 overflow-y-auto flex flex-wrap">
+                 
                   {allCategories.length > 0 &&
-                    <div onClick={() => setShow("product")} className="cursor-pointer mx-2 sm:mx-3 flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
-                    <img src={addDish} width={30} className="w-6 sm:w-8" alt="add dish" />
-                    <span className="text-[#5d5d5d]">Add new dish</span>
-                  </div>
+                    <div onClick={createNewProduct} className="cursor-pointer mx-2 sm:mx-3 flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
+                      <img src={addDish} width={30} className="w-6 sm:w-8" alt="add dish" />
+                      <span className="text-[#5d5d5d]">Add new dish</span>
+                    </div>
                   }
-                  {selectedCateg && (
-                    <>{selectedCateg.products.length > 0 ?
-                      selectedCateg.products.map((p) => {
-                        return <DishCard name={p} key={p._id} selectProduct={productSelected} />
+
+                  {selectedCategory && (
+                    <>{selectedCategory.products.length > 0 ?
+                      selectedCategory.products.map((product) => {
+                        return <DishCard key={product._id} productInfo={product} selectProduct={editExistingProduct} />
                       })
-                      : ""
+                      : "You don't have any products in this category"
                     }</>
                   )}
                 </div> </>
             }
           </>}
-        {show == "category" && <AddCategoryForm setShow={setShow} editCategroyFunction={editCategroyIntoArrray} editCategories={editCategories} newCateg={addNewCategroyIntoArrray} />}
-        {show == "product" && <AddProduct setShow={setShow} editProduct={selectedProduct} addUpdatedProductsToArray={editProduct} selectedC={selectedCateg} addProductToSelectedCategory={addProductToSelectedCategory} />}
+
+        {show == "category" && <AddCategoryForm
+          setShow={setShow} // setShow for remove this form
+          editCategoryFunction={editCategoryIntoArray} // It will get updated edit category data. and then it will be add data in original array
+          editCategory={editCategory} // it will pass selected category id for editing the category
+          addNewCategoryInExistingArray={addNewCategoryIntoArray} // It will get new category data. and then it will be added data in original array
+          />}
+
+        {show == "product" && <AddProduct
+          setShow={setShow}
+          selectedCategory={selectedCategory}
+          editProduct={selectedProduct}
+          addUpdatedProductsToArray={updatedProductIntoSelectedCategory}
+          addProductToSelectedCategory={addNewProductToSelectedCategory} />}
+
       </div>
 
 
@@ -191,38 +210,36 @@ const EditMenu = () => {
   );
 };
 
-const Category = ({ activeCat, selectedCateg, id, editFunction }) => {
+const Category = ({ activeCat, selectedCategory, id, editCategory }) => {
   return (
-    <div className="flex flex-col gap-3 items-center" onClick={() => selectedCateg(id)}>
+    <div className="flex flex-col gap-3 items-center" onClick={() => selectedCategory(id)}>
       <div className={`w-12 sm:w-16 h-12 sm:h-16 ${` ${id.title == activeCat.title ? "bg-yellow-400" : ""}`} rounded-xl flex items-center justify-center text-2xl shadow-md`}>
         <img src={`${id.icon}`} className="w-8 sm:w-10 h-8 sm:h-10" alt="icons image" />
       </div>
       <div className="flex gap-2 sm:gap-4 justify-center items-baseline">
         <span className="whitespace-nowrap text-xs sm:text-sm">{id.title}</span>
-        <img className="cursor-pointer w-3 sm:w-[14px]" src={editIcon} alt="edit" onClick={() => editFunction(id)} />
+        <img className="cursor-pointer w-3 sm:w-[14px]" src={editIcon} alt="edit" onClick={() => editCategory(id)} />
       </div>
     </div>
   );
 }; // Category Component
 
-
-const DishCard = ({ name, selectProduct }) => {
+const DishCard = ({ productInfo, selectProduct }) => {
   return (
     <>
       <div className='flex w-full px-4 pt-4 pb-2 border-b border-b-[#80808057]' >
         <div className='w-[75%] flex-col flex gap-1'>
-       <div className="flex items-center gap-2">
-       <h1>{name.name}</h1> 
+          <div className="flex items-center gap-2">
+            <h1>{productInfo.name}</h1>
 
-       <img className="cursor-pointer" width={14} src={editIcon} alt="edit" onClick={() => selectProduct(name)} />
-       </div>
-       <p className='text-xs  text-gray-600'>{name.description}</p>
+            <img className="cursor-pointer" width={14} src={editIcon} alt="edit" onClick={() => selectProduct(productInfo)} />
+          </div>
+          <p className='text-xs  text-gray-600'>{productInfo.description}</p>
 
-          {/* <p className='text-xs text-gray-600'>Handed crispy & cheese burger laoded with savory beef with extra spicily</p> */}
-          <p className='text-xs'>AED {name.price}</p>
+          <p className='text-xs'>AED {productInfo.price}</p>
         </div>
         <div className='w-[25%] h-[90px]'>
-          <img className='object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5] ' src={name.imageUrl} alt='pic here product' />
+          <img className='object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5] ' src={productInfo.imageUrl} alt='pic here product' />
         </div>
       </div>
     </>
@@ -230,29 +247,3 @@ const DishCard = ({ name, selectProduct }) => {
 };  // DishCard Component
 
 export default EditMenu;
-
-// <div className="box w-[150px] h-fit">
-// <img src={`${name.imageUrl}`} className="rounded-2xl w-[150px] object-cover h-[140px]" alt="product image" />
-// <div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
-//   <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
-
-//   <div className="flex gap-1">
-//     <div className="text-[9px] mb-3">KWD</div>
-//     <div className="text-[#206786] font-bold">{name.price}</div>
-//   </div>
-// </div>
-// </div>
-
-
-{/* <div className="box w-[40%] h-fit">
-<img src={`${name.imageUrl}`} className="rounded-2xl w-[100%] object-cover h-[140px]" alt="product image" />
-<div className="flex justify-center shadow-xl rounded-b-2xl rounded-bl-2xl items-center flex-col bg-slate-white">
-    <div className="text-[#40484e] py-3 text-sm">{name.name}</div>
-
-    <div className="flex gap-1">
-        <div className="text-[9px] mb-3">KWD</div>
-        <div className="text-[#206786] font-bold">{name.price}</div>
-    </div>
-</div>
-</div> */}
-

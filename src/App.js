@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from './pages/dashboard/Dashboard';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
@@ -10,14 +10,17 @@ import FetchMenu from './pages/fetchmenu/FetchMenu';
 import LandingApp from './pages/landing/LandingApp'
 function App() {
   return (
-  <>
+    <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' index element={<LandingApp/>}/>
+
+          <Route path='/' index element={<LandingApp />} />
           <Route path='register' element={<Register />} />
           <Route path='login' element={<Login />} />
-          <Route path='/:restaurant' element={<FetchMenu/>}/>
-s          <Route path='dashboard' element={<DashboardLayout />}>
+          <Route path='/:restaurant' element={<FetchMenu />} />
+          <Route path='dashboard' element={<DashboardLayout />}>
+            <Route index element={<Navigate to="info" />} />
+
             <Route path='edit' element={<EditMenu />} />
             <Route path='view' element={<ViewMenu />} />
             <Route path='info' element={<Info />} />

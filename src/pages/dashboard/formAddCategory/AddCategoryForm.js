@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Isloading from "../../../components/Isloading";
-const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFunction }) => {
+const AddCategoryForm = ({ setShow, addNewCategoryInExistingArray, editCategory, editCategoryFunction }) => {
   const [title, setTitle] = useState('');
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [icons, seIcons] = useState([])
@@ -18,17 +18,17 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
   }, [])
 
   useEffect(() => {
-    if (editCategories) {
-      setTitle(editCategories.title);
-      setSelectedIcon(editCategories.icon);
+    if (editCategory) {
+      setTitle(editCategory.title);
+      setSelectedIcon(editCategory.icon);
     }
-  }, [editCategories]);
+  }, [editCategory]);
 
   const handleAddCategory = async () => {
     const token = localStorage.getItem('token');
-    if (editCategories && editCategories._id) {
+    if (editCategory && editCategory._id) {
       setIsLoadingAddBtn(true)
-      const updatedCategory = await axios.put(`https://menuserver-eight.vercel.app/updatedCategory/${editCategories._id}`, {
+      const updatedCategory = await axios.put(`https://menuserver-eight.vercel.app/updatedCategory/${editCategory._id}`, {
         title,
         selectedIcon
       }, {
@@ -36,7 +36,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
           'Content-Type': 'application/json',
         }
       })
-      editCategroyFunction(updatedCategory.data.category)
+      editCategoryFunction(updatedCategory.data.category)
       setShow("edit")
     } else { //https://menuserver-eight.vercel.app
       const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
@@ -48,7 +48,7 @@ const AddCategoryForm = ({ setShow, newCateg, editCategories, editCategroyFuncti
           'Authorization': `${token}`,
         }
       })
-      newCateg(createCategory.data.category)
+      addNewCategoryInExistingArray(createCategory.data.category)
       setShow("edit")
     }
   };
