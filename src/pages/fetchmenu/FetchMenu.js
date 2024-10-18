@@ -30,7 +30,7 @@ function FetchMenu() {
     }
     return (
         <>
-            <div className="h-screen overflow-hidden max-w-[25rem] mx-auto bg-white  h-full shadow-xl top-0 left-0 right-0">
+            <div className="h-screen overflow-hidden max-w-[25rem] mx-auto bg-white h-full shadow-xl top-0 left-0 right-0">
                 {isloading ?
                     <Isloading width="w-14" height="h-14" optionaltext={`we are fetching ${restaurantName}`} />
                     :
@@ -41,7 +41,7 @@ function FetchMenu() {
                                 <img width={70} src={logo} alt="logo's" />
                                 <img width={30} src={cart} alt="account's" />
                             </div>
-                            <div className="flex cursor-pointer scrollx items-center gap-[2.9rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
+                            <div className="flex cursor-pointer scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
                                 {
                                     getResponse.map((e) => {
                                         return <Category activeCat={selectedCateg} key={e._id} id={e} selectedCateg={selectedCatShowProducts} />

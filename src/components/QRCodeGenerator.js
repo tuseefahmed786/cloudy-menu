@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 
-function QRCodeGenerator() {
+function QRCodeGenerator({value}) {
   const qrRef = useRef();
   const [downloadUrl, setDownloadUrl] = useState('');
 
@@ -14,7 +14,7 @@ function QRCodeGenerator() {
   return (
     <>
       <div ref={qrRef} className="mb-4">
-        <QRCodeCanvas value="https://emenu-sandy.vercel.app/late-cafe-ae" size={160} />
+        <QRCodeCanvas value={value} size={160} />
       </div>
 
       <a

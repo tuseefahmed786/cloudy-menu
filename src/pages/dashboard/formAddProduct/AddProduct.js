@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState,useEffect } from 'react'
 import Isloading from '../../../components/Isloading'
 
-function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCategory,addUpdatedProductsToArray }) {
+function AddProduct({ setShow, selectedCategory,editProduct, addProductToSelectedCategory,addUpdatedProductsToArray }) {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
@@ -20,7 +20,7 @@ function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCatego
 
     const handleAddProduct = async () => {
       if (editProduct && editProduct._id) {
-        const selectedCateg = selectedC._id
+        const selectedCateg = selectedCategory._id
         const formData = new FormData();
         formData.append('name', name);
         formData.append('price', price);
@@ -31,8 +31,8 @@ function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCatego
             formData.append('imageUrl', image);  // Pass existing image URL separately
           } else {
             formData.append('image', image); // Pass new image file
-          }
-          const createProduct = await axios.put(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/editProducts`, formData, {
+          }//http://localhost:3002
+          const createProduct = await axios.put(`http://localhost:3002/categories/${selectedCateg}/editProducts`, formData, {
               headers: {
                   'Content-Type': 'multipart/form-data'
               }
@@ -41,14 +41,14 @@ function AddProduct({ setShow, selectedC,editProduct, addProductToSelectedCatego
           setShow("edit")
       }else{
         setIsLoading(true)
-        const selectedCateg = selectedC._id
+        const selectedCateg = selectedCategory._id
         const formData = new FormData();
         formData.append('name', name);
         formData.append('price', price);
         formData.append('description', description);
         formData.append('image', image);
 
-        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/products`, formData, {
+        const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
