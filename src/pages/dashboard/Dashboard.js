@@ -3,6 +3,12 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import slugify from 'slugify'
 import logo from '../../assests/favicon.png'
 import axios from 'axios';
+import menu from "../../assests/menu-button.png"
+import info from "../../assests/info.png"
+import qr from "../../assests/qr.png"
+import view from "../../assests/view.png"
+
+
 import { useSelector } from 'react-redux';
 const DashboardLayout = () => {
   const Navigate = useNavigate()
@@ -42,52 +48,61 @@ const DashboardLayout = () => {
   }, [restaurantData.name]);
 
   return (
-    <div className="flex flex-col sm:flex-row  sm:w-screen sm:h-screen">
-      <aside className="sm:w-1/4 sm:bg-[#12dc5d] text-white p-4">
-        <div className='flex justify-start gap-3 items-center'>
+    <div className="flex flex-col sm:w-screen overflow-hidden sm:h-screen">
+      <div className='flex justify-start gap-3 items-center bg-[#ffffff] border'>
+        <div className='flex justify-start gap-1 sm:gap-3 px-2 sm:px-3 py-1 sm:py-2 items-center border-r'>
           <img src={logo} alt='Logo' className='w-11 border rounded' />
-          <h1 className='text-black text-xl'>Cloud Menu</h1>
+          <h1 className='text-black hidden sm:block'>Cloud Menu</h1>
         </div>
-        <div className='scrollx flex sm:flex-col overflow-scroll sm:overflow-hidden pt-4'>
-
-          <div onClick={(e) => setIsActive(e.target.id)} className={`${isActive == "edit" && "border-b-2 border-b-black"} sm:mb-2 whitespace-nowrap sm:w-full  flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 sm:border-[white]  text-[#000000] sm:rounded-md`}>
-            <Link to="edit" id='edit'>Edit Your Menu </Link>
-          </div>
-
-          <div onClick={(e) => setIsActive(e.target.id)} className={`${isActive == "info" && "border-b-2 border-b-black"} sm:mb-2 whitespace-nowrap sm:w-full  flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 sm:border-[white]  text-[#000000] sm:rounded-md`}>
-            <Link to="info" id="info">Information</Link>
-          </div>
-          <div id="view" className="sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:px-4 sm:py-2 border-2 border-[white]  text-[#000000] rounded-md">
-            <Link to={fetchMenuLink} className="">View Your Menus &#x2197; </Link>
-          </div>
-          <div onClick={(e) => setIsActive(e.target.id)} className={`${isActive == "qr" && "border-b-2 border-b-black"} sm:mb-2 whitespace-nowrap sm:w-full  flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 sm:border-[white]  text-[#000000] sm:rounded-md`}>
-            <Link to="view" id="qr">Download QR</Link>
-          </div>
-
+        <div className='flex justify-start flex-col'>
+          <h1 className='text-black text-base font-semibold'>{fetchMenuLink.slice(1)}</h1>
+          <Link to={fetchMenuLink} className='text-[9px] sm:text-xs sm:block hover:underline text-[#616161]'>https://emenu-sandy.vercel.app{fetchMenuLink}</Link>
         </div>
-      </aside>
+        <div className='flex justify-end items-center flex-grow gap-2 sm:gap-3 px-2 sm:px-4'>
+          <h1 className='text-black text-base font-semibold'>En / Ar
+          </h1>
+          <div className='bg-[#f8f9fa] px-2 rounded py-2'>
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" strokeLinecap="round" stroke-linejoin="round" color="#203461" className="text-[#203461]" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><desc></desc><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="7" r="4"></circle><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path></svg>
+          </div>
+        </div>
+      </div>
+      <div className='flex flex-grow flex-col sm:flex-row'>
+        {/* //#12dc5d */}
+        <aside className="sm:w-1/5 sm:bg-[#ffffff] text-white p-4 border-r">
+          <div className='scrollx flex sm:flex-col overflow-scroll sm:overflow-hidden'>
 
-      <main className="sm:w-[75%] sm:px-2 sm:h-screen sm:overflow-hidden bg-white sm:bg-gray-100">
-        {/* Main content goes here */}
-        <Outlet />
-      </main>
+            <Link to="edit" >
+              <div onClick={(e) => setIsActive(e.target.id)} id='edit' className={`${isActive == "edit" ? "border-b-2 border-b-black sm:text-white sm:bg-green-500" : "sm:bg-[#f1f4f9] "} gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2  text-[#000000] sm:rounded-lg`}>
+                <img src={menu} className='hidden sm:block w-4' alt='' />
+                Edit Your Menu
+              </div> </Link>
+
+            <Link to="info" >    
+            <div id="info" onClick={(e) => setIsActive(e.target.id)} className={`${isActive == "info" ? "border-b-2 border-b-black sm:text-white sm:bg-green-500" : "sm:bg-[#f1f4f9] "} gap-2 items-center  sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2  text-[#000000] sm:rounded-lg`}>
+              <img src={info} className='hidden sm:block w-4' alt='' />
+              Information
+            </div></Link>
+            <Link to={fetchMenuLink}>  <div id="view" className="sm:mb-2 border-b border-b-transparent sm:bg-[#f1f4f9] whitespace-nowrap sm:w-full items-center gap-2 flex text-left mr-4 sm:px-4 sm:py-2 border-2 border-[white]  text-[#000000] rounded-lg">
+              <img src={view} className='hidden sm:block w-4' alt='' />
+
+              View Your Menus &#x2197;
+            </div></Link>
+            <Link to="view" >
+              <div id="qr" onClick={(e) => setIsActive(e.target.id)} className={`${isActive == "qr" ? "border-b-2 border-b-black sm:text-white sm:bg-green-500" : "sm:bg-[#f1f4f9] "}  sm:border-[white] items-center  gap-2 sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2  text-[#000000] sm:rounded-lg`}>
+                <img src={qr} className='hidden sm:block w-4' alt='icon' />
+                Download QR
+              </div></Link>
+
+          </div>
+        </aside>
+
+        <main className="sm:w-[80%] sm:px-2 sm:h- sm:overflow-hidden bg-white sm:bg-gray-100">
+          {/* Main content goes here */}
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
 
 export default DashboardLayout;
-
-
-// const fetchRestaurantData = async () => {
-//   try {
-//     const response = await axios('http://localhost:3002/', {
-//       headers: {
-//         'Authorization': `${token}`,
-//       },
-//     });
-//     setRestaurantName(response.data); // Set the restaurant name from the response
-//   } catch (error) {
-//     console.error('Error fetching restaurant data:', error);
-//   }
-// };
-//       fetchRestaurantData();
