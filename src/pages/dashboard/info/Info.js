@@ -9,8 +9,8 @@ const Info = () => {
 
     const [formData, setFormData] = useState({
         restaurantName: '',
-        country: 'UAE',
-        timeZone: 'Asia/Karachi',
+        country: '',
+        currency: '',
     });
     const token = localStorage.getItem('token');
 
@@ -22,6 +22,7 @@ const Info = () => {
     };
 
     const handleSubmit = async (e) => {
+        console.log(formData)
         try {
             e.preventDefault(); //https://menuserver-eight.vercel.app
             const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
@@ -46,12 +47,15 @@ const Info = () => {
 
     useEffect(() => {
         const storedRes = localStorage.getItem('resData');
+        console.log(storedRes)
+
         if (storedRes) {
         const resObject = JSON.parse(storedRes);
+
         setFormData({
             restaurantName: resObject?.name,
             country: resObject?.country,
-            timeZone: resObject?.timeZone,
+            currency: resObject?.currency,
         })
         }
     }, [])
@@ -92,28 +96,31 @@ const Info = () => {
                         className="w-full p-2 sm:p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="UAE">UAE</option>
-                        <option value="Saudia Arabia">Saudia Arabia</option>
+                        <option value="Saudi Arabia">Saudia Arabia</option>
                         <option value="Qatar">Qatar</option>
-                        <option value="Bahiran">Bahiran</option>
+                        <option value="Kuwait">Kuwait</option>
+                        <option value="Bahrain">Bahrain</option>
+                        <option value="Oman">Oman</option>
                     </select>
                 </div>
 
                 {/* timeZone */}
                 <div className="mb-4">
-                    <label htmlFor="timeZone" className="block text-sm font-medium mb-1">
-                        Time Zone
+                    <label htmlFor="Currency" className="block text-sm font-medium mb-1">
+                        Currency
                     </label>
                     <select
-                        name="timeZone"
-                        id="timeZone"
-                        value={formData.timeZone}
+                        name="currency"
+                        id="currency"
+                        value={formData.currency}
                         onChange={handleChange}
                         className="w-full p-2 sm:p-3border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                        <option value="Asia/Karachi">Asia/Karachi</option>
-                        <option value="Asia/UAE">Asia/UAE</option>
-                        <option value="America/New_York">America/New_York</option>
-                        <option value="Europe/London">Europe/London</option>
+                        <option value="AED">UAE - AED</option>
+                        <option value="OMR">Oman - OMR</option>
+                        <option value="KWT">Kuwait - KWT</option>
+                        <option value="SAR">Saudi Arabia - SAR</option>
+                        <option value="QAR">Qatar - QAR</option>
                     </select>
                 </div>
 

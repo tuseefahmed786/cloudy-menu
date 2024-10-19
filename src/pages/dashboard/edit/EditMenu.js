@@ -39,11 +39,15 @@ const EditMenu = () => {
     setShow("product") // show the product form for editing the old product.
     setSelectedProduct(id) // selected the click product useState > product > getByID
   }
-
   const selectedCategoryForProducts = (id) => {
     setSelectedCategory(id)
   }
 
+  const deletedTheCategory = (id) => {
+    setAllCategories((prev)=>{
+      return prev.filter((e)=> e._id !== id)
+    })
+  }
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -141,35 +145,38 @@ const EditMenu = () => {
       });
     }); // here we are adding updated/edited product into original array
   };
+
+
+
   return (
     <>
 
-      {/* absolute */}
-      <div className="w-full max-w-[25rem] mx-auto bg-white  h-full sm:shadow-xl top-0 left-0 right-0">
+      {/* absolute  h-full*/}
+      <div className="w-full max-w-[25rem] mx-auto h-full bg-white sm:shadow-xl">
         {isloading ? <Isloading width="w-14" height="h-14" /> :
           <>
             {
               show == "edit" &&
               <>
-                <div className="hidden restaurantName px-3 py-3 sm:flex justify-between">
+                {/* <div className="hidden restaurantName px-3 py-3 sm:flex justify-between">
                   <img width={20} src={account} alt="account's" />
                   <img width={70} src={logo} alt="logo's" />
                   <img width={30} src={cart} alt="account's" />
-                </div>
-                <div className="flex cursor-pointer scrollx items-center gap-7 sm:gap-[2.9rem] sm:mb-6 py-2 sm:py-6 pl-3 sm:pl-5 pb-5 overflow-x-auto">
+                </div> scroll-with-w*/}
+                <div className="flex cursor-pointer scrollx pb-3 items-center gap-7 sm:gap-[2.5rem] sm:pt-5 sm:pb-3 sm:mb-2 pl-3 sm:pl-5 overflow-x-auto">
                   <div className="flex-shrink-0 flex cursor-pointer flex-col items-center" onClick={createNewCategory}>
                     <img src={addIcon} className="w-10 sm:w-[52px]" width={52} alt="addicon" />
                     <span className="mt-4 text-sm">Add</span>
                   </div>
-                  {
+                  {allCategories.length > 0 ?
                     allCategories?.map((e) => {
                       return <Category key={e._id} editCategory={editExistingCategory} activeCat={selectedCategory} id={e} selectedCategory={selectedCategoryForProducts} />
-                    })
+                    }): <p>Add the Category</p>
                   }
                 </div>
 
                 <div className="scrollx h-[calc(100vh-220px)] pb-8 overflow-y-auto flex flex-wrap">
-                 
+
                   {allCategories.length > 0 &&
                     <div onClick={createNewProduct} className="cursor-pointer mx-2 sm:mx-3 flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
                       <img src={addDish} width={30} className="w-6 sm:w-8" alt="add dish" />
@@ -177,14 +184,16 @@ const EditMenu = () => {
                     </div>
                   }
 
-                  {selectedCategory && (
-                    <>{selectedCategory.products.length > 0 ?
-                      selectedCategory.products.map((product) => {
-                        return <DishCard key={product._id} productInfo={product} selectProduct={editExistingProduct} />
-                      })
-                      : "You don't have any products in this category"
-                    }</>
-                  )}
+                  <div className="w-full flex-grow h-full" >
+                    {selectedCategory && (
+                      <>{selectedCategory.products.length > 0 ?
+                        selectedCategory.products.map((product) => {
+                          return <DishCard key={product._id} productInfo={product} selectProduct={editExistingProduct} />
+                        })
+                        : <p className="p-5">you don't have any product in this category</p>
+                      }</>
+                    )}
+                  </div>
                 </div> </>
             }
           </>}
@@ -194,7 +203,8 @@ const EditMenu = () => {
           editCategoryFunction={editCategoryIntoArray} // It will get updated edit category data. and then it will be add data in original array
           editCategory={editCategory} // it will pass selected category id for editing the category
           addNewCategoryInExistingArray={addNewCategoryIntoArray} // It will get new category data. and then it will be added data in original array
-          />}
+          deleteCategory={deletedTheCategory}
+        />}
 
         {show == "product" && <AddProduct
           setShow={setShow}

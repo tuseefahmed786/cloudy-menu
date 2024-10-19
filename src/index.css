@@ -7,7 +7,15 @@ body {
   font-family: "Bricolage Grotesque", sans-serif;
   font-style: normal;
 }
-
+.scroll-with-w::-webkit-scrollbar {
+  height: 5px; /* Width of the scrollbar */
+  width: 5px;
+  padding-left: 1rem;
+}
+.scroll-with-w::-webkit-scrollbar-thumb {
+  border-radius: 9999px; /* Rounded edges for the thumb */
+  background: #bdc1c6; /* Color of the scrollbar thumb */
+}
 .scrollx::-webkit-scrollbar {
   height: 0px; /* Width of the scrollbar */
   width: 0px;

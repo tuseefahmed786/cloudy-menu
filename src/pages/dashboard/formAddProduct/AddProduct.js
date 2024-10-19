@@ -20,7 +20,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, addProductToSelecte
 
     const handleAddProduct = async () => {
       if (editProduct && editProduct._id) {
-        const selectedCateg = selectedCategory._id
+        const selectedCategory = selectedCategory._id
         const formData = new FormData();
         formData.append('name', name);
         formData.append('price', price);
@@ -32,7 +32,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, addProductToSelecte
           } else {
             formData.append('image', image); // Pass new image file
           }//http://localhost:3002
-          const createProduct = await axios.put(`http://localhost:3002/categories/${selectedCateg}/editProducts`, formData, {
+          const createProduct = await axios.put(`https://menuserver-eight.vercel.app/categories/${selectedCategory}/editProducts`, formData, {
               headers: {
                   'Content-Type': 'multipart/form-data'
               }
@@ -48,7 +48,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, addProductToSelecte
         formData.append('description', description);
         formData.append('image', image);
 
-        const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCateg}/products`, formData, {
+        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCateg}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
