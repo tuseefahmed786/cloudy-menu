@@ -14,13 +14,15 @@ function Register() {
 
   const navigate = useNavigate()
   const registerInDb = async (e) => {
-    setIsLoading(true)
-    setIsEmailValidate(false)
-    setIsValidName(false)
+    
 
 
     e.preventDefault()
     try {// https://menuserver-eight.vercel.app
+     // setIsEmailValidate(false)
+    //setIsValidName(false)
+    //setIsLoading(true)
+      
       const registered = await axios.post("http://localhost:3002/signup", {
         email,
         password,
