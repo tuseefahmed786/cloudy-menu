@@ -31,7 +31,7 @@ function Register() {
         }
       })
       console.log('you are registered', registered.data)
-      navigate("/dashboard/info")
+      navigate("/login")
 
     } catch (error) {
       if (error.response.status == 409 && error.response.data == "Email already exists") {
