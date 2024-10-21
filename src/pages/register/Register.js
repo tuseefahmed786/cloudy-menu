@@ -13,10 +13,8 @@ function Register() {
   const [isValidName, setIsValidName] = useState(false)
 
   const navigate = useNavigate()
+  
   const registerInDb = async (e) => {
-    
-
-
     e.preventDefault()
     try {
       
@@ -25,6 +23,7 @@ function Register() {
     setIsValidName(false)
     setIsLoading(true)
       
+
       const registered = await axios.post("https://menuserver-eight.vercel.app/signup", {
         email,
         password,
@@ -38,14 +37,18 @@ function Register() {
       navigate("/login")
 
     } catch (error) {
-      if (error.response.status == 409 && error.response.data == "Email already exists") {
+      if (error.status == 409 && error.response.data == "Email already exists") {
         setIsEmailValidate(true)
         setIsLoading(false)
-      }
-      if (error.response.status == 409 && error.response.data == "Restaurant name already exists") {
+      }else if (error.status == 409 && error.response.data == "Restaurant name already exists") {
         setIsValidName(true)
         setIsLoading(false)
+      }else{
+        console.log(error)
+        setIsLoading(false)
       }
+
+
     }
   }
 

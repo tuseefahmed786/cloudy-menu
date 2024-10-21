@@ -8,7 +8,7 @@ function ViewMenu() {
   const restaurantData = useSelector((state) => state.info.data);
 
   useEffect(() => {
-    const name = restaurantData.name || JSON.parse(localStorage.getItem('resData'))?.name;
+    const name = restaurantData.name
     if (name) {
       const restaurantSlug = slugify(name, { lower: true });
       const menuLink = `/${restaurantSlug}`;

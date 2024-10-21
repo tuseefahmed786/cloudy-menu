@@ -4,12 +4,15 @@ import logo from '../../assests/favicon.png'
 import menuImage from '../../assests/register.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Isloading from '../../components/Isloading'
+import { useDispatch } from 'react-redux'
+import { setRestaurantData } from '../../redux/slice/infoSlice'
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [inCorrectPass, setInCorrectPass] = useState(false)
+  
   const loginUser = async (e) => {
     e.preventDefault()
     setIsLoading(true)
@@ -23,10 +26,9 @@ function Login() {
         }
       })
       const token = logined.data.token;
-      const restaurant = logined.data.findRestaurant
-
+      // const restaurant = logined.data.findRestaurant
+  
       localStorage.setItem('token', token);
-      localStorage.setItem('resData', JSON.stringify(restaurant))
       navigate("/dashboard/info")
     } catch (error) {
       if (error.status == 401 || error.status == 400) {

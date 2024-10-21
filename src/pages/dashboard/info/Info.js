@@ -2,17 +2,18 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Isloading from '../../../components/Isloading';
 import { setRestaurantData } from '../../../redux/slice/infoSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const Info = () => {
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch();
+    const restaurantData = useSelector((state) => state.info.data);
+    const token = localStorage.getItem('token');
 
     const [formData, setFormData] = useState({
         restaurantName: '',
         country: '',
         currency: '',
     });
-    const token = localStorage.getItem('token');
 
     const handleChange = (e) => {
         setFormData({
@@ -35,9 +36,8 @@ const Info = () => {
             })
             setIsLoading(true)
             dispatch(setRestaurantData(res.data.restaurant))
-            localStorage.setItem('resData', JSON.stringify(res.data.restaurant))
         } catch (error) {
-
+            console.log(error)
         } finally {
             setTimeout(() => {
                 setIsLoading(false);
@@ -46,19 +46,14 @@ const Info = () => {
     };
 
     useEffect(() => {
-        const storedRes = localStorage.getItem('resData');
-        console.log(storedRes)
-
-        if (storedRes) {
-        const resObject = JSON.parse(storedRes);
-
-        setFormData({
-            restaurantName: resObject?.name,
-            country: resObject?.country,
-            currency: resObject?.currency,
-        })
+        if (restaurantData) {
+            setFormData({
+                restaurantName: restaurantData?.name,
+                country: restaurantData?.country,
+                currency: restaurantData?.currency,
+            })
         }
-    }, [])
+    }, [restaurantData])
 
 
     return (
