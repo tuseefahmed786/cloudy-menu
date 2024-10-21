@@ -59,7 +59,7 @@ const EditMenu = () => {
     const fetchCategories = async () => {
       const UserId = localStorage.getItem('token')
       try {//https://menuserver-eight.vercel.app
-        const response = await axios.get('http://localhost:3002/categories', {
+        const response = await axios.get('https://menuserver-eight.vercel.app/categories', {
           headers: {
             'Authorization': `${UserId}`
           }
