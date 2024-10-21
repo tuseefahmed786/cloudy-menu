@@ -13,13 +13,17 @@ function Register() {
   const [isValidName, setIsValidName] = useState(false)
 
   const navigate = useNavigate()
+  
   const registerInDb = async (e) => {
-    console.log("uh")
     e.preventDefault()
-    try {// https://menuserver-eight.vercel.app
-    setIsEmailValidate(false)
+    try {
+      
+      // https://menuserver-eight.vercel.app
+     setIsEmailValidate(false)
     setIsValidName(false)
     setIsLoading(true)
+      
+
       const registered = await axios.post("https://menuserver-eight.vercel.app/signup", {
         email,
         password,
