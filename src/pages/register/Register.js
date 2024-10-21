@@ -20,7 +20,7 @@ function Register() {
     setIsEmailValidate(false)
     setIsValidName(false)
     setIsLoading(true)
-      const registered = await axios.post("https://menuserver-eight.vercel.app/signup", {
+      const registered = await axios.post("http://localhost:3002/signup", {
         email,
         password,
         restaurantName

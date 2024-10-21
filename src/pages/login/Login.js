@@ -17,7 +17,7 @@ function Login() {
     e.preventDefault()
     setIsLoading(true)
     try { // https://menuserver-eight.vercel.app
-      const logined = await axios.post("https://menuserver-eight.vercel.app/login", {
+      const logined = await axios.post("http://localhost:3002/login", {
         email,
         password
       }, {
@@ -26,8 +26,6 @@ function Login() {
         }
       })
       const token = logined.data.token;
-      // const restaurant = logined.data.findRestaurant
-  
       localStorage.setItem('token', token);
       navigate("/dashboard/info")
     } catch (error) {

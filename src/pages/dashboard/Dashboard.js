@@ -27,7 +27,7 @@ const DashboardLayout = () => {
 
     const isValid = async () => {
       try {
-        const response = await axios.get('https://menuserver-eight.vercel.app/verifytoken',
+        const response = await axios.get('https://localhost:3002/verifytoken',
           {
             headers: {
               'Authorization': `${token}`
@@ -43,7 +43,7 @@ const DashboardLayout = () => {
     isValid()
 
     const getUserData = async () => {
-      const restaurantData = await axios.get("https://menuserver-eight.vercel.app/api/restaurantData",{
+      const restaurantData = await axios.get("http://localhost:3002/api/restaurantData",{
         headers:{
           'Authorization': `${token}`
         }
@@ -51,7 +51,7 @@ const DashboardLayout = () => {
       dispatch(setRestaurantData(restaurantData.data.restaurant)) 
     }
     getUserData()
-  }, []) // check isValid token and validations
+  }, []) // check isValid token and validations 
 
   useEffect(() => {
     const name = restaurantData.name

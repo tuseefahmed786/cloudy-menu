@@ -26,7 +26,7 @@ const Info = () => {
         console.log(formData)
         try {
             e.preventDefault(); //https://menuserver-eight.vercel.app
-            const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
+            const res = await axios.post("https://localhost:3002/restaurant", {
                 formData
             }, {
                 headers: {
