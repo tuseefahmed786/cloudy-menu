@@ -60,7 +60,7 @@ const DashboardLayout = () => {
       const menuLink = `/${restaurantSlug}`;
       setFetchMenuLink(menuLink);
     }
-  }, [restaurantData.name]);
+  }, [restaurantData?.name]);
 
   return (
     <div className="flex flex-col sm:w-screen overflow-hidden sm:h-screen">
