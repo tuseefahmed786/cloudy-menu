@@ -46,6 +46,10 @@ const AddCategoryForm = (
       editCategoryFunction(updatedCategory.data.category)
       setShow("edit")
     } else { //https://menuserver-eight.vercel.app
+    
+    if (title.length == 0) {
+      alert("empty")
+    }else{
       const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
         title,
         selectedIcon
@@ -57,6 +61,8 @@ const AddCategoryForm = (
       })
       addNewCategoryInExistingArray(createCategory.data.category)
       setShow("edit")
+    }
+    
     }
   };
 
@@ -87,6 +93,7 @@ const AddCategoryForm = (
           <label className="block text-gray-700 mb-2">Title</label>
           <input
             type="text"
+            required
             value={title || ''}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full border border-gray-300 p-2 rounded"

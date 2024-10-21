@@ -45,7 +45,13 @@ const EditMenu = () => {
 
   const deletedTheCategory = (id) => {
     setAllCategories((prev)=>{
-      return prev.filter((e)=> e._id !== id)
+     const updatedCategory = prev.filter((e)=> e._id !== id)
+      if (updatedCategory.length > 0) {
+        setSelectedCategory(updatedCategory[0]); // Set the first category
+      } else {
+        setSelectedCategory(null); // Clear selectedProduct if no categories are left
+      }
+      return updatedCategory
     })
   }
 
@@ -53,7 +59,7 @@ const EditMenu = () => {
     const fetchCategories = async () => {
       const UserId = localStorage.getItem('token')
       try {//https://menuserver-eight.vercel.app
-        const response = await axios.get('https://menuserver-eight.vercel.app/categories', {
+        const response = await axios.get('http://localhost:3002/categories', {
           headers: {
             'Authorization': `${UserId}`
           }
@@ -146,6 +152,33 @@ const EditMenu = () => {
     }); // here we are adding updated/edited product into original array
   };
 
+  const deleteProductFromSelectedCategory = (productId) => {
+    // Update the selected category
+    console.log(productId)
+    setSelectedCategory((prevCategory) => {
+      // Filter out the product with the matching _id to delete it
+      const updatedProducts = prevCategory.products.filter((product) => product._id !== productId._id);
+      // Return the category with the updated products array
+      return {
+        ...prevCategory,
+        products: updatedProducts,
+      };
+    });
+  
+    // Update all categories
+    setAllCategories((prev) => {
+      return prev.map((category) => {
+        if (category._id === selectedCategory._id) {
+          // Filter out the product with the matching _id in the current category
+          const updatedProducts = category.products.filter((product) => product._id !== productId._id);
+          // Return the updated category with modified products
+          return { ...category, products: updatedProducts };
+        }
+        return category;
+      });
+    });
+  };
+  
 
 
   return (
@@ -211,7 +244,9 @@ const EditMenu = () => {
           selectedCategory={selectedCategory}
           editProduct={selectedProduct}
           addUpdatedProductsToArray={updatedProductIntoSelectedCategory}
-          addProductToSelectedCategory={addNewProductToSelectedCategory} />}
+          addProductToSelectedCategory={addNewProductToSelectedCategory} 
+          deletedProductUpdated={deleteProductFromSelectedCategory}
+          /> }
 
       </div>
 
