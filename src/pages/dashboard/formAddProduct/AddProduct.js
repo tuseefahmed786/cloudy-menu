@@ -33,7 +33,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
             formData.append('imageUrl', image);  // Pass existing image URL separately
           } else {
             formData.append('image', image); // Pass new image file
-          } //http://localhost:3002
+          }//http://localhost:3002
           const createProduct = await axios.put(`https://menuserver-eight.vercel.app/categories/${selectedCategoryId}/editProducts`, formData, {
               headers: {
                   'Content-Type': 'multipart/form-data'
@@ -56,7 +56,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
         formData.append('description', description);
         formData.append('image', image);
 
-        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCategoryId}/products`, formData, {
+        const createProduct = await axios.post(`http://localhost:3002/categories/${selectedCategoryId}/products`, formData, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
@@ -68,7 +68,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
     };
     const deleteTheProduct = async () =>{
         console.log(editProduct)
-        const deletedInDb = await axios.delete(`https://menuserver-eight.vercel.app/api/${editProduct._id}/deletedProduct`)
+        const deletedInDb = await axios.delete(`http://localhost:3002/api/${editProduct._id}/deletedProduct`)
         console.log(deletedInDb.data.deletedProduct)
         deletedProductUpdated(deletedInDb.data.deletedProduct)
         setShow("edit")

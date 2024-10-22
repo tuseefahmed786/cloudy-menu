@@ -17,7 +17,7 @@ function Login() {
     e.preventDefault()
     setIsLoading(true)
     try { // https://menuserver-eight.vercel.app
-      const logined = await axios.post("https://menuserver-eight.vercel.app/login", {
+      const logined = await axios.post("http://localhost:3002/login", {
         email,
         password
       }, {
@@ -26,8 +26,6 @@ function Login() {
         }
       })
       const token = logined.data.token;
-      // const restaurant = logined.data.findRestaurant
-  
       localStorage.setItem('token', token);
       navigate("/dashboard/info")
     } catch (error) {
@@ -45,19 +43,16 @@ function Login() {
     <>
 
       <div className='flex sm:h-screen flex-col-reverse sm:flex-row-reverse'>
-        <div className='bg-[#B3C7FA] flex-1 flex justify-center items-center shadow-lg'>
+        <div className='hidden sm:flex bg-[#B3C7FA] flex-1 justify-center items-center shadow-lg'>
           <img src={menuImage} width={300} alt='image here' />
         </div>
 
         <div className="flex min-h-full flex-1 flex-col justify-center px-3 sm:px-6 py-5 sm:py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <div className='flex justify-center items-center gap-3 sm:gap-5'>
-              <img src={logo} width={45} alt='logo here' />
-              <h1 className="text-2xl font-bold text-center cloud-menu-color pt-1">Cloud Menu</h1>
-            </div>
+          
 
             <h2 className="pt-6 sm:pt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Sign up as Cloud Menu
+              Login as Cloud Menu
             </h2>
           </div>
 

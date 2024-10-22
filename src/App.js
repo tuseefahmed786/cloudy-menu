@@ -8,15 +8,17 @@ import ViewMenu from './pages/dashboard/view/ViewMenu';
 import Info from './pages/dashboard/info/Info';
 import FetchMenu from './pages/fetchmenu/FetchMenu';
 import LandingApp from './pages/landing/LandingApp'
+import HeaderLan from './pages/landing/HeaderLan';
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-
-          <Route path='/' index element={<LandingApp />} />
-          <Route path='register' element={<Register />} />
-          <Route path='login' element={<Login />} />
+          <Route element={<HeaderLan />}>
+            <Route path='/' index element={<LandingApp />} />
+            <Route path='register' element={<Register />} />
+            <Route path='login' element={<Login />} />
+          </Route>
           <Route path='/:restaurant' element={<FetchMenu />} />
           <Route path='dashboard' element={<DashboardLayout />}>
             <Route index element={<Navigate to="info" />} />
