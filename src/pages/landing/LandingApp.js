@@ -6,8 +6,7 @@ import FooterLanding from './FooterLanding';
 
 function LandingApp() {
   return (
-    <div>
-      <HeaderLan />
+    <div className='bg-[#c8ffdd]'>
       <HeroSectionLan />
       <PricingLan />
       <FooterLanding />
