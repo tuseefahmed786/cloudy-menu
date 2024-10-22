@@ -27,7 +27,7 @@ const DashboardLayout = () => {
 
     const isValid = async () => {
       try {
-        const response = await axios.get('https://localhost:3002/verifytoken',
+        const response = await axios.get('https://menuserver-eight.vercel.app/verifytoken',
           {
             headers: {
               'Authorization': `${token}`
@@ -43,7 +43,7 @@ const DashboardLayout = () => {
     isValid()
 
     const getUserData = async () => {
-      const restaurantData = await axios.get("http://localhost:3002/api/restaurantData",{
+      const restaurantData = await axios.get("https://menuserver-eight.vercel.app/api/restaurantData",{
         headers:{
           'Authorization': `${token}`
         }
