@@ -21,6 +21,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
     const handleAddProduct = async () => {
       if (editProduct && editProduct._id) {
         setIsLoading(true)
+        
         const selectedCategoryId = selectedCategory._id
         const formData = new FormData();
         formData.append('name', name);
@@ -33,7 +34,7 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
           } else {
             formData.append('image', image); // Pass new image file
           }//http://localhost:3002
-          const createProduct = await axios.put(`http://localhost:3002/categories/${selectedCategoryId}/editProducts`, formData, {
+          const createProduct = await axios.put(`https://menuserver-eight.vercel.app/categories/${selectedCategoryId}/editProducts`, formData, {
               headers: {
                   'Content-Type': 'multipart/form-data'
               }
@@ -42,10 +43,12 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
           setShow("edit")
       }else{
         setIsLoading(true)
+
       if (name.length == 0 || price.length == 0 || description.length == 0) {
         alert("empty")
         setIsLoading(false)
       }else{
+
         const selectedCategoryId = selectedCategory._id
         const formData = new FormData();
         formData.append('name', name);
