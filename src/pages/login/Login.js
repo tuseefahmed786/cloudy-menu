@@ -17,7 +17,7 @@ function Login() {
     e.preventDefault()
     setIsLoading(true)
     try { // https://menuserver-eight.vercel.app
-      const logined = await axios.post("http://localhost:3002/login", {
+      const logined = await axios.post("https://menuserver-eight.vercel.app/login", {
         email,
         password
       }, {
