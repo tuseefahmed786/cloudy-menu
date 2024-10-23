@@ -9,6 +9,8 @@ import Info from './pages/dashboard/info/Info';
 import FetchMenu from './pages/fetchmenu/FetchMenu';
 import LandingApp from './pages/landing/LandingApp'
 import HeaderLan from './pages/landing/HeaderLan';
+import PerProduct from './pages/fetchmenu/PerProduct'
+import RestaurantInfo from './pages/fetchmenu/MenuInfo';
 function App() {
   return (
     <>
@@ -19,7 +21,11 @@ function App() {
             <Route path='register' element={<Register />} />
             <Route path='login' element={<Login />} />
           </Route>
-          <Route path='/:restaurant' element={<FetchMenu />} />
+
+          <Route path="/:restaurant/:category/:product" element={<PerProduct />} />
+          <Route path="/:restaurant/:category" element={<FetchMenu />} />
+          <Route path="/:restaurant" element={<FetchMenu />} />
+          <Route path="/:restaurant/info" element={<RestaurantInfo />} />
           <Route path='dashboard' element={<DashboardLayout />}>
             <Route index element={<Navigate to="info" />} />
 

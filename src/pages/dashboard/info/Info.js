@@ -4,7 +4,9 @@ import Isloading from '../../../components/Isloading';
 import { setRestaurantData } from '../../../redux/slice/infoSlice';
 import { useDispatch, useSelector } from 'react-redux';
 const Info = () => {
+    const [isValidName, setIsValidName] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [isUploading, setUploading] = useState(false)
     const dispatch = useDispatch();
     const restaurantData = useSelector((state) => state.info.data);
     const token = localStorage.getItem('token');
@@ -23,27 +25,31 @@ const Info = () => {
     };
 
     const handleSubmit = async (e) => {
-        console.log(formData)
+        e.preventDefault();
+        setIsValidName(false);
+    
+        if (/[^a-zA-Z0-9 ]/g.test(formData.restaurantName)) {
+            return alert('Special characters are not allowed');
+        }
+    
         try {
-            e.preventDefault(); //https://menuserver-eight.vercel.app
-            const res = await axios.post("https://localhost:3002/restaurant", {
-                formData
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${token}`
-                }
-            })
-            setIsLoading(true)
-            dispatch(setRestaurantData(res.data.restaurant))
+            setUploading(true);
+            const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", { formData }, {
+                headers: { 'Content-Type': 'application/json', 'Authorization': token }
+            });
+    
+            setIsLoading(true);
+            dispatch(setRestaurantData(res.data.restaurant));
         } catch (error) {
-            console.log(error)
+            if (error.response?.status === 409) {
+                setIsValidName(true);
+            }
         } finally {
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 5000);
+            setUploading(false);
+            setTimeout(() => setIsLoading(false), 5000);
         }
     };
+    
 
     useEffect(() => {
         if (restaurantData) {
@@ -72,10 +78,14 @@ const Info = () => {
                         id="restaurantName"
                         value={formData.restaurantName}
                         onChange={handleChange}
-                        className="w-full p-2 sm:p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className={`${isValidName ? "border-red-500 border-1  ring-red-500 text-red-500" : "border-0 ring-gray-300 text-gray-900"} block px-3 w-full rounded-md py-[14px] shadow-sm ring-1 ring-inset  placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+
+                        // className="w-full p-2 sm:p-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter restaurant name"
                         required
                     />
+                    {isValidName && <p className="font-medium text-red-500 text-xs pt-1">Please use other name! It's already used</p>}
+
                 </div>
 
                 {/* Country */}
@@ -124,7 +134,8 @@ const Info = () => {
                     type="submit"
                     className="w-full bg-[#2cb75f] p-3  text-white font-semibold rounded-lg hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    Submit
+                    {isUploading ? <Isloading width="w-7" height="w-7" /> : "Submit"}
+
                 </button>
 
             </form>
