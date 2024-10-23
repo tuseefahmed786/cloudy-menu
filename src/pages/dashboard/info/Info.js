@@ -40,6 +40,18 @@ const Info = () => {
     
             setIsLoading(true);
             dispatch(setRestaurantData(res.data.restaurant));
+
+            e.preventDefault(); //https://menuserver-eight.vercel.app
+            const res = await axios.post("https://menuserver-eight.vercel.app/restaurant", {
+                formData
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${token}`
+                }
+            })
+            setIsLoading(true)
+            dispatch(setRestaurantData(res.data.restaurant))
         } catch (error) {
             if (error.response?.status === 409) {
                 setIsValidName(true);

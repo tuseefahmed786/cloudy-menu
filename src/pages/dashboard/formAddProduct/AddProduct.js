@@ -60,6 +60,46 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
                 })
                 addProductToSelectedCategory(createProduct.data.product)
                 setShow("edit")
+      if (editProduct && editProduct._id) {
+        setIsLoading(true)
+        
+        const selectedCategoryId = selectedCategory._id
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('id',editProduct._id)
+        
+        if (typeof image === 'string') {
+            formData.append('imageUrl', image);  // Pass existing image URL separately
+          } else {
+            formData.append('image', image); // Pass new image file
+          }//http://localhost:3002
+          const createProduct = await axios.put(`https://menuserver-eight.vercel.app/categories/${selectedCategoryId}/editProducts`, formData, {
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              }
+          })
+          addUpdatedProductsToArray(createProduct.data.updated)
+          setShow("edit")
+      }else{
+        setIsLoading(true)
+
+      if (name.length == 0 || price.length == 0 || description.length == 0) {
+        alert("empty")
+        setIsLoading(false)
+      }else{
+
+        const selectedCategoryId = selectedCategory._id
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('image', image);
+
+        const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCategoryId}/products`, formData, {
+            headers: {
+                'Content-Type':'multipart/form-data'
             }
         }
     };
@@ -79,6 +119,13 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
         }
     };
     
+    const deleteTheProduct = async () =>{
+        console.log(editProduct)
+        const deletedInDb = await axios.delete(`https://menuserver-eight.vercel.app/api/${editProduct._id}/deletedProduct`)
+        console.log(deletedInDb.data.deletedProduct)
+        deletedProductUpdated(deletedInDb.data.deletedProduct)
+        setShow("edit")
+    }
     return (
         <>
             <div className="flex px-3 justify-center h-full items-center">
