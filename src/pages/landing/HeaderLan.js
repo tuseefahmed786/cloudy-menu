@@ -18,16 +18,16 @@ const HeaderLan = () => {
                 <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">Cloud Menu </h1>
               </div>
               <div className="hidden justify-center gap-7 sm:-my-px sm:ml-6 md:flex">
-                <a href="#home" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
                   Home
-                </a>
+                </Link>
 
-                <a href="#pricing" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
                   Pricing
-                </a>
-                <a href="#pricing" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                </Link>
+                <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
                   About
-                </a>
+                </Link>
                 <a href="https://www.linkedin.com/company/cloud-menu-ae" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
                   Contact Us
                 </a>

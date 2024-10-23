@@ -14,6 +14,7 @@ const AddCategoryForm = (
   const [icons, seIcons] = useState([])
   const [isloading, setIsLoading] = useState(true)
   const [isLoadingAddBtn, setIsLoadingAddBtn] = useState(false)
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false)
 
   useEffect(() => {
     const getIcons = async () => {
@@ -68,6 +69,7 @@ const AddCategoryForm = (
   };
 
   const deleteTheCategory = async () => {
+    setIsLoadingDelete(true)
     try {
       const deletedCategory = await axios.delete(`https://menuserver-eight.vercel.app/categories/${editCategory._id}/deleteCategory`)
       console.log(deletedCategory.data)
@@ -75,6 +77,8 @@ const AddCategoryForm = (
       setShow("edit")
     } catch (error) {
       console.log("error in deleteTheCategory", error)
+    }finally{
+      setIsLoadingDelete(false)
     }
   }
 
@@ -127,7 +131,9 @@ const AddCategoryForm = (
             onClick={deleteTheCategory}
             className="w-full bg-red-500 mb-1 text-white p-2 rounded-full"
           >
-            Delete Category
+            
+            {isLoadingDelete ? <Isloading  width="w-6" height="h-6" /> : "Delete Category"}
+
           </button>
         }
         <button

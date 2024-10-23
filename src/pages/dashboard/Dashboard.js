@@ -46,9 +46,10 @@ const DashboardLayout = () => {
       const restaurantData = await axios.get("https://menuserver-eight.vercel.app/api/restaurantData",{
         headers:{
           'Authorization': `${token}`
-        }
+        }   
       })
       dispatch(setRestaurantData(restaurantData.data.restaurant)) 
+      console.log(restaurantData.data.restaurant)
     }
     getUserData()
   }, []) // check isValid token and validations 
@@ -60,7 +61,7 @@ const DashboardLayout = () => {
       const menuLink = `/${restaurantSlug}`;
       setFetchMenuLink(menuLink);
     }
-  }, [restaurantData?.name]);
+  }, [restaurantData.name]);
 
   return (
     <div className="flex flex-col sm:w-screen overflow-hidden sm:h-screen">

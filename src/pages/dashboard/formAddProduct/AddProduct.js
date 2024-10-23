@@ -1,14 +1,14 @@
 import axios from 'axios'
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Isloading from '../../../components/Isloading'
 
-function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdated,addProductToSelectedCategory,addUpdatedProductsToArray }) {
+function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpdated, addProductToSelectedCategory, addUpdatedProductsToArray }) {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState(null)
     const [isloading, setIsLoading] = useState(false)
-
+    const [isLoadingDelete, setIsLoadingDelete] = useState(false)
     useEffect(() => {
         if (editProduct) {
             setName(editProduct.name || '');
@@ -16,9 +16,50 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
             setDescription(editProduct.description || '');
             setImage(editProduct.imageUrl || null);
         }
-      }, [editProduct]);
+    }, [editProduct]);
 
     const handleAddProduct = async () => {
+        if (editProduct && editProduct._id) {
+            setIsLoading(true)
+            const selectedCategoryId = selectedCategory._id
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('price', price);
+            formData.append('description', description);
+            formData.append('id', editProduct._id)
+
+            if (typeof image === 'string') {
+                formData.append('imageUrl', image);  // Pass existing image URL separately
+            } else {
+                formData.append('image', image); // Pass new image file
+            }//http://localhost:3002
+            const createProduct = await axios.put(`https://menuserver-eight.vercel.app/categories/${selectedCategoryId}/editProducts`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            addUpdatedProductsToArray(createProduct.data.updated)
+            setShow("edit")
+        } else {
+            setIsLoading(true)
+            if (name.length == 0 || price.length == 0 || description.length == 0) {
+                alert("empty")
+                setIsLoading(false)
+            } else {
+                const selectedCategoryId = selectedCategory._id
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('price', price);
+                formData.append('description', description);
+                formData.append('image', image);
+
+                const createProduct = await axios.post(`https://menuserver-eight.vercel.app/categories/${selectedCategoryId}/products`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                addProductToSelectedCategory(createProduct.data.product)
+                setShow("edit")
       if (editProduct && editProduct._id) {
         setIsLoading(true)
         
@@ -60,12 +101,24 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
             headers: {
                 'Content-Type':'multipart/form-data'
             }
-        })
-        addProductToSelectedCategory(createProduct.data.product)
-        setShow("edit")
-      }
-      }
+        }
     };
+    const deleteTheProduct = async () => {
+        setIsLoadingDelete(true);
+        console.log("Delete started, loading set to true");
+        try {
+            const deletedInDb = await axios.delete(`https://menuserver-eight.vercel.app/api/${editProduct._id}/deletedProduct`);
+            console.log("Product deleted:", deletedInDb.data.deletedProduct);
+            deletedProductUpdated(deletedInDb.data.deletedProduct);
+            setShow("edit");
+        } catch (error) {
+            console.error("Error deleting the product:", error);
+        } finally {
+            setIsLoadingDelete(false); // Reset loading state to false
+            console.log("Delete finished, loading set to false");
+        }
+    };
+    
     const deleteTheProduct = async () =>{
         console.log(editProduct)
         const deletedInDb = await axios.delete(`https://menuserver-eight.vercel.app/api/${editProduct._id}/deletedProduct`)
@@ -122,14 +175,19 @@ function AddProduct({ setShow, selectedCategory,editProduct, deletedProductUpdat
                     </div>
                     {/* Add Button */}
 
-                    {editProduct&& <button
-                    onClick={deleteTheProduct}
-                    className='w-full bg-red-500 text-white p-2 mb-1  rounded-full'>Delete The Product</button>}
+                    {editProduct && <button
+                        onClick={deleteTheProduct}
+                        className='w-full bg-red-500 text-white p-2 mb-1  rounded-full'>
+
+                        {isLoadingDelete
+                         ? <Isloading width="w-6" height="h-6" /> : "Delete The Product"}
+
+                    </button>}
                     <button
                         onClick={handleAddProduct}
                         className="w-full bg-blue-500 text-white p-2  rounded-full"
                     >
-                       {isloading?<Isloading width="w-6" height="h-6"/>:"Add Product"}
+                        {isloading ? <Isloading width="w-6" height="h-6" /> : "Add Product"}
                     </button>
                 </div>
             </div>
