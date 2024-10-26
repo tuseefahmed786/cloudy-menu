@@ -21,28 +21,29 @@ function FetchMenu() {
     // Decode the slug to get the original name (replace '-' with ' ').
     const restaurantName = restaurant.replace(/-/g, ' ');
 
+
     useEffect(() => {
-        if (menuData.length === 0) { // Only fetch if data isn't already in Redux
-            const fetchMenuData = async () => {
-                try {
+        const fetchMenuData = async () => {
+            // setIsLoading(true); // Set loading to true at the start
+            try {
+                if (menuData.length === 0) { // Only fetch if data isn't already in Redux
                     const responseMenu = await axios.get(`https://menuserver-eight.vercel.app/menu/${restaurantName}`);
                     dispatch(setMenuData(responseMenu.data)); // Save to Redux
                     setGetResponse(responseMenu.data);
                     setselectedCateg(responseMenu?.data[0]);
-                } catch (error) {
-                    console.log("Error fetching menu data", error);
-                } finally {
-                    setIsLoading(false); // Stop loading whether there's an error or not
+                } else {
+                    setGetResponse(menuData);
                 }
-            };
-            fetchMenuData();
-        } else {
-            setGetResponse(menuData);
-            // setselectedCateg(menuData[0]);
-            setIsLoading(false); // Stop loading if data is already in Redux
-        }
+            } catch (error) {
+                console.log("Error fetching menu data", error);
+            } finally {
+                setIsLoading(false); // Set loading to false after the operation completes
+            }
+        };
+        fetchMenuData();
     }, [restaurantName, menuData, dispatch]);
-
+    
+    
     const selectedCatShowProducts = (category) => {
         setselectedCateg(category);
         const categorySlug = category.title.replace(/\s+/g, '-').toLowerCase();
@@ -59,7 +60,6 @@ function FetchMenu() {
         } else {
             setselectedCateg(menuData[0]); // Default to the first category
         }
-        setIsLoading(false);
     }, [menuData]);
 
 
@@ -73,7 +73,11 @@ function FetchMenu() {
     return (
         <>
             <div className="h-screen overflow-hidden max-w-[25rem] mx-auto bg-white h-full shadow-xl top-0 left-0 right-0">
-                {!isLoading ? (
+                {isLoading ?  // Show the loading component when isLoading is true
+                    <Isloading width="w-14" height="h-14" />
+                  
+
+                 :  // Show the content when isLoading is false
                     <div className='group-home'>
                         <div className="restaurantName py-3 px-4 flex justify-between">
                             <Link to={`/${restaurant}/info`}>
@@ -87,7 +91,7 @@ function FetchMenu() {
                                 <Category activeCat={selectedCateg} key={e._id} id={e} selectedCateg={selectedCatShowProducts} />
                             ))}
                         </div>
-
+    
                         {selectedCateg && selectedCateg.products && selectedCateg.products.length > 0 ? (
                             <h1 className='px-4 text-[1.2rem]'>{selectedCateg.title}</h1>
                         ) : ""}
@@ -99,12 +103,11 @@ function FetchMenu() {
                             ) : ""}
                         </div>
                     </div>
-                ) : (
-                    <Isloading width="w-14" height="h-14" optionaltext={`we are fetching ${restaurantName}`} />
-                )}
+                }
             </div>
         </>
     );
+    
 }
 
 const Category = ({ activeCat, selectedCateg, id }) => (

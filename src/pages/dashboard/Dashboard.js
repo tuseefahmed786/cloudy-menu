@@ -31,6 +31,7 @@ const DashboardLayout = () => {
         });
         setIsActive(location.pathname.split('/').pop());
       } catch (error) {
+       console.log(error)
         navigate("/login");
       }
     };
@@ -45,6 +46,10 @@ const DashboardLayout = () => {
         console.error("Error fetching restaurant data:", error);
       }
     };
+
+    if (restaurantData.length == 0) {
+      getUserData();
+    } 
 
     verifyToken();
     getUserData();

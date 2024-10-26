@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Isloading({ width, height,optionaltext }) {
+function Isloading({ width, height }) {
   return (
     <>
       <div className='flex justify-center items-center w-full h-full flex-col gap-7'>

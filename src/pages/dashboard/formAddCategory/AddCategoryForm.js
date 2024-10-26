@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Isloading from "../../../components/Isloading";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchIcons } from "../../../redux/slice/fetchIconsCategory";
 const AddCategoryForm = (
   { setShow,
     addNewCategoryInExistingArray,
@@ -16,14 +18,18 @@ const AddCategoryForm = (
   const [isLoadingAddBtn, setIsLoadingAddBtn] = useState(false)
   const [isLoadingDelete, setIsLoadingDelete] = useState(false)
 
+  const dispatch = useDispatch()
+  const fetchAllIcons = useSelector((state) => state.fetchAllIcons.icons)
+
   useEffect(() => {
-    const getIcons = async () => {
-      const res = await axios.get("https://menuserver-eight.vercel.app/icons")
-      seIcons(res.data)
-      setIsLoading(false)
+    if (!fetchAllIcons || fetchAllIcons.length === 0) {
+      dispatch(fetchIcons("https://menuserver-eight.vercel.app/icons")).finally(() => {
+        setIsLoading(false);
+      });
+    } else {
+      setIsLoading(false);
     }
-    getIcons()
-  }, [])
+  }, [dispatch, fetchAllIcons]);
 
   useEffect(() => {
     if (editCategory) {
@@ -47,24 +53,24 @@ const AddCategoryForm = (
       editCategoryFunction(updatedCategory.data.category)
       setShow("edit")
     } else { //https://menuserver-eight.vercel.app
-    
-    if (title.length == 0) {
-      alert("empty")
-    }else{
-      setIsLoadingAddBtn(true)
-      const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
-        title,
-        selectedIcon
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `${token}`,
-        }
-      })
-      addNewCategoryInExistingArray(createCategory.data.category)
-      setShow("edit")
-    }
-    
+
+      if (title.length == 0) {
+        alert("empty")
+      } else {
+        setIsLoadingAddBtn(true)
+        const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
+          title,
+          selectedIcon
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`,
+          }
+        })
+        addNewCategoryInExistingArray(createCategory.data.category)
+        setShow("edit")
+      }
+
     }
   };
 
@@ -77,7 +83,7 @@ const AddCategoryForm = (
       setShow("edit")
     } catch (error) {
       console.log("error in deleteTheCategory", error)
-    }finally{
+    } finally {
       setIsLoadingDelete(false)
     }
   }
@@ -110,7 +116,7 @@ const AddCategoryForm = (
         {isloading ? <Isloading width="w-14" height="h-14" /> : <div className="mb-4 overflow-y-scroll max-h-[260px] w-full">
           <label className="block text-gray-700 mb-2">Choose icon (Optional)</label>
           <div className="flex items-center py-3 sm:py-5 justify-center flex-wrap h-[100%] gap-2 sm:gap-4">
-            {icons.map((icon, index) => (
+            {fetchAllIcons?.map((icon, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedIcon(icon.url)}
@@ -131,8 +137,8 @@ const AddCategoryForm = (
             onClick={deleteTheCategory}
             className="w-full bg-red-500 mb-1 text-white p-2 rounded-full"
           >
-            
-            {isLoadingDelete ? <Isloading  width="w-6" height="h-6" /> : "Delete Category"}
+
+            {isLoadingDelete ? <Isloading width="w-6" height="h-6" /> : "Delete Category"}
 
           </button>
         }
@@ -140,7 +146,7 @@ const AddCategoryForm = (
           onClick={handleAddCategory}
           className="w-full bg-blue-500 text-white p-2 rounded-full"
         >
-          {isLoadingAddBtn ? <Isloading  width="w-6" height="h-6" /> : "Add Category"}
+          {isLoadingAddBtn ? <Isloading width="w-6" height="h-6" /> : "Add Category"}
         </button>
       </div>
     </div>

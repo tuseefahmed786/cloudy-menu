@@ -5,21 +5,21 @@ import AddProduct from "../formAddProduct/AddProduct";
 import Isloading from "../../../components/Isloading";
 import editIcon from "../../../assests/edit-text.png"
 import addIcon from "../../../assests/add-basket.png"
-import logo from "../../../assests/logo.svg"
-import account from "../../../assests/account.svg"
-import cart from "../../../assests/cart.svg"
 import addDish from "../../../assests/add-alert.png"
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMenuApi } from "../../../redux/slice/fetchMenuForEdit"
 // import icon from './coffee-cup.png'
+
 const EditMenu = () => {
   const [show, setShow] = useState("edit")
   const [allCategories, setAllCategories] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState({ products: [] });
   const [editCategory, setEditCategory] = useState([])
   const [isloading, setIsLoading] = useState(true)
   const [selectedProduct, setSelectedProduct] = useState([])
 
+  const dispatch = useDispatch();
+  const menuData = useSelector((state) => state.fetchMenuForEdit.items);
   const createNewCategory = () => {
     setShow("category") // show Category Form for creating Category
     setEditCategory('')  // it will remove selected Category data if we have selected because here we want create new Category.
@@ -44,8 +44,8 @@ const EditMenu = () => {
   }
 
   const deletedTheCategory = (id) => {
-    setAllCategories((prev)=>{
-     const updatedCategory = prev.filter((e)=> e._id !== id)
+    setAllCategories((prev) => {
+      const updatedCategory = prev.filter((e) => e._id !== id)
       if (updatedCategory.length > 0) {
         setSelectedCategory(updatedCategory[0]); // Set the first category
       } else {
@@ -55,24 +55,24 @@ const EditMenu = () => {
     })
   }
 
+  // Fetch categories when the component mounts
   useEffect(() => {
-    const fetchCategories = async () => {
-      const UserId = localStorage.getItem('token')
-      try {//https://menuserver-eight.vercel.app
-        const response = await axios.get('https://menuserver-eight.vercel.app/categories', {
-          headers: {
-            'Authorization': `${UserId}`
-          }
-        });
-        setAllCategories(response.data)
-        setSelectedCategory(response?.data[0])
-        setIsLoading(false)
-      } catch (err) {
-        console.log(err)
-      }
-    };
-    fetchCategories()
-  }, [])
+    if (menuData.length === 0) {
+      dispatch(fetchMenuApi('https://menuserver-eight.vercel.app/categories'));
+    }
+  }, [dispatch, menuData.length]);
+
+  // Update state when menuData changes
+  useEffect(() => {
+    if (menuData.length > 0) {
+      setAllCategories(menuData);
+      setSelectedCategory(menuData[0]);
+    } else {
+      setAllCategories([]); // Set to an empty array if no categories are found
+    }
+    setIsLoading(false);
+  }, [menuData]);
+  // Re-run whenever menuData updates
 
   const addNewCategoryIntoArray = (newCategory) => {
     setAllCategories((prev) => [
@@ -164,7 +164,7 @@ const EditMenu = () => {
         products: updatedProducts,
       };
     });
-  
+
     // Update all categories
     setAllCategories((prev) => {
       return prev.map((category) => {
@@ -178,7 +178,7 @@ const EditMenu = () => {
       });
     });
   };
-  
+
 
 
   return (
@@ -201,11 +201,23 @@ const EditMenu = () => {
                     <img src={addIcon} className="w-10 sm:w-[52px]" width={52} alt="addicon" />
                     <span className="mt-4 text-sm">Add</span>
                   </div>
-                  {allCategories.length > 0 ?
-                    allCategories?.map((e) => {
-                      return <Category key={e._id} editCategory={editExistingCategory} activeCat={selectedCategory} id={e} selectedCategory={selectedCategoryForProducts} />
-                    }): <p>Add the Category</p>
-                  }
+
+
+                  {allCategories.length > 0 ? (
+                    allCategories.map((e) => (
+                      <Category
+                        key={e._id}
+                        editCategory={editExistingCategory}
+                        activeCat={selectedCategory}
+                        id={e}
+                        selectedCategory={selectedCategoryForProducts}
+                      />
+                    ))
+                  ) : (
+                    <p>Add the Category</p>
+                  )}
+
+
                 </div>
 
                 <div className="scrollx h-[calc(100vh-220px)] pb-8 overflow-y-auto flex flex-wrap">
@@ -217,16 +229,20 @@ const EditMenu = () => {
                     </div>
                   }
 
-                  <div className="w-full flex-grow h-full" >
-                    {selectedCategory && (
-                      <>{selectedCategory.products.length > 0 ?
-                        selectedCategory.products.map((product) => {
-                          return <DishCard key={product._id} productInfo={product} selectProduct={editExistingProduct} />
-                        })
-                        : <p className="p-5">you don't have any product in this category</p>
-                      }</>
+                  <div className="w-full flex-grow h-full">
+                    {selectedCategory && selectedCategory.products && Array.isArray(selectedCategory.products) ? (
+                      selectedCategory.products.length > 0 ? (
+                        selectedCategory.products.map((product) => (
+                          <DishCard key={product._id} productInfo={product} selectProduct={editExistingProduct} />
+                        ))
+                      ) : (
+                        <p className="p-5">You don't have any product in this category</p>
+                      )
+                    ) : (
+                      <p className="p-5">Loading products...</p>
                     )}
                   </div>
+
                 </div> </>
             }
           </>}
@@ -244,12 +260,11 @@ const EditMenu = () => {
           selectedCategory={selectedCategory}
           editProduct={selectedProduct}
           addUpdatedProductsToArray={updatedProductIntoSelectedCategory}
-          addProductToSelectedCategory={addNewProductToSelectedCategory} 
+          addProductToSelectedCategory={addNewProductToSelectedCategory}
           deletedProductUpdated={deleteProductFromSelectedCategory}
-          /> }
+        />}
 
       </div>
-
 
     </>
   );
