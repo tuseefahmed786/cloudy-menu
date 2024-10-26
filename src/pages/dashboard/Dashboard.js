@@ -31,7 +31,7 @@ const DashboardLayout = () => {
         });
         setIsActive(location.pathname.split('/').pop());
       } catch (error) {
-        console.log(error)
+       console.log(error)
         navigate("/login");
       }
     };
@@ -41,7 +41,6 @@ const DashboardLayout = () => {
         const response = await axios.get("https://menuserver-eight.vercel.app/api/restaurantData", {
           headers: { 'Authorization': token },
         });
-        console.log(response.data.restaurant)
         dispatch(setRestaurantData(response.data.restaurant));
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
@@ -53,6 +52,9 @@ const DashboardLayout = () => {
     }
   }, [dispatch, location.pathname, navigate]);
 
+    verifyToken();
+    getUserData();
+  }, [dispatch, location.pathname, navigate]);
 
   useEffect(() => {
     const name = restaurantData.name;
