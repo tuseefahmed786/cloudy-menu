@@ -7,7 +7,6 @@ const infoRestaurant = createSlice({
       },
     reducers: {
         setRestaurantData: (state, action) => {
-            console.log(state.data)
             state.data = action.payload
         }
     }
