@@ -49,8 +49,7 @@ const DashboardLayout = () => {
 
     if (restaurantData.length == 0) {
       getUserData();
-    }
-  }, [dispatch, location.pathname, navigate]);
+    } 
 
     verifyToken();
     getUserData();
