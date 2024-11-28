@@ -76,7 +76,7 @@ const EditMenu = () => {
 
 
   useEffect(() => {
-    // Fetch categories if they are not already in the state
+    // Fetch categories if they are not already in the  state
     if (menuData.length === 0) {
       dispatch(fetchMenuApi('/categories'));
     } else {
