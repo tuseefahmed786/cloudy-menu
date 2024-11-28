@@ -1,6 +1,6 @@
 // Redux slice (menuSlice.js)
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../axios'
 const UserId = localStorage.getItem('token')
 
 // Thunk to fetch menu data

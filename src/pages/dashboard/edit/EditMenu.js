@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AddCategoryForm from "../formAddCategory/AddCategoryForm";
 import AddProduct from "../formAddProduct/AddProduct";
@@ -8,14 +7,13 @@ import addIcon from "../../../assests/add-basket.png"
 import addDish from "../../../assests/add-alert.png"
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMenuApi } from "../../../redux/slice/fetchMenuForEdit"
-// import icon from './coffee-cup.png'
 
 const EditMenu = () => {
   const [show, setShow] = useState("edit")
   const [allCategories, setAllCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState({ products: [] });
   const [editCategory, setEditCategory] = useState([])
-  const [isloading, setIsLoading] = useState(true)
+  const [isloading, setIsLoading] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState([])
 
   const dispatch = useDispatch();
@@ -56,22 +54,39 @@ const EditMenu = () => {
   }
 
   // Fetch categories when the component mounts
-  useEffect(() => {
-    if (menuData.length === 0) {
-      dispatch(fetchMenuApi('https://menuserver-eight.vercel.app/categories'));
-    }
-  }, [dispatch, menuData.length]);
+  // useEffect(() => {
+  //   if (menuData.length === 0) {
+  //     dispatch(fetchMenuApi('/categories'));
+  //   }
+  // }, [dispatch, menuData.length]);
 
-  // Update state when menuData changes
+  // // Update state when menuData changes
+  // useEffect(() => {
+  //   console.log(menuData.length)
+  //   if (menuData.length > 0) {
+  //     setAllCategories(menuData);
+  //     setSelectedCategory(menuData[0]);
+  //     setIsLoading(false)
+  //   } else {
+  //     setAllCategories([]);
+  //     // Set to an empty array if no categories are found
+  //   }
+  // }, [menuData]);
+
+
+
   useEffect(() => {
-    if (menuData.length > 0) {
-      setAllCategories(menuData);
-      setSelectedCategory(menuData[0]);
+    // Fetch categories if they are not already in the state
+    if (menuData.length === 0) {
+      dispatch(fetchMenuApi('/categories'));
     } else {
-      setAllCategories([]); // Set to an empty array if no categories are found
+      // Update local states when menuData is available
+      setAllCategories(menuData);
+      setSelectedCategory(menuData[0] || null); // Handle empty categories
     }
-    setIsLoading(false);
-  }, [menuData]);
+  }, [dispatch, menuData]);
+
+
   // Re-run whenever menuData updates
 
   const addNewCategoryIntoArray = (newCategory) => {
@@ -179,73 +194,68 @@ const EditMenu = () => {
     });
   };
 
-
+  if (isloading) {
+    return <Isloading width="w-14" height="h-14" />
+  }
 
   return (
     <>
 
-      {/* absolute  h-full*/}
-      <div className="w-full max-w-[25rem] mx-auto h-full bg-white sm:shadow-xl">
-        {isloading ? <Isloading width="w-14" height="h-14" /> :
+      {/* absolute  h-full  */}
+      <div className="w-full max-w-[25rem] flex flex-col mx-auto h-full bg-white sm:shadow-xl">
+
+        {
+          show == "edit" &&
           <>
-            {
-              show == "edit" &&
-              <>
-                {/* <div className="hidden restaurantName px-3 py-3 sm:flex justify-between">
-                  <img width={20} src={account} alt="account's" />
-                  <img width={70} src={logo} alt="logo's" />
-                  <img width={30} src={cart} alt="account's" />
-                </div> scroll-with-w*/}
-                <div className="flex cursor-pointer scrollx pb-3 items-center gap-7 sm:gap-[2.5rem] sm:pt-5 sm:pb-3 sm:mb-2 pl-3 sm:pl-5 overflow-x-auto">
-                  <div className="flex-shrink-0 flex cursor-pointer flex-col items-center" onClick={createNewCategory}>
-                    <img src={addIcon} className="w-10 sm:w-[52px]" width={52} alt="addicon" />
-                    <span className="mt-4 text-sm">Add</span>
-                  </div>
+            <div className="flex cursor-pointer scrollx pb-3 items-center gap-7 sm:gap-[2.5rem] sm:pt-5 sm:pb-3 sm:mb-2 pl-3 sm:pl-5 overflow-x-auto">
+              <div className="flex-shrink-0 flex cursor-pointer flex-col items-center" onClick={createNewCategory}>
+                <img src={addIcon} className="w-10 sm:w-[52px]" width={52} alt="addicon" />
+                <span className="mt-4 text-sm">Add</span>
+              </div>
 
 
-                  {allCategories.length > 0 ? (
-                    allCategories.map((e) => (
-                      <Category
-                        key={e._id}
-                        editCategory={editExistingCategory}
-                        activeCat={selectedCategory}
-                        id={e}
-                        selectedCategory={selectedCategoryForProducts}
-                      />
+              {allCategories.length > 0 ? (
+                allCategories.map((e) => (
+                  <Category
+                    key={e._id}
+                    editCategory={editExistingCategory}
+                    activeCat={selectedCategory}
+                    id={e}
+                    selectedCategory={selectedCategoryForProducts}
+                  />
+                ))
+              ) : (
+                <p>Add the Category</p>
+              )}
+
+
+            </div>
+            <div className="scrol flex-1 overflow-y-auto flex flex-col">
+
+              {allCategories.length > 0 &&
+                <div onClick={createNewProduct} className="cursor-pointer flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
+                  <img src={addDish} width={30} className="w-6 sm:w-8" alt="add dish" />
+                  <span className="text-[#5d5d5d]">Add new dish</span>
+                </div>
+              }
+
+              <div className="w-full flex-grow">
+                {selectedCategory && selectedCategory.products && Array.isArray(selectedCategory.products) ? (
+                  selectedCategory.products.length > 0 ? (
+                    selectedCategory.products.map((product) => (
+                      <DishCard key={product._id} productInfo={product} selectProduct={editExistingProduct} />
                     ))
                   ) : (
-                    <p>Add the Category</p>
-                  )}
+                    <p className="p-5">You don't have any product in this category</p>
+                  )
+                ) : (
+                  <p className="p-5">Loading products...</p>
+                )}
+              </div>
 
-
-                </div>
-
-                <div className="scrollx h-[calc(100vh-220px)] pb-8 overflow-y-auto flex flex-wrap">
-
-                  {allCategories.length > 0 &&
-                    <div onClick={createNewProduct} className="cursor-pointer mx-2 sm:mx-3 flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
-                      <img src={addDish} width={30} className="w-6 sm:w-8" alt="add dish" />
-                      <span className="text-[#5d5d5d]">Add new dish</span>
-                    </div>
-                  }
-
-                  <div className="w-full flex-grow h-full">
-                    {selectedCategory && selectedCategory.products && Array.isArray(selectedCategory.products) ? (
-                      selectedCategory.products.length > 0 ? (
-                        selectedCategory.products.map((product) => (
-                          <DishCard key={product._id} productInfo={product} selectProduct={editExistingProduct} />
-                        ))
-                      ) : (
-                        <p className="p-5">You don't have any product in this category</p>
-                      )
-                    ) : (
-                      <p className="p-5">Loading products...</p>
-                    )}
-                  </div>
-
-                </div> </>
-            }
-          </>}
+            </div>
+          </>
+        }
 
         {show == "category" && <AddCategoryForm
           setShow={setShow} // setShow for remove this form
