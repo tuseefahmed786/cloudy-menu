@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import axios from '../../../axios'
 import Isloading from "../../../components/Isloading";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIcons } from "../../../redux/slice/fetchIconsCategory";
@@ -23,7 +23,7 @@ const AddCategoryForm = (
 
   useEffect(() => {
     if (!fetchAllIcons || fetchAllIcons.length === 0) {
-      dispatch(fetchIcons("https://menuserver-eight.vercel.app/icons")).finally(() => {
+      dispatch(fetchIcons("/icons")).finally(() => {
         setIsLoading(false);
       });
     } else {
@@ -42,7 +42,7 @@ const AddCategoryForm = (
     const token = localStorage.getItem('token');
     if (editCategory && editCategory._id) {
       setIsLoadingAddBtn(true)
-      const updatedCategory = await axios.put(`https://menuserver-eight.vercel.app/updatedCategory/${editCategory._id}`, {
+      const updatedCategory = await axios.put(`/updatedCategory/${editCategory._id}`, {
         title,
         selectedIcon
       }, {
@@ -58,7 +58,7 @@ const AddCategoryForm = (
         alert("empty")
       } else {
         setIsLoadingAddBtn(true)
-        const createCategory = await axios.post("https://menuserver-eight.vercel.app/addCategory", {
+        const createCategory = await axios.post("/addCategory", {
           title,
           selectedIcon
         }, {
@@ -77,7 +77,7 @@ const AddCategoryForm = (
   const deleteTheCategory = async () => {
     setIsLoadingDelete(true)
     try {
-      const deletedCategory = await axios.delete(`https://menuserver-eight.vercel.app/categories/${editCategory._id}/deleteCategory`)
+      const deletedCategory = await axios.delete(`/categories/${editCategory._id}/deleteCategory`)
       console.log(deletedCategory.data)
       deleteCategory(editCategory._id)
       setShow("edit")
@@ -113,7 +113,7 @@ const AddCategoryForm = (
         </div>
 
         {/* Icon Selection */}
-        {isloading ? <Isloading width="w-14" height="h-14" /> : <div className="mb-4 overflow-y-scroll max-h-[260px] w-full">
+        {isloading ? <Isloading width="w-14" height="h-14" /> : <div className="mb-4 overflow-y-scroll flex-1 w-full">
           <label className="block text-gray-700 mb-2">Choose icon (Optional)</label>
           <div className="flex items-center py-3 sm:py-5 justify-center flex-wrap h-[100%] gap-2 sm:gap-4">
             {fetchAllIcons?.map((icon, index) => (

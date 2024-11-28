@@ -2,47 +2,50 @@ import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import slugify from 'slugify';
 import logo from '../../assests/favicon.png';
-import axios from 'axios';
+import axios from '../../axios'
 import menu from "../../assests/menu-button.png";
 import info from "../../assests/info.png";
 import qr from "../../assests/qr.png";
 import view from "../../assests/view.png";
 import { useDispatch, useSelector } from 'react-redux';
 import { setRestaurantData } from '../../redux/slice/infoSlice';
+import Isloading from '../../components/Isloading';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const [fetchMenuLink, setFetchMenuLink] = useState('');
   const [isActive, setIsActive] = useState('');
+  const [isloading, setIsLoading] = useState(false)
   const restaurantData = useSelector((state) => state.info.data);
   const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    setIsActive(location.pathname.split('/').pop());
     if (!token) {
       navigate("/login");
     }
 
     const verifyToken = async () => {
+      setIsLoading(true)
       try {
-        await axios.get('https://menuserver-eight.vercel.app/verifytoken', {
+        await axios.get('/verifytoken', {
           headers: { 'Authorization': token },
         });
-        setIsActive(location.pathname.split('/').pop());
       } catch (error) {
         console.log(error)
         navigate("/login");
       }
     };
-
     const getUserData = async () => {
       try {
-        const response = await axios.get("https://menuserver-eight.vercel.app/api/restaurantData", {
+        const response = await axios.get("/api/restaurantData", {
           headers: { 'Authorization': token },
         });
-        console.log(response.data.restaurant)
+        console.log(response.data)
         dispatch(setRestaurantData(response.data.restaurant));
+        setIsLoading(false)
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
       }
@@ -50,18 +53,30 @@ const DashboardLayout = () => {
 
     if (restaurantData.length == 0) {
       getUserData();
+      verifyToken()
+
     }
   }, [dispatch, location.pathname, navigate]);
 
 
   useEffect(() => {
     const name = restaurantData.name;
+    console.log(name)
     if (name) {
       const restaurantSlug = slugify(name, { lower: true });
       setFetchMenuLink(`/${restaurantSlug}`);
     }
-  }, [restaurantData.name]);
+  }, [restaurantData?.name]);
 
+  if (isloading) {
+    return (
+      <>
+        <div className='h-screen flex justify-center items-center'>
+          <Isloading width="w-20" height="h-20" />
+        </div>
+      </>
+    )
+  }
   return (
     <div className="flex flex-col sm:w-screen overflow-hidden sm:h-screen">
       {/* Header and navigation code */}
@@ -86,7 +101,7 @@ const DashboardLayout = () => {
           </div>
         </div>
       </div>
-      <div className='flex flex-grow flex-col sm:flex-row'>
+      <div className='flex h-[80%] flex-grow flex-col sm:flex-row'>
         <aside className="sm:w-1/5 sm:bg-[#ffffff] text-white p-4 border-r">
           <div className='scrollx flex sm:flex-col overflow-scroll sm:overflow-hidden'>
             {/* Navigation Links */}
@@ -97,7 +112,7 @@ const DashboardLayout = () => {
               </div>
             </Link>
             <Link to="info">
-              <div id="info" onClick={(e) => setIsActive(e.target.id)} className={`${isActive === "info" ? "border-b-2 border-b-black sm:text-white sm:bg-green-500" : "sm:bg-[#f1f4f9]"} gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}>
+              <div id="info" onClick={(e) => setIsActive(e.target.id)} className={`${isActive === "info" || isActive === "logo" ? "border-b-2 border-b-black sm:text-white sm:bg-green-500" : "sm:bg-[#f1f4f9]"} gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}>
                 <img src={info} className='hidden sm:block w-4' alt='' />
                 Information
               </div>
@@ -114,9 +129,18 @@ const DashboardLayout = () => {
                 Download QR
               </div>
             </Link>
+            <Link to="subscription">
+              <div id="subscription" onClick={(e) => setIsActive(e.target.id)} className={`${isActive === "subscription" || isActive === "subscription" ? "border-b-2 border-b-black sm:text-white sm:bg-green-500" : "sm:bg-[#f1f4f9]"} gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}>
+                <img src={info} className='hidden sm:block w-4' alt='' />
+                subscription
+              </div>
+            </Link>
           </div>
         </aside>
-        <main className="sm:w-[80%] sm:px-2 sm:h- sm:overflow-hidden bg-white sm:bg-gray-100">
+
+        {/* 
+        //sm:overflow-hidden h-[90%] */}
+        <main className="sm:w-[80%] h-full overflow-y-scroll sm:px-2  bg-white sm:bg-gray-100">
           <Outlet />
         </main>
       </div>
