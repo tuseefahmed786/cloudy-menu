@@ -22,7 +22,6 @@ const Info = () => {
                     </li>
                     <li className={`${activeSection == "logo" ? 'border-b-2 border-b-[#22c55e]':''} py-3 px-9 border-r`}>
                         <Link to="logo" className='text-sm'>Appearance</Link>
-
                     </li>
                 </ul>
 

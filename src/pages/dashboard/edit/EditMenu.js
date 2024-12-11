@@ -6,18 +6,18 @@ import editIcon from "../../../assests/edit-text.png"
 import addIcon from "../../../assests/add-basket.png"
 import addDish from "../../../assests/add-alert.png"
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMenuApi } from "../../../redux/slice/fetchMenuForEdit"
+import { fetchMenuApi, selectCategory } from "../../../redux/slice/fetchMenuForEdit"
 
 const EditMenu = () => {
   const [show, setShow] = useState("edit")
   const [allCategories, setAllCategories] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState({ products: [] });
   const [editCategory, setEditCategory] = useState([])
-  const [isloading, setIsLoading] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState([])
-
+  const [isLoading, setisLoading] = useState(true)
   const dispatch = useDispatch();
-  const menuData = useSelector((state) => state.fetchMenuForEdit.items);
+  const { categories: menuData, fetched, selectedCategory, loading, error } = useSelector((state) => state.fetchMenuForEdit);
+
+
   const createNewCategory = () => {
     setShow("category") // show Category Form for creating Category
     setEditCategory('')  // it will remove selected Category data if we have selected because here we want create new Category.
@@ -35,166 +35,25 @@ const EditMenu = () => {
 
   const editExistingProduct = (id) => {
     setShow("product") // show the product form for editing the old product.
-    setSelectedProduct(id) // selected the click product useState > product > getByID
+    setSelectedProduct(id)
   }
+
   const selectedCategoryForProducts = (id) => {
-    setSelectedCategory(id)
+    dispatch(selectCategory(id))
   }
-
-  const deletedTheCategory = (id) => {
-    setAllCategories((prev) => {
-      const updatedCategory = prev.filter((e) => e._id !== id)
-      if (updatedCategory.length > 0) {
-        setSelectedCategory(updatedCategory[0]); // Set the first category
-      } else {
-        setSelectedCategory(null); // Clear selectedProduct if no categories are left
-      }
-      return updatedCategory
-    })
-  }
-
-  // Fetch categories when the component mounts
-  // useEffect(() => {
-  //   if (menuData.length === 0) {
-  //     dispatch(fetchMenuApi('/categories'));
-  //   }
-  // }, [dispatch, menuData.length]);
-
-  // // Update state when menuData changes
-  // useEffect(() => {
-  //   console.log(menuData.length)
-  //   if (menuData.length > 0) {
-  //     setAllCategories(menuData);
-  //     setSelectedCategory(menuData[0]);
-  //     setIsLoading(false)
-  //   } else {
-  //     setAllCategories([]);
-  //     // Set to an empty array if no categories are found
-  //   }
-  // }, [menuData]);
-
-
 
   useEffect(() => {
     // Fetch categories if they are not already in the  state
-    if (menuData.length === 0) {
+    if (menuData.length == 0 && fetched == false) {
       dispatch(fetchMenuApi('/categories'));
     } else {
       // Update local states when menuData is available
       setAllCategories(menuData);
-      setSelectedCategory(menuData[0] || null); // Handle empty categories
+      setisLoading(false)
     }
   }, [dispatch, menuData]);
 
-
-  // Re-run whenever menuData updates
-
-  const addNewCategoryIntoArray = (newCategory) => {
-    setAllCategories((prev) => [
-      ...prev,
-      newCategory
-    ])
-    setSelectedCategory(newCategory)
-  }
-
-  const editCategoryIntoArray = (newCategory) => {
-    setAllCategories((prev) => {
-      return prev.map((category) => {
-        if (category._id == newCategory._id) {
-          return {
-            ...newCategory,
-            products: [...category.products]
-          }
-        }
-        return category
-      }
-      )
-    })
-    setSelectedCategory(newCategory)
-
-  }
-
-  const addNewProductToSelectedCategory = (newProduct) => {
-    if (selectedCategory) {
-      setSelectedCategory((prev) => ({
-        ...prev,
-        products: [...prev.products, newProduct],
-      })); // this function add new products in selected category and we don't need to query in backend
-
-      setAllCategories((prevCategories) => {
-        return prevCategories.map((foundCategory) => {
-          if (foundCategory._id == selectedCategory._id) {
-            return {
-              ...foundCategory,
-              products: [...foundCategory.products, newProduct],
-            }
-          }
-          return foundCategory
-        })
-      }) // this function add updated cat/products in original api and here is also we dont need to fetch again in db
-    }
-
-  }; // 
-
-  const updatedProductIntoSelectedCategory = (updatedProduct) => {
-    setSelectedCategory((prevCategory) => {
-      // Map through the products in the selected category to update the one with the matching _id
-      const updatedProducts = prevCategory.products.map((product) =>
-        product._id === updatedProduct._id ? updatedProduct : product
-      );
-      // Return the category with the updated products array
-      return {
-        ...prevCategory,
-        products: updatedProducts,
-      };
-    }); // here we are adding updated/edit product into selected category
-
-    setAllCategories((prev) => {
-      return prev.map((category) => {
-        if (category._id === selectedCategory._id) {
-          const updatedProducts = category.products.map((product) => {
-            if (product._id === updatedProduct._id) {
-              return { ...product, ...updatedProduct };
-            }
-            return product;
-          });
-
-          // Return the updated category with modified products
-          return { ...category, products: updatedProducts };
-        }
-        return category;
-      });
-    }); // here we are adding updated/edited product into original array
-  };
-
-  const deleteProductFromSelectedCategory = (productId) => {
-    // Update the selected category
-    console.log(productId)
-    setSelectedCategory((prevCategory) => {
-      // Filter out the product with the matching _id to delete it
-      const updatedProducts = prevCategory.products.filter((product) => product._id !== productId._id);
-      // Return the category with the updated products array
-      return {
-        ...prevCategory,
-        products: updatedProducts,
-      };
-    });
-
-    // Update all categories
-    setAllCategories((prev) => {
-      return prev.map((category) => {
-        if (category._id === selectedCategory._id) {
-          // Filter out the product with the matching _id in the current category
-          const updatedProducts = category.products.filter((product) => product._id !== productId._id);
-          // Return the updated category with modified products
-          return { ...category, products: updatedProducts };
-        }
-        return category;
-      });
-    });
-  };
-
-  if (isloading) {
+  if (loading || isLoading) {
     return <Isloading width="w-14" height="h-14" />
   }
 
@@ -233,10 +92,12 @@ const EditMenu = () => {
             <div className="scrol flex-1 overflow-y-auto flex flex-col">
 
               {allCategories.length > 0 &&
-                <div onClick={createNewProduct} className="cursor-pointer flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
+               <div className="px-2">
+                 <div onClick={createNewProduct} className="cursor-pointer flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4">
                   <img src={addDish} width={30} className="w-6 sm:w-8" alt="add dish" />
                   <span className="text-[#5d5d5d]">Add new dish</span>
                 </div>
+               </div>
               }
 
               <div className="w-full flex-grow">
@@ -249,7 +110,7 @@ const EditMenu = () => {
                     <p className="p-5">You don't have any product in this category</p>
                   )
                 ) : (
-                  <p className="p-5">Loading products...</p>
+                  <p className="p-5">You have need to create category</p>
                 )}
               </div>
 
@@ -258,20 +119,14 @@ const EditMenu = () => {
         }
 
         {show == "category" && <AddCategoryForm
-          setShow={setShow} // setShow for remove this form
-          editCategoryFunction={editCategoryIntoArray} // It will get updated edit category data. and then it will be add data in original array
-          editCategory={editCategory} // it will pass selected category id for editing the category
-          addNewCategoryInExistingArray={addNewCategoryIntoArray} // It will get new category data. and then it will be added data in original array
-          deleteCategory={deletedTheCategory}
+          setShow={setShow}
+          editCategory={editCategory}
         />}
 
         {show == "product" && <AddProduct
           setShow={setShow}
           selectedCategory={selectedCategory}
           editProduct={selectedProduct}
-          addUpdatedProductsToArray={updatedProductIntoSelectedCategory}
-          addProductToSelectedCategory={addNewProductToSelectedCategory}
-          deletedProductUpdated={deleteProductFromSelectedCategory}
         />}
 
       </div>

@@ -3,21 +3,18 @@ import axios from '../../../axios'
 import Isloading from "../../../components/Isloading";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIcons } from "../../../redux/slice/fetchIconsCategory";
+import { addCategory, deleteCategory, editCategories } from "../../../redux/slice/fetchMenuForEdit";
 const AddCategoryForm = (
   { setShow,
-    addNewCategoryInExistingArray,
     editCategory,
-    editCategoryFunction,
-    deleteCategory
   }
 ) => {
+
   const [title, setTitle] = useState('');
   const [selectedIcon, setSelectedIcon] = useState(null);
-  const [icons, seIcons] = useState([])
   const [isloading, setIsLoading] = useState(true)
   const [isLoadingAddBtn, setIsLoadingAddBtn] = useState(false)
   const [isLoadingDelete, setIsLoadingDelete] = useState(false)
-
   const dispatch = useDispatch()
   const fetchAllIcons = useSelector((state) => state.fetchAllIcons.icons)
 
@@ -29,10 +26,11 @@ const AddCategoryForm = (
     } else {
       setIsLoading(false);
     }
-  }, [dispatch, fetchAllIcons]);
+  }, [fetchAllIcons]);
 
   useEffect(() => {
     if (editCategory) {
+      console.log("hjdjj")
       setTitle(editCategory.title);
       setSelectedIcon(editCategory.icon);
     }
@@ -42,33 +40,50 @@ const AddCategoryForm = (
     const token = localStorage.getItem('token');
     if (editCategory && editCategory._id) {
       setIsLoadingAddBtn(true)
+    try {
       const updatedCategory = await axios.put(`/updatedCategory/${editCategory._id}`, {
         title,
         selectedIcon
       }, {
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `${token}`,
         }
       })
-      editCategoryFunction(updatedCategory.data.category)
+      dispatch(editCategories(updatedCategory.data.category))
       setShow("edit")
-    } else { //https://menuserver-eight.vercel.app
-
-      if (title.length == 0) {
+    } catch (error) {
+      console.log(error)
+      if (error.response.data.message == "A category with this title already exists for this user.") {
+        alert("this category name is already exist.")
+      }
+    }finally{
+      setIsLoadingAddBtn(false)
+    }
+    } else {
+      if (title.length == 0 || selectedIcon == null) {
         alert("empty")
       } else {
         setIsLoadingAddBtn(true)
-        const createCategory = await axios.post("/addCategory", {
-          title,
-          selectedIcon
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`,
+        try {
+          const createCategory = await axios.post("/addCategory", {
+            title,
+            selectedIcon
+          }, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `${token}`,
+            }
+          })
+          dispatch(addCategory(createCategory.data.category))
+          setShow("edit")
+        } catch (error) {
+          if (error.response.data.message == "Category already exists") {
+            alert("this category name is same")
           }
-        })
-        addNewCategoryInExistingArray(createCategory.data.category)
-        setShow("edit")
+        } finally {
+          setIsLoadingAddBtn(false)
+        }
       }
 
     }
@@ -78,8 +93,7 @@ const AddCategoryForm = (
     setIsLoadingDelete(true)
     try {
       const deletedCategory = await axios.delete(`/categories/${editCategory._id}/deleteCategory`)
-      console.log(deletedCategory.data)
-      deleteCategory(editCategory._id)
+      dispatch(deleteCategory(deletedCategory.data.deletedCategory._id))
       setShow("edit")
     } catch (error) {
       console.log("error in deleteTheCategory", error)

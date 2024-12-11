@@ -5,7 +5,6 @@ import axios from '../../axios'
 // Thunk to fetch menu data
 export const fetchIcons = createAsyncThunk('menu/icons', async (api) => {
   const response = await axios.get(api); // Replace with your API endpoint
-  console.log(response.data)
   return response.data;
 });
 
@@ -30,6 +29,8 @@ const fetchIconsSlice = createSlice({
       })
       .addCase(fetchIcons.rejected, (state, action) => {
         state.loading = false;
+        state.categories = []; // or set to a default value if needed
+        state.selectedCategory = null;
         state.error = action.error.message;
       });
   },
