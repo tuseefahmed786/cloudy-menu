@@ -1,14 +1,21 @@
 import axios from '../../../axios'
 import React, { useState, useEffect } from 'react'
 import Isloading from '../../../components/Isloading'
-
-function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpdated, addProductToSelectedCategory, addUpdatedProductsToArray }) {
+import { useDispatch } from 'react-redux'
+import { addProduct, deleteProduct, editProducts } from '../../../redux/slice/fetchMenuForEdit'
+function AddProduct({
+    setShow,
+    selectedCategory,
+    editProduct,
+}) {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState(null)
     const [isloading, setIsLoading] = useState(false)
     const [isLoadingDelete, setIsLoadingDelete] = useState(false)
+    const dispatch = useDispatch()
+
     useEffect(() => {
         if (editProduct) {
             setName(editProduct.name || '');
@@ -32,13 +39,14 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
                 formData.append('imageUrl', image);  // Pass existing image URL separately
             } else {
                 formData.append('image', image); // Pass new image file
-            }//http://localhost:3002
+            }
             const createProduct = await axios.put(`/categories/${selectedCategoryId}/editProducts`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            addUpdatedProductsToArray(createProduct.data.updated)
+            console.log(createProduct.data.updated)
+            dispatch(editProducts(createProduct.data.updated))
             setShow("edit")
         } else {
             setIsLoading(true)
@@ -58,7 +66,7 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                addProductToSelectedCategory(createProduct.data.product)
+                dispatch(addProduct(createProduct.data.product))
                 setShow("edit")
             }
         }
@@ -68,8 +76,7 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
         console.log("Delete started, loading set to true");
         try {
             const deletedInDb = await axios.delete(`/api/${editProduct._id}/deletedProduct`);
-            console.log("Product deleted:", deletedInDb.data.deletedProduct);
-            deletedProductUpdated(deletedInDb.data.deletedProduct);
+            dispatch(deleteProduct(deletedInDb.data.deletedProduct._id))
             setShow("edit");
         } catch (error) {
             console.error("Error deleting the product:", error);
@@ -78,7 +85,7 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
             console.log("Delete finished, loading set to false");
         }
     };
-    
+
     return (
         <>
             <div className="flex px-3 justify-center h-full items-center">
@@ -107,7 +114,7 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                             className="w-full border border-gray-300 p-2 rounded"
-                            placeholder="Enter category title"
+                            placeholder="Enter Price"
                         />
                         <label className="block text-gray-700 ">Product description</label>
                         <input
@@ -115,7 +122,7 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             className="w-full border border-gray-300 p-2 rounded"
-                            placeholder="Enter category title"
+                            placeholder="Enter Product description"
                         />
 
                         <label className="block text-gray-700">Product Image</label>
@@ -133,7 +140,7 @@ function AddProduct({ setShow, selectedCategory, editProduct, deletedProductUpda
                         className='w-full bg-red-500 text-white p-2 mb-1  rounded-full'>
 
                         {isLoadingDelete
-                         ? <Isloading width="w-6" height="h-6" /> : "Delete The Product"}
+                            ? <Isloading width="w-6" height="h-6" /> : "Delete The Product"}
 
                     </button>}
                     <button

@@ -39,7 +39,7 @@ const BusinessInfo = ()=> {
                 headers: { 'Content-Type': 'application/json', 'Authorization': token }
             });
             setIsLoading(true);
-            dispatch(setRestaurantData(res.data.restaurant));
+            dispatch(setRestaurantData(res.data));
         } catch (error) {
             if (error.response?.status === 409) {
                 setIsValidName(true);

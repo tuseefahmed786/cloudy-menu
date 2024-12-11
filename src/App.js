@@ -14,6 +14,11 @@ import RestaurantInfo from './pages/fetchmenu/MenuInfo';
 import BusinessInfo from './pages/dashboard/info/BusinessInfo';
 import UploadLogo from './pages/dashboard/info/UploadLogo';
 import Subscription from './pages/dashboard/subscription/Subscription';
+import Billing from './pages/dashboard/billing/Billing';
+
+
+import HomeDashboard from './pages/dashboard/Home DS/HomeDashboard';
+import PaymentDone from './pages/dashboard/subscription/PaymentDone';
 function App() {
   return (
     <>
@@ -33,11 +38,15 @@ function App() {
           <Route path="/:restaurant/info" element={<RestaurantInfo />} />
           {/* Dashboard /info/edit/view */}
           <Route path='dashboard' element={<DashboardLayout />}>
-            <Route index element={<Navigate to="info" />} />
+            <Route index element={<Navigate to="home" />} />
+            <Route path='home' element={<HomeDashboard/>} />
             <Route path='edit' element={<EditMenu />} />
             <Route path='view' element={<ViewMenu />} />
             <Route path='subscription' element={<Subscription/>}/>
+            <Route path='Billing' element={<Billing/>}/>
+            <Route path='PaymentDone' element={<PaymentDone/>}/>
 
+            
             <Route path='info' element={<Info />} >
               <Route index element={<BusinessInfo />} />
               <Route path='logo' element={<UploadLogo />} />

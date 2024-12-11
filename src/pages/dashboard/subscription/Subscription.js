@@ -7,15 +7,19 @@ const Subscription = () => {
     const [loadingYearly, setLoadingYearly] = useState(false);
 
     const handleSubscription = async (priceId, type) => {
+        const token = localStorage.getItem('token');
         // Set the appropriate loading state based on the button clicked
         if (type === 'monthly') setLoadingMonthly(true);
         if (type === 'yearly') setLoadingYearly(true);
-
+console.log( type)
         try {
             const response = await axios.post('/create-checkout-session', {
                 priceId,
-                // customerEmail: 'customer@example.com', // Replace with dynamic user email
-            });
+                type
+            },
+                {
+                    headers: { 'Authorization': token }
+                });
 
             // Redirect to Stripe Checkout
             window.location.href = response.data.url;
@@ -44,8 +48,8 @@ const Subscription = () => {
                 <div className="bg-white border rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <h2 className="text-2xl font-semibold text-gray-800">Monthly Plan</h2>
                     <h2 className="text-2xl pt-3 font-semibold text-gray-800">AED 49</h2>
-                        <span className="">monthly / restaurant
-                        </span>
+                    <span className="">monthly / restaurant
+                    </span>
                     <button
                         onClick={() => handleSubscription('price_1QPVWRBqMEKqDL9cTsdXuohX', 'monthly')} // Replace with actual Price ID
                         disabled={loadingMonthly}
