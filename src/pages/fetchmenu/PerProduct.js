@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 function PerProduct() {
     const { restaurant, productName } = useParams();
-    const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const restaurantData = useSelector((state) => state.perProductDetails.product);
     const navigate = useNavigate();

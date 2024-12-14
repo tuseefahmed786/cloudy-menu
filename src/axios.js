@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3002', // Set your base URL here
+  // https://menuserver-eight.vercel.app
+  // http://localhost:3002
+  baseURL: 'https://menuserver-eight.vercel.app', // Set your base URL here
 });
 
 export default instance;

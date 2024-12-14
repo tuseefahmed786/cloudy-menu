@@ -8,14 +8,13 @@ const HomeDashboard = () => {
 
     return (
         <>
-            <div className='px-4'>
-                <div className='py-3'>
-                    <div className='bg-black shadow-2xl flex justify-around items-center rounded-2xl hover:cursor-pointer' onClick={() => navigate('/dashboard/edit')}>
-                        <div className='self-end pl-3'>
+            <div className='p-4'>
+            <div className='bg-black shadow-2xl gap-3 pt-4 md:gap-0 flex flex-col md:flex-row justify-around items-center rounded-2xl hover:cursor-pointer' onClick={() => navigate('/dashboard/edit')}>
+                        <div className='md:block hidden self-end pl-3'>
                             <img src={anim} alt='' width={200} />
                         </div>
                         <div>
-                            <h1 className='text-white text-5xl font-extrabold'>
+                            <h1 className='text-white text-center md:text-5xl text-4xl font-extrabold'>
                                 Create Your Digital Menu
                             </h1>
                         </div>
@@ -23,21 +22,8 @@ const HomeDashboard = () => {
                             <img src={mobile} className='object-contain h-[250px] w-[250px]' alt='' />
                         </div>
                     </div>
-                </div>
 
-                {/* <div>
-                    <div className='flex gap-4 py-3'>
-                        <div className='bg-slate-500 rounded-xl flex-1 h-40'>
-                            <h1>Hello helllo</h1>
-                        </div>
-                        <div className='bg-slate-500 rounded-xl flex-1 h-40'>
-                            <h1>Hello helllo</h1>
-                        </div>
-                        <div className='bg-slate-500 rounded-xl flex-1 h-40'>
-                            <h1>Hello helllo</h1>
-                        </div>
-                    </div>
-                </div> */}
+            
             </div>
 
         </>
