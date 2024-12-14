@@ -19,6 +19,7 @@ import Billing from './pages/dashboard/billing/Billing';
 
 import HomeDashboard from './pages/dashboard/Home DS/HomeDashboard';
 import PaymentDone from './pages/dashboard/subscription/PaymentDone';
+import SocialLinksForm from './pages/dashboard/info/SocialLinksForm';
 function App() {
   return (
     <>
@@ -50,6 +51,8 @@ function App() {
             <Route path='info' element={<Info />} >
               <Route index element={<BusinessInfo />} />
               <Route path='logo' element={<UploadLogo />} />
+              <Route path='social' element={<SocialLinksForm />} />
+
             </Route>
           </Route>
         </Routes>

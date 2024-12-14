@@ -4,8 +4,6 @@ import logo from '../../assests/favicon.png'
 import menuImage from '../../assests/photo.jpg'
 import { Link, useNavigate } from 'react-router-dom'
 import Isloading from '../../components/Isloading'
-import { useDispatch } from 'react-redux'
-import { setRestaurantData } from '../../redux/slice/infoSlice'
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

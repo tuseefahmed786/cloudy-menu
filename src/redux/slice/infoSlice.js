@@ -1,36 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const infoRestaurant = createSlice({
-    name: 'restaurant',
-    initialState: {
-        data: [],
-        freeTrails: null
+  name: "restaurant",
+  initialState: {
+    data: [],
+    freeTrails: null,
+    socialLinks: [],
+  },
+  reducers: {
+    setRestaurantData: (state, action) => {
+      state.data = action.payload.restaurant;
     },
-    reducers: {
-        setRestaurantData: (state, action) => {
-            state.data = action.payload.restaurant
-        },
-        setFreeTrails: (state, action) => {
-            if (action.payload.userFound.subscriptionType == "free_trial") {
-                state.freeTrails = action.payload.daysLeft
-            } else {
-                console.log(action.payload)
-                state.freeTrails = action.payload.userFound.subscriptionType
-            }
-        },
-        updateRestaurantLogo: (state, action) => {
-            if (state.data && state.data._id === action.payload.id) {
-                state.data.logo = action.payload.logo;
-            }
-        },
-        setBillingTrail:(state, action)=>{
-            console.log(action.payload)
-            if (action.payload) {
-                state.freeTrails = action.payload
-            } 
-        }
-    }
-})
+    setFreeTrails: (state, action) => {
+      if (action.payload.userFound.subscriptionType == "free_trial") {
+        state.freeTrails = action.payload.daysLeft;
+      } else {
+        console.log(action.payload);
+        state.freeTrails = action.payload.userFound.subscriptionType;
+      }
+    },
+    updateRestaurantLogo: (state, action) => {
+      state.data.logo = action.payload.logo;
+      state.data.cover = action.payload.cover
+    },
+    setBillingTrail: (state, action) => {
+      console.log(action.payload);
+      if (action.payload) {
+        state.freeTrails = action.payload;
+      }
+    },
+    setSocialLinks: (state, action) => {
+      state.socialLinks = action.payload;
+    },
+  },
+});
 
-export const { setRestaurantData, updateRestaurantLogo, setFreeTrails,setBillingTrail } = infoRestaurant.actions
-export default infoRestaurant.reducer
+export const {
+  setRestaurantData,
+  updateRestaurantLogo,
+  setFreeTrails,
+  setBillingTrail,
+  setSocialLinks,
+} = infoRestaurant.actions;
+export default infoRestaurant.reducer;
