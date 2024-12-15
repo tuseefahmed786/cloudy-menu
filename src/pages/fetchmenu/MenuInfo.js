@@ -10,8 +10,8 @@ const RestaurantInfo = () => {
   console.log(menuData)
   return (
     <>
-      <div className="flex h-screen w-full justify-center items-center">
-        <div className="w-[400px] bg-white px-2 py-2 shadow-lg rounded-lg">
+      <div className="flex p-1 max-w-[25rem] pt-10 mx-auto h-screen justify-center items-start">
+        <div className="w-full bg-white pb-3 px-2 py-2 shadow-lg rounded-lg">
           <div className="flex flex-col">
             <div className="">
               <div className="rounded relative">

@@ -19,8 +19,12 @@
   background: #bdc1c6; /* Color of the scrollbar thumb */
 }
 .scrollx::-webkit-scrollbar {
-  height: 4px; /* Width of the scrollbar */
-  width: 4px;
+  height: 3px; /* Width of the scrollbar */
+  width: 3px;
+}
+.scroll-hidden::-webkit-scrollbar {
+  height: 0px; /* Width of the scrollbar */
+  width: 0px;
 }
 html {
   scroll-behavior: smooth;

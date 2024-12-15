@@ -37,16 +37,29 @@ function UploadLogo() {
       alert("Please select files to upload.");
       return;
     }
- 
-console.log(logoFile)
-console.log(coverFile)
-
+  
+    // Allowed image formats
+    const allowedFormats = ["image/png", "image/jpeg", "image/jpg"];
+  
+    // // Validate logoFile
+    // if (logoFile && !allowedFormats.includes(logoFile.type)) {
+    //   alert("Invalid format for logo file. Please upload a PNG or JPG image.");
+    //   return;
+    // }
+  
+    // // Validate coverFile
+    // if (coverFile && !allowedFormats.includes(coverFile.type)) {
+    //   alert("Invalid format for cover file. Please upload a PNG or JPG image.");
+    //   return;
+    // }
+  
     setUploadLoading(true);
     const formData = new FormData();
-
+  
     if (logoFile) formData.append("logo", logoFile);
     if (coverFile) formData.append("cover", coverFile);
     console.log(formData);
+  
     try {
       const response = await axios.post("/api/uploadLogo", formData, {
         headers: {
@@ -54,18 +67,18 @@ console.log(coverFile)
           Authorization: `${token}`,
         },
       });
-
+  
       setUploadLoading(false);
-
+  
       if (response.data.logoUrl) {
         dispatch(
           updateRestaurantLogo({
             logo: response.data.logoUrl,
-            cover:response.data.coverUrl,
+            cover: response.data.coverUrl,
           })
         );
       }
-
+  
       alert("Files uploaded successfully!");
     } catch (error) {
       console.error(error);
@@ -73,6 +86,7 @@ console.log(coverFile)
       setUploadLoading(false);
     }
   };
+  
 
   return (
     <div className="p-3">

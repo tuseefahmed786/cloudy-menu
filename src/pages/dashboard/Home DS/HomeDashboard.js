@@ -9,7 +9,7 @@ const HomeDashboard = () => {
     return (
         <>
             <div className='p-4'>
-            <div className='bg-black shadow-2xl gap-3 pt-4 md:gap-0 flex flex-col md:flex-row justify-around items-center rounded-2xl hover:cursor-pointer' onClick={() => navigate('/dashboard/edit')}>
+            <div className='bg-black shadow-transparent sm:shadow-2xl gap-3 pt-4 md:gap-0 flex flex-col md:flex-row justify-around items-center rounded-2xl hover:cursor-pointer' onClick={() => navigate('/dashboard/edit')}>
                         <div className='md:block hidden self-end pl-3'>
                             <img src={anim} alt='' width={200} />
                         </div>

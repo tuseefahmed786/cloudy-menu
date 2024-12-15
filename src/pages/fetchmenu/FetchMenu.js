@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../axios";
 import Isloading from "../../components/Isloading";
 import account from "../../assests/account.svg";
-import logoNull from "../../assests/logo.svg"
+import logoNull from "../../assests/logo.svg";
 import cart from "../../assests/cart.svg";
 import { setProductDetails } from "../../redux/slice/selectedProductSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ function FetchMenu() {
 
   // Decode the slug to get the original name (replace '-' with ' ').
   const restaurantName = restaurant.replace(/-/g, " ");
-
+  console.log(menuData);
   useEffect(() => {
     const fetchMenuData = async () => {
       // setIsLoading(true); // Set loading to true at the start
@@ -32,11 +32,11 @@ function FetchMenu() {
           setLogo(responseMenu.data.findrestaurant.logo);
           console.log(responseMenu.data);
           dispatch(setMenuData(responseMenu.data)); // Save to Redux
-          setGetResponse(responseMenu.data.getcatandProducts);
+          setGetResponse(responseMenu.data);
           setselectedCateg(responseMenu?.data.getcatandProducts[0]);
         } else {
           // console.log(menuData.getcatandProducts)
-          setGetResponse(menuData.getcatandProducts);
+          setGetResponse(menuData);
           setLogo(menuData.findrestaurant.logo);
         }
       } catch (error) {
@@ -53,7 +53,7 @@ function FetchMenu() {
     const categorySlug = category.title.replace(/\s+/g, "-").toLowerCase();
     navigate(`/${restaurant}/${categorySlug}`); // Navigate to the category URL
   };
-
+  console.log(getResponse);
   useEffect(() => {
     if (menuData?.getcatandProducts) {
       const categorySlug = window.location.pathname.split("/")[2] || null;
@@ -71,7 +71,7 @@ function FetchMenu() {
   const selectPerProduct = (product) => {
     dispatch(setProductDetails(product));
     const categorySlug = selectedCateg.title.replace(/\s+/g, "-").toLowerCase();
-    const productSlug = product.name.replace(/\s+/g, "-").toLowerCase();
+    const productSlug = product.product.name.replace(/\s+/g, "-").toLowerCase();
     navigate(`/${restaurant}/${categorySlug}/${productSlug}`);
   };
 
@@ -82,19 +82,23 @@ function FetchMenu() {
 
         <div className="group-home">
           <div className="restaurantName py-3 px-4 flex justify-between items-center">
-            <Link className="" to={`/${restaurant}/info`}>
+            <Link to={`/${restaurant}/info`}>
               <img width={20} src={account} alt="account's" />
             </Link>
-              {logo?<img
+            {logo ? (
+              <img
                 className="max-w-11 max-h-11 object-cover"
                 src={logo}
                 alt="Put Logo"
-              />:<p className="text-xs font-medium">Put Your Logo</p>}
+              />
+            ) : (
+              <p className="text-xs font-medium">Put Your Logo</p>
+            )}
 
             <img width={30} src={cart} alt="account's" />
           </div>
-          <div className="flex cursor-pointer scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
-            {getResponse.map((e) => (
+          <div className="flex  scroll-hidden cursor-pointer scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
+            {getResponse?.getcatandProducts?.map((e) => (
               <Category
                 activeCat={selectedCateg}
                 key={e._id}
@@ -119,6 +123,7 @@ function FetchMenu() {
                   <DishCard
                     name={p}
                     key={p._id}
+                    currency={getResponse?.findrestaurant?.currency}
                     selectPerProduct={selectPerProduct}
                   />
                 ))
@@ -148,15 +153,18 @@ const Category = ({ activeCat, selectedCateg, id }) => (
   </div>
 );
 
-const DishCard = ({ name, selectPerProduct }) => (
+const DishCard = ({ name, selectPerProduct, currency }) => (
   <div
     className="flex w-full px-4 pt-4 pb-2 border-b hover:cursor-pointer border-b-[#80808057]"
-    onClick={() => selectPerProduct(name)}
+    onClick={() => selectPerProduct({ product: name, currency: currency })}
   >
     <div className="w-[75%] flex-col flex gap-1">
       <h1>{name.name}</h1>
       <p className="text-xs text-gray-600">{name.description}</p>
-      <p className="text-sm">AED {name.price}</p>
+      <div className="flex gap-1">
+        <p className="text-sm">{currency || "usd"}</p>
+        <p className="text-sm">{name.price}</p>
+      </div>
     </div>
     <div className="w-[25%] h-[90px]">
       <img

@@ -17,34 +17,32 @@ const Info = () => {
         <h1 className="text-2xl pt-3 sm:pt-6 pb-3 font-bold">
           Restaurant settings
         </h1>
-        <ul className="flex scrollx sm:mt-2 whitespace-nowrap sm:overflow-hidden overflow-x-scroll w-full sm:w-fit rounded-t bg-white border  border-[#dadada]">
-          <li
+        <ul className="flex scrollx sm:mt-2 xs:pb-0 pb-[2px] whitespace-nowrap overflow-x-scroll xs:overflow-hidden w-full sm:w-fit rounded-t bg-white border  border-[#dadada]">
+          <Link
+            to="/dashboard/info"
             className={`${
               activeSection == "info" ? "border-b-2 border-b-[#22c55e]" : ""
-            } py-2 px-4 sm:py-3  sm:px-9 border-r hover:cursor-pointer`}
+            } py-2 px-4 sm:py-3  sm:px-9 border-r hover:cursor-pointer text-sm`}
           >
-            <Link to="/dashboard/info" className="text-sm">
-              General
-            </Link>
-          </li>
-          <li
+            General
+          </Link>
+          <Link
+            to="logo"
             className={`${
               activeSection == "logo" ? "border-b-2 border-b-[#22c55e]" : ""
-            }  py-2 px-4 sm:py-3 sm:px-9 border-r hover:cursor-pointer`}
+            }  py-2 px-4 sm:py-3 sm:px-9 border-r hover:cursor-pointer text-sm`}
           >
-            <Link to="logo" className="text-sm">
-              Appearance
-            </Link>
-          </li>
-          <li
+            Appearance
+          </Link>
+
+          <Link
+            to="social"
             className={`${
               activeSection == "social" ? "border-b-2 border-b-[#22c55e]" : ""
-            }  py-2 px-4 sm:py-3 sm:px-9 border-r hover:cursor-pointer`}
+            }  py-2 px-4 sm:py-3 sm:px-9 border-r hover:cursor-pointer text-sm`}
           >
-            <Link to="social" className="text-sm">
-              Social Form
-            </Link>
-          </li>
+            Social Form
+          </Link>
         </ul>
       </div>
       <Outlet />
