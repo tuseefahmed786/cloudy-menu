@@ -1,5 +1,4 @@
 import React from 'react';
-import pricingImage from '../../assests/pricing.png'
 const PricingLan = () => {
   return (
     <section className="py-5 sm:py-16 bg-white" >
@@ -25,7 +24,7 @@ const PricingLan = () => {
             </a>
             </div>
             <div className=''>
-              <img src={pricingImage} width={370} alt='pricing here'/>
+              <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734310001/urjnacbklq8mntb9856j.png" width={370} alt='pricing here'/>
             </div>
           {/* </div> */}
         

@@ -1,5 +1,4 @@
 import React from 'react';
-import menu from '../../assests/menu1.png'
 import { Link } from 'react-router-dom';
 
 const HeroSectionLan = () => {
@@ -21,7 +20,7 @@ const HeroSectionLan = () => {
           </Link>
         </div>
         <div className="w-full lg:w-1/2 mt-5 lg:mt-0 pt-6 sm:pt-3 flex justify-center">
-          <img width={259} src={menu} alt="Digital menu example" />
+          <img width={259} src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308301/yngeuxa2qvrwdhjpb9am.png" alt="Digital menu example" />
         </div>
       </div>
     </section>

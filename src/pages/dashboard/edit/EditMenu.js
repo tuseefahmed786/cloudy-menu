@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import AddCategoryForm from "../formAddCategory/AddCategoryForm";
 import AddProduct from "../formAddProduct/AddProduct";
 import Isloading from "../../../components/Isloading";
-import editIcon from "../../../assests/edit-text.png";
-import addIcon from "../../../assests/add-basket.png";
-import addDish from "../../../assests/add-alert.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchMenuApi,
@@ -77,7 +74,7 @@ const EditMenu = () => {
                 onClick={createNewCategory}
               >
                 <img
-                  src={addIcon}
+                  src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308567/ap8txd7cf811nfevs2oe.png"
                   className="w-10 sm:w-[52px]"
                   width={52}
                   alt="addicon"
@@ -107,7 +104,7 @@ const EditMenu = () => {
                     className="cursor-pointer flex gap-2 sm:gap-4 w-full items-center justify-center border border-dashed h-12 sm:h-14 border-black rounded-lg p-2 sm:p-4"
                   >
                     <img
-                      src={addDish}
+                      src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308567/aodakvadj2xiybtw6v7t.png"
                       width={30}
                       className="w-6 sm:w-8"
                       alt="add dish"
@@ -180,7 +177,7 @@ const Category = ({ activeCat, selectedCategory, id, editCategory }) => {
         <span className="whitespace-nowrap text-xs sm:text-sm">{id.title}</span>
         <img
           className="cursor-pointer w-3 sm:w-[14px]"
-          src={editIcon}
+          src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308684/bvvy66p6dul6y0ryawzr.png"
           alt="edit"
           onClick={() => editCategory(id)}
         />
@@ -200,14 +197,16 @@ const DishCard = ({ productInfo, selectProduct, currency }) => {
             <img
               className="cursor-pointer"
               width={14}
-              src={editIcon}
+              src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308684/bvvy66p6dul6y0ryawzr.png"
               alt="edit"
               onClick={() => selectProduct(productInfo)}
             />
           </div>
           <p className="text-xs  text-gray-600">{productInfo.description}</p>
 
-          <p className="text-xs">{currency || 'Aed'} {productInfo.price}</p>
+          <p className="text-xs">
+            {currency || "Aed"} {productInfo.price}
+          </p>
         </div>
         <div className="w-[25%] h-[90px]">
           <img

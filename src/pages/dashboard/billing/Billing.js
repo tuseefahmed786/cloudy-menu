@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../axios';
-import invoice from '../../../assests/pdf.png'
 import { useDispatch } from 'react-redux';
 import { setBillingTrail } from '../../../redux/slice/infoSlice';
 const Billing = () => {
@@ -62,7 +61,7 @@ console.log(getData.data.subscriptionStatus)
                     billingData.map((billingData) => {
                         return (
                             <div className="flex justify-between items-center px-4 py-3">
-                                <img src={invoice} alt="invoice" width={36} />
+                                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309053/gfefcgm6ucelgv73caou.png" alt="invoice" width={36} />
                                 <div className='hidden sm:flex flex-col'>
                                     <p className="font-medium text-xs">
                                         {billingData.customerName}

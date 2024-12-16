@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import slugify from "slugify";
-import logo from "../../assests/favicon.png";
 import axios from "../../axios";
-import menu from "../../assests/menu-button.png";
-import info from "../../assests/info.png";
-import qr from "../../assests/qr.png";
-import view from "../../assests/view.png";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFreeTrails,
@@ -91,7 +87,7 @@ const DashboardLayout = () => {
       {/* Header and navigation code */}
       <div className="flex justify-start gap-3 items-center bg-[#ffffff] border">
         <div className="flex justify-start gap-1 sm:gap-3 px-2 sm:px-3 py-1 sm:py-2 items-center border-r">
-          <img src={logo} alt="Logo" className="w-11 border rounded" />
+          <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308759/a7q5yuen7emg6aiv0duo.png" alt="Logo" className="w-11 border rounded" />
           <h1 className="text-black hidden sm:block">Cloud Menu</h1>
         </div>
         <div className="flex justify-start flex-col">
@@ -150,7 +146,7 @@ const DashboardLayout = () => {
                     : "sm:bg-[#f1f4f9]"
                 } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
-                <img src={info} className="hidden sm:block w-4" alt="" />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png" className="hidden sm:block w-4" alt="" />
                 Home
               </div>
             </Link>
@@ -164,7 +160,7 @@ const DashboardLayout = () => {
                     : "sm:bg-[#f1f4f9]"
                 } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
-                <img src={menu} className="hidden sm:block w-4" alt="" />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/zgzn725rblci74b6zktj.png" className="hidden sm:block w-4" alt="" />
                 Edit Your Menu
               </div>
             </Link>
@@ -180,7 +176,7 @@ const DashboardLayout = () => {
                     : "sm:bg-[#f1f4f9]"
                 } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
-                <img src={info} className="hidden sm:block w-4" alt="" />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png" className="hidden sm:block w-4" alt="" />
                 Information
               </div>
             </Link>
@@ -189,7 +185,7 @@ const DashboardLayout = () => {
                 id="view"
                 className="sm:mb-2 border-b border-b-transparent sm:bg-[#f1f4f9] whitespace-nowrap sm:w-full items-center gap-2 flex text-left mr-4 sm:px-4 sm:py-2 border-2 border-[white] text-[#000000] rounded-lg"
               >
-                <img src={view} className="hidden sm:block w-4" alt="" />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309432/zzm4ta9jpng1mgcsa79n.png" className="hidden sm:block w-4" alt="" />
                 View Your Menus &#x2197;
               </div>
             </Link>
@@ -203,7 +199,7 @@ const DashboardLayout = () => {
                     : "sm:bg-[#f1f4f9]"
                 } sm:border-[white] items-center gap-2 sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
-                <img src={qr} className="hidden sm:block w-4" alt="icon" />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309432/mmpxgmslsiui6j8srnxx.png" className="hidden sm:block w-4" alt="icon" />
                 Download QR
               </div>
             </Link>
@@ -217,7 +213,7 @@ const DashboardLayout = () => {
                     : "sm:bg-[#f1f4f9]"
                 } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
-                <img src={info} className="hidden sm:block w-4" alt="" />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png" className="hidden sm:block w-4" alt="" />
                 subscription
               </div>
             </Link>
@@ -231,7 +227,7 @@ const DashboardLayout = () => {
                     : "sm:bg-[#f1f4f9]"
                 } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
-                <img src={info} className="hidden sm:block w-4" alt="" />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png" className="hidden sm:block w-4" alt="" />
                 Billing
               </div>
             </Link>

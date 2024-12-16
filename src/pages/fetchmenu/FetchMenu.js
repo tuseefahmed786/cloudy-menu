@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../axios";
 import Isloading from "../../components/Isloading";
-import account from "../../assests/account.svg";
-import logoNull from "../../assests/logo.svg";
-import cart from "../../assests/cart.svg";
 import { setProductDetails } from "../../redux/slice/selectedProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setMenuData } from "../../redux/slice/menuSlice";
@@ -83,7 +80,7 @@ function FetchMenu() {
         <div className="group-home">
           <div className="restaurantName py-3 px-4 flex justify-between items-center">
             <Link to={`/${restaurant}/info`}>
-              <img width={20} src={account} alt="account's" />
+              <img width={20} src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734311748/ls5pjxxjddw3lco3zugo.svg" alt="account's" />
             </Link>
             {logo ? (
               <img
@@ -95,7 +92,7 @@ function FetchMenu() {
               <p className="text-xs font-medium">Put Your Logo</p>
             )}
 
-            <img width={30} src={cart} alt="account's" />
+            <img width={30} src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734311748/gigfy9wzsfjbmqsifmfk.svg" alt="account's" />
           </div>
           <div className="flex  scroll-hidden cursor-pointer scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
             {getResponse?.getcatandProducts?.map((e) => (

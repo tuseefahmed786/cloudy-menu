@@ -1,6 +1,5 @@
 import axios from "../../../axios";
 import React, { useState } from "react";
-import upload from "../../../assests/upload.png";
 import { useDispatch, useSelector } from "react-redux";
 import Isloading from "../../../components/Isloading";
 import { updateRestaurantLogo } from "../../../redux/slice/infoSlice";
@@ -127,7 +126,7 @@ function UploadLogo() {
               type="file"
               onChange={(e) => handleFileChange(e, "logo")}
             />
-            <img src={upload} alt="Upload your logo" />
+            <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312236/vtlktomdr0fyvhijugcp.png" alt="Upload your logo" />
             <h1>Click or drag file to this area to upload</h1>
             <p className="text-xs">
               Only jpeg, jpg, png, webp files are supported.
@@ -173,7 +172,7 @@ function UploadLogo() {
               type="file"
               onChange={(e) => handleFileChange(e, "cover")}
             />
-            <img src={upload} alt="Upload your cover photo" />
+            <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312236/vtlktomdr0fyvhijugcp.png" alt="Upload your cover photo" />
             <h1>Click or drag file to this area to upload</h1>
             <p className="text-xs">
               Only jpeg, jpg, png, webp files are supported.

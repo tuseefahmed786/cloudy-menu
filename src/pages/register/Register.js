@@ -1,8 +1,6 @@
 import axios from '../../axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../../assests/favicon.png'
-import menuImage from '../../assests/photo.jpg'
 import Isloading from '../../components/Isloading'
 function Register() {
   const [email, setEmail] = useState('')
@@ -56,7 +54,7 @@ function Register() {
 
         <div className="flex min-h-full flex-col sm:w-2/4 justify-start px-3 sm:px-6 py-5 sm:py-3 lg:px-8">
         <div className="flex gap-3 items-center">
-            <img src={logo} alt='logo' width={45} />
+            <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308759/a7q5yuen7emg6aiv0duo.png" alt='logo' width={45} />
             <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">Cloud Menu </h1>
           </div>
          <div className='flex flex-col justify-center h-full'>
@@ -154,7 +152,7 @@ function Register() {
         </div>
 
         <div className='hidden sm:flex sm:w-2/4 justify-center items-center shadow-lg'>
-          <img src={menuImage} className='w-full h-full object-cover' alt='image here' />
+          <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309718/flalaoqnzrhenpbvmebh.jpg" className='w-full h-full object-cover' alt='image here' />
         </div>
 
       </div>

@@ -57,7 +57,7 @@ const Subscription = () => {
 
           <button
             onClick={() =>
-              handleSubscription("price_1QW4p1BqMEKqDL9cjkhUKZbr", "monthly")
+              handleSubscription("price_1QW43ZBqMEKqDL9cMk3GLF7r", "monthly")
             } // Replace with actual Price ID
             disabled={loadingMonthly}
             className={`mt-4 w-full py-2 px-4 rounded-lg text-white ${

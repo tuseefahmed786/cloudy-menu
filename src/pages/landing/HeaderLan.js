@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import logo from '../../assests/favicon.png'
 const HeaderLan = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -14,7 +13,7 @@ const HeaderLan = () => {
           <div className="flex justify-between h-16">
             <div className="flex justify-between items-center w-full">
               <div className="flex-shrink-0 flex gap-3 items-center">
-                <img src={logo} alt='logo' width={45} />
+                <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308759/a7q5yuen7emg6aiv0duo.png" alt='logo' width={45} />
                 <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">Cloud Menu </h1>
               </div>
               <div className="hidden justify-center gap-7 sm:-my-px sm:ml-6 md:flex">
