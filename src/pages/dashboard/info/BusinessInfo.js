@@ -3,6 +3,7 @@ import axios from "../../../axios";
 import Isloading from "../../../components/Isloading";
 import { setRestaurantData } from "../../../redux/slice/infoSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { updateRestaurantInfo } from "../../../redux/slice/menuSlice";
 
 const BusinessInfo = () => {
   const [isValidName, setIsValidName] = useState(false);
@@ -45,7 +46,13 @@ const BusinessInfo = () => {
         }
       );
       setIsLoading(true);
+      const response = res.data.restaurant
       dispatch(setRestaurantData(res.data));
+      dispatch(updateRestaurantInfo({
+        about: response.about,
+        name: response.name,
+        location:response.location
+      }))
     } catch (error) {
       if (error.response?.status === 409) {
         setIsValidName(true);
@@ -110,7 +117,7 @@ const BusinessInfo = () => {
               >
                 Country
               </label>
-             
+
               <select
                 name="country"
                 id="country"
@@ -119,7 +126,7 @@ const BusinessInfo = () => {
                 className="w-full p-2 sm:p-3 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="" disabled hidden>
-                   select your Country
+                  select your Country
                 </option>
                 <option value="UAE">UAE</option>
                 <option value="Saudi Arabia">Saudi Arabia</option>
@@ -145,8 +152,8 @@ const BusinessInfo = () => {
                 onChange={handleChange}
                 className="w-full p-2 sm:p-3 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-               <option value="" disabled hidden>
-                   Sselect your Currency
+                <option value="" disabled hidden>
+                  Sselect your Currency
                 </option>
                 <option value="AED">UAE - AED</option>
                 <option value="OMR">Oman - OMR</option>
@@ -231,4 +238,3 @@ const BusinessInfo = () => {
 };
 
 export default BusinessInfo;
-

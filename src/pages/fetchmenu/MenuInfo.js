@@ -4,8 +4,9 @@ import { useSelector } from "react-redux";
 const RestaurantInfo = () => {
   const { restaurant } = useParams();
   const navigate = useNavigate();
-  const menuData = useSelector((state) => state.menuSlice.menuData);
-  console.log(menuData);
+  const findrestaurant = useSelector((state) => state.menuSlice.restaurantData);
+  const socialLink = useSelector((state) => state.menuSlice.socialLink);
+ console.log(socialLink)
   return (
     <>
       <div className="flex p-1 max-w-[25rem] pt-10 mx-auto h-screen justify-center items-start">
@@ -14,7 +15,7 @@ const RestaurantInfo = () => {
             <div className="">
               <div className="rounded relative">
                 <img
-                  src={menuData?.findrestaurant?.cover || "https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"}
+                  src={findrestaurant?.cover || "https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"}
                   className="rounded-2xl max-h-28 object-cover w-full h-full"
                   alt="banner"
                 />
@@ -26,7 +27,7 @@ const RestaurantInfo = () => {
                 />
                 <div className="absolute -bottom-6 left-3 rounded w-16 h-16">
                   <img
-                    src={menuData?.findrestaurant?.logo || "https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"}
+                    src={findrestaurant?.logo || "https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"}
                     className="w-full h-full rounded-full object-cover"
                     alt="banner"
                   />
@@ -36,18 +37,18 @@ const RestaurantInfo = () => {
             <div className="px-3 pt-6">
               <div>
                 <h1 className="text-lg font-medium">
-                  {menuData?.findrestaurant?.name || "Put Your Cafe Name"}
+                  {findrestaurant?.name || "Put Your Cafe Name"}
                 </h1>
                 <p className="text-xs pb-2">
                   {" "}
-                  {menuData?.findrestaurant?.location ||
+                  {findrestaurant?.location ||
                     "Enter Your Cafe Location"}
                 </p>
                 <div>
                   <a
                     target="_blank"
                     href={
-                      menuData?.socialLink?.whatsappLink ||
+                      socialLink?.whatsappLink ||
                       "https://wa.me/+971543286045"
                     }
                     className="border flex items-center w-fit gap-1 border-black rounded-2xl px-2 py-1 text-xs font-bold"
@@ -67,7 +68,7 @@ const RestaurantInfo = () => {
             <div className="py-3 px-3">
               <h3 className="text-sm font-bold">About US</h3>
               <p className="text-sm">
-                {menuData?.findrestaurant?.about ||
+                {findrestaurant?.about ||
                   "Please Enter About Your Cafe"}
               </p>
             </div>
@@ -82,7 +83,7 @@ const RestaurantInfo = () => {
                   target="_blank"
                   className="text-xs underline"
                   href={
-                    menuData?.socialLink?.googleMapLink ||
+                    socialLink?.googleMapLink ||
                     "https://www.linkedin.com/company/cloud-menu-ae"
                   }
                 >
@@ -100,7 +101,7 @@ const RestaurantInfo = () => {
                   className="text-xs underline"
                   target="_blank"
                   href={
-                    menuData?.socialLink?.facebookLink ||
+                    socialLink?.facebookLink ||
                     "https://www.linkedin.com/company/cloud-menu-ae"
                   }
                 >
@@ -119,7 +120,7 @@ const RestaurantInfo = () => {
                   className="text-xs underline"
                   target="_blank"
                   href={
-                    menuData?.socialLink?.instagramLink ||
+                    socialLink?.instagramLink ||
                     "https://www.instagram.com/cloudmenuae"
                   }
                 >

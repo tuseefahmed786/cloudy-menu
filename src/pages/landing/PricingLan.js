@@ -11,11 +11,10 @@ const PricingLan = () => {
             <h3 className="text-2xl sm:text-4xl font-normal text-gray-900">Simple & cost-effective pricing</h3>
             <ul id="pricing" className='list-decimal ml-5 sm:ml-7 py-5 text-sm'>
               <li>Unlimited access to digital menu creation</li>
-              <li>Customer ordering through the platform</li>
               <li>Real-time updates and menu management</li>
               <li>Basic support (email or chat)</li>
             </ul>
-            <p className="text-3xl font-medium cloud-menu-color sm:mt-4">AED 50/month</p>
+            <p className="text-3xl font-medium cloud-menu-color sm:mt-4">AED 49/month</p>
             <a
               href="https://emenu-sandy.vercel.app/late-cafe-ae"
               className="inline-block cloud-menu-bg text-white w-full sm:w-fit text-center px-6 py-3 rounded-lg text-base font-medium hover:bg-green-600 mt-4"

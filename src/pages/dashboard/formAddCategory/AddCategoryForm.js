@@ -8,6 +8,7 @@ import {
   deleteCategory,
   editCategories,
 } from "../../../redux/slice/fetchMenuForEdit";
+import { deleteCategoryMenu, setMenuCategory, setMenuEditCategory } from "../../../redux/slice/menuSlice";
 const AddCategoryForm = ({ setShow, editCategory }) => {
   const [title, setTitle] = useState("");
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -54,6 +55,7 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
           }
         );
         dispatch(editCategories(updatedCategory.data.category));
+        dispatch(setMenuEditCategory(updatedCategory.data.category))
         setShow("edit");
       } catch (error) {
         console.log(error);
@@ -85,9 +87,13 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
               },
             }
           );
-          dispatch(addCategory(createCategory.data.category));
+          const  create = createCategory.data.category
+          dispatch(addCategory(create));
+          // Second dispatch for setting menu category
+          dispatch(setMenuCategory(create));
           setShow("edit");
         } catch (error) {
+          console.log(error)
           if (error.response.data.message == "Category already exists") {
             alert("this category name is same");
           }
@@ -105,6 +111,7 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
         `/categories/${editCategory._id}/deleteCategory`
       );
       dispatch(deleteCategory(deletedCategory.data.deletedCategory._id));
+      dispatch(deleteCategoryMenu(deletedCategory.data.deletedCategory._id))
       setShow("edit");
     } catch (error) {
       console.log("error in deleteTheCategory", error);

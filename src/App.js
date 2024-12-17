@@ -20,6 +20,7 @@ import Billing from './pages/dashboard/billing/Billing';
 import HomeDashboard from './pages/dashboard/Home DS/HomeDashboard';
 import PaymentDone from './pages/dashboard/subscription/PaymentDone';
 import SocialLinksForm from './pages/dashboard/info/SocialLinksForm';
+import CustomersList from './customers/CustomersList';
 function App() {
   return (
     <>
@@ -32,6 +33,7 @@ function App() {
           {/* user login/register */}
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/customers' element={<CustomersList/>}/>
           {/*fetch menu edit/update/delete */}
           <Route path="/:restaurant/:category/:product" element={<PerProduct />} />
           <Route path="/:restaurant/:category" element={<FetchMenu />} />

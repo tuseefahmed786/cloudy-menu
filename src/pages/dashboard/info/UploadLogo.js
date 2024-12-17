@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Isloading from "../../../components/Isloading";
 import { updateRestaurantLogo } from "../../../redux/slice/infoSlice";
+import { updateLogoMenu } from "../../../redux/slice/menuSlice";
 
 function UploadLogo() {
   const dispatch = useDispatch();
@@ -13,7 +14,6 @@ function UploadLogo() {
   const [uploadLoading, setUploadLoading] = useState(false);
   const restaurantData = useSelector((state) => state.info.data);
   const token = localStorage.getItem("token");
-  console.log(restaurantData);
   const handleFileChange = (event, type) => {
     const selectedFile = event.target.files[0];
     if (type === "logo") {
@@ -36,21 +36,6 @@ function UploadLogo() {
       alert("Please select files to upload.");
       return;
     }
-  
-    // Allowed image formats
-    const allowedFormats = ["image/png", "image/jpeg", "image/jpg"];
-  
-    // // Validate logoFile
-    // if (logoFile && !allowedFormats.includes(logoFile.type)) {
-    //   alert("Invalid format for logo file. Please upload a PNG or JPG image.");
-    //   return;
-    // }
-  
-    // // Validate coverFile
-    // if (coverFile && !allowedFormats.includes(coverFile.type)) {
-    //   alert("Invalid format for cover file. Please upload a PNG or JPG image.");
-    //   return;
-    // }
   
     setUploadLoading(true);
     const formData = new FormData();
@@ -76,6 +61,10 @@ function UploadLogo() {
             cover: response.data.coverUrl,
           })
         );
+        dispatch(updateLogoMenu({
+          logo:response.data.logoUrl,
+          cover:response.data.coverUrl,
+        }))
       }
   
       alert("Files uploaded successfully!");

@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMenuData } from "../../redux/slice/menuSlice";
 
 function FetchMenu() {
-  const menuData = useSelector((state) => state.menuSlice.menuData); // Get menu data from Redux store
+  const menuData = useSelector((state) => state.menuSlice.menuData);
+  const findrestaurant
+  = useSelector((state) => state.menuSlice.restaurantData); // Get menu data from Redux store
+  // Get menu data from Redux store
   const { restaurant } = useParams();
   const dispatch = useDispatch();
   const [getResponse, setGetResponse] = useState([]);
@@ -18,23 +21,21 @@ function FetchMenu() {
 
   // Decode the slug to get the original name (replace '-' with ' ').
   const restaurantName = restaurant.replace(/-/g, " ");
-  console.log(menuData);
   useEffect(() => {
     const fetchMenuData = async () => {
       // setIsLoading(true); // Set loading to true at the start
       try {
         if (menuData.length === 0) {
-          // Only fetch if data isn't already in Redux
           const responseMenu = await axios.get(`/menu/${restaurantName}`);
-          setLogo(responseMenu.data.findrestaurant.logo);
           console.log(responseMenu.data);
+          setLogo(responseMenu.data.findrestaurant.logo);
           dispatch(setMenuData(responseMenu.data)); // Save to Redux
-          setGetResponse(responseMenu.data);
+          setGetResponse(responseMenu.data.getcatandProducts);
           setselectedCateg(responseMenu?.data.getcatandProducts[0]);
         } else {
-          // console.log(menuData.getcatandProducts)
+          console.log(menuData);
           setGetResponse(menuData);
-          setLogo(menuData.findrestaurant.logo);
+          setLogo(findrestaurant.logo);
         }
       } catch (error) {
         console.log("Error fetching menu data", error);
@@ -43,27 +44,26 @@ function FetchMenu() {
       }
     };
     fetchMenuData();
-  }, [restaurantName, menuData, dispatch]);
+  }, []);
 
   const selectedCatShowProducts = (category) => {
     setselectedCateg(category);
     const categorySlug = category.title.replace(/\s+/g, "-").toLowerCase();
     navigate(`/${restaurant}/${categorySlug}`); // Navigate to the category URL
   };
-  console.log(getResponse);
   useEffect(() => {
-    if (menuData?.getcatandProducts) {
+    if (menuData) {
       const categorySlug = window.location.pathname.split("/")[2] || null;
-      const foundCategory = menuData.getcatandProducts.find(
+      const foundCategory = menuData.find(
         (cat) => cat.title.replace(/\s+/g, "-").toLowerCase() === categorySlug
       );
       if (foundCategory) {
         setselectedCateg(foundCategory);
       } else {
-        setselectedCateg(menuData.getcatandProducts[0]); // Default to the first category
+        setselectedCateg(menuData[0]); // Default to the first category
       }
     }
-  }, [menuData?.getcatandProducts]);
+  }, [menuData]);
 
   const selectPerProduct = (product) => {
     dispatch(setProductDetails(product));
@@ -80,7 +80,11 @@ function FetchMenu() {
         <div className="group-home">
           <div className="restaurantName py-3 px-4 flex justify-between items-center">
             <Link to={`/${restaurant}/info`}>
-              <img width={20} src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734311748/ls5pjxxjddw3lco3zugo.svg" alt="account's" />
+              <img
+                width={20}
+                src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734311748/ls5pjxxjddw3lco3zugo.svg"
+                alt="account's"
+              />
             </Link>
             {logo ? (
               <img
@@ -92,10 +96,14 @@ function FetchMenu() {
               <p className="text-xs font-medium">Put Your Logo</p>
             )}
 
-            <img width={30} src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734311748/gigfy9wzsfjbmqsifmfk.svg" alt="account's" />
+            <img
+              width={30}
+              src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734311748/gigfy9wzsfjbmqsifmfk.svg"
+              alt="account's"
+            />
           </div>
           <div className="flex  scroll-hidden cursor-pointer scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
-            {getResponse?.getcatandProducts?.map((e) => (
+            {getResponse?.map((e) => (
               <Category
                 activeCat={selectedCateg}
                 key={e._id}
@@ -120,7 +128,7 @@ function FetchMenu() {
                   <DishCard
                     name={p}
                     key={p._id}
-                    currency={getResponse?.findrestaurant?.currency}
+                    currency={findrestaurant.currency}
                     selectPerProduct={selectPerProduct}
                   />
                 ))
