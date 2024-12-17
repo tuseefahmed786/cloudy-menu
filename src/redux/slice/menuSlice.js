@@ -83,6 +83,16 @@ const menuSlice = createSlice({
       state.restaurantData.location = action.payload.location;
       state.restaurantData.name = action.payload.name;
     },
+    updateSocialLinks: (state, action) => {
+      const { facebookLink, googleMapLink, instagramLink, whatsappLink } =
+        action.payload;
+      state.socialLink = {
+        facebookLink,
+        googleMapLink,
+        instagramLink,
+        whatsappLink,
+      };
+    },
   },
 });
 
@@ -96,5 +106,6 @@ export const {
   deleteProductMenu,
   updateLogoMenu,
   updateRestaurantInfo,
+  updateSocialLinks,
 } = menuSlice.actions;
 export default menuSlice.reducer;

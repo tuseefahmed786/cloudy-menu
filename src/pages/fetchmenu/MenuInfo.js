@@ -6,7 +6,6 @@ const RestaurantInfo = () => {
   const navigate = useNavigate();
   const findrestaurant = useSelector((state) => state.menuSlice.restaurantData);
   const socialLink = useSelector((state) => state.menuSlice.socialLink);
- console.log(socialLink)
   return (
     <>
       <div className="flex p-1 max-w-[25rem] pt-10 mx-auto h-screen justify-center items-start">
@@ -15,7 +14,10 @@ const RestaurantInfo = () => {
             <div className="">
               <div className="rounded relative">
                 <img
-                  src={findrestaurant?.cover || "https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"}
+                  src={
+                    findrestaurant?.cover || 
+"https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"
+                  }
                   className="rounded-2xl max-h-28 object-cover w-full h-full"
                   alt="banner"
                 />
@@ -27,31 +29,31 @@ const RestaurantInfo = () => {
                 />
                 <div className="absolute -bottom-6 left-3 rounded w-16 h-16">
                   <img
-                    src={findrestaurant?.logo || "https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"}
+                    src={
+                      findrestaurant?.logo ||
+                      "https://res.cloudinary.com/dlefxmkgz/image/upload/v1734312370/omvgkg3qfgwh8hhyqzwv.avif"
+                    }
                     className="w-full h-full rounded-full object-cover"
                     alt="banner"
                   />
                 </div>
               </div>
             </div>
-            <div className="px-3 pt-6">
+            <div className="px-3 pt-7">
               <div>
                 <h1 className="text-lg font-medium">
                   {findrestaurant?.name || "Put Your Cafe Name"}
                 </h1>
                 <p className="text-xs pb-2">
-                  {" "}
-                  {findrestaurant?.location ||
-                    "Enter Your Cafe Location"}
+                  {findrestaurant?.location || "Enter Your Cafe Location"}
                 </p>
                 <div>
                   <a
                     target="_blank"
                     href={
-                      socialLink?.whatsappLink ||
-                      "https://wa.me/+971543286045"
+                      socialLink?.whatsappLink || "https://wa.me/+971543286045"
                     }
-                    className="border flex items-center w-fit gap-1 border-black rounded-2xl px-2 py-1 text-xs font-bold"
+                    className="border flex items-center w-fit gap-1 border-black rounded-3xl px-4 py-2 text-xs font-bold"
                   >
                     <img
                       className="w-4"
@@ -66,10 +68,9 @@ const RestaurantInfo = () => {
           </div>
           <div>
             <div className="py-3 px-3">
-              <h3 className="text-sm font-bold">About US</h3>
-              <p className="text-sm">
-                {findrestaurant?.about ||
-                  "Please Enter About Your Cafe"}
+              <h3 className="text-sm font-medium">About US</h3>
+              <p className="text-xs pt-1">
+                {findrestaurant?.about || "Please Enter About Your Cafe"}
               </p>
             </div>
             <div className="px-3 flex flex-col gap-1">

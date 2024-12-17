@@ -102,7 +102,7 @@ function FetchMenu() {
               alt="account's"
             />
           </div>
-          <div className="flex  scroll-hidden cursor-pointer scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
+          <div className="flex scroll-hidden scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
             {getResponse?.map((e) => (
               <Category
                 activeCat={selectedCateg}
@@ -132,7 +132,7 @@ function FetchMenu() {
                     selectPerProduct={selectPerProduct}
                   />
                 ))
-              : ""}
+              : <p className="text-center">You don't have product in this category</p>}
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@ function FetchMenu() {
 
 const Category = ({ activeCat, selectedCateg, id }) => (
   <div
-    className="flex flex-col gap-3 items-center"
+    className="flex cursor-pointer flex-col gap-3 items-center"
     onClick={() => selectedCateg(id)}
   >
     <div

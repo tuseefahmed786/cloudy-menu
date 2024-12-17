@@ -15,16 +15,14 @@ const infoRestaurant = createSlice({
       if (action.payload.userFound.subscriptionType == "free_trial") {
         state.freeTrails = action.payload.daysLeft;
       } else {
-        console.log(action.payload);
         state.freeTrails = action.payload.userFound.subscriptionType;
       }
     },
     updateRestaurantLogo: (state, action) => {
       state.data.logo = action.payload.logo;
-      state.data.cover = action.payload.cover
+      state.data.cover = action.payload.cover;
     },
     setBillingTrail: (state, action) => {
-      console.log(action.payload);
       if (action.payload) {
         state.freeTrails = action.payload;
       }

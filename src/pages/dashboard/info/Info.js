@@ -32,7 +32,7 @@ const Info = () => {
               activeSection == "logo" ? "border-b-2 border-b-[#22c55e]" : ""
             }  py-2 px-4 sm:py-3 sm:px-9 border-r hover:cursor-pointer text-sm`}
           >
-            Appearance
+            Logo
           </Link>
 
           <Link
@@ -41,7 +41,7 @@ const Info = () => {
               activeSection == "social" ? "border-b-2 border-b-[#22c55e]" : ""
             }  py-2 px-4 sm:py-3 sm:px-9 border-r hover:cursor-pointer text-sm`}
           >
-            Social Form
+            Social Links
           </Link>
         </ul>
       </div>

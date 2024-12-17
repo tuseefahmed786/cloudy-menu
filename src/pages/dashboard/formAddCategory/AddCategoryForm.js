@@ -8,7 +8,11 @@ import {
   deleteCategory,
   editCategories,
 } from "../../../redux/slice/fetchMenuForEdit";
-import { deleteCategoryMenu, setMenuCategory, setMenuEditCategory } from "../../../redux/slice/menuSlice";
+import {
+  deleteCategoryMenu,
+  setMenuCategory,
+  setMenuEditCategory,
+} from "../../../redux/slice/menuSlice";
 const AddCategoryForm = ({ setShow, editCategory }) => {
   const [title, setTitle] = useState("");
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -39,6 +43,10 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
   const handleAddCategory = async () => {
     const token = localStorage.getItem("token");
     if (editCategory && editCategory._id) {
+      if (title.length == 0 || selectedIcon == null) {
+        alert("You can't save empty field");
+        return;
+      }
       setIsLoadingAddBtn(true);
       try {
         const updatedCategory = await axios.put(
@@ -55,22 +63,21 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
           }
         );
         dispatch(editCategories(updatedCategory.data.category));
-        dispatch(setMenuEditCategory(updatedCategory.data.category))
+        dispatch(setMenuEditCategory(updatedCategory.data.category));
         setShow("edit");
       } catch (error) {
-        console.log(error);
         if (
           error.response.data.message ==
-          "A category with this title already exists for this user."
+          "category with this title already exists for this user"
         ) {
-          alert("this category name is already exist.");
+          alert("This category name already exists in your category.");
         }
       } finally {
         setIsLoadingAddBtn(false);
       }
     } else {
       if (title.length == 0 || selectedIcon == null) {
-        alert("empty");
+        alert("You can't save empty field");
       } else {
         setIsLoadingAddBtn(true);
         try {
@@ -87,15 +94,13 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
               },
             }
           );
-          const  create = createCategory.data.category
+          const create = createCategory.data.category;
           dispatch(addCategory(create));
-          // Second dispatch for setting menu category
           dispatch(setMenuCategory(create));
           setShow("edit");
         } catch (error) {
-          console.log(error)
           if (error.response.data.message == "Category already exists") {
-            alert("this category name is same");
+            alert("This category name already exists in your category.");
           }
         } finally {
           setIsLoadingAddBtn(false);
@@ -111,7 +116,7 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
         `/categories/${editCategory._id}/deleteCategory`
       );
       dispatch(deleteCategory(deletedCategory.data.deletedCategory._id));
-      dispatch(deleteCategoryMenu(deletedCategory.data.deletedCategory._id))
+      dispatch(deleteCategoryMenu(deletedCategory.data.deletedCategory._id));
       setShow("edit");
     } catch (error) {
       console.log("error in deleteTheCategory", error);
@@ -158,7 +163,7 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
                   onClick={() => setSelectedIcon(icon.url)}
                   className={`p-2 rounded-full w-16 sm:w-20 flex items-center justify-center border ${
                     selectedIcon === icon.url
-                      ? "border-blue-500"
+                      ? "border-blue-500 border-2 "
                       : "border-gray-300"
                   }`}
                 >

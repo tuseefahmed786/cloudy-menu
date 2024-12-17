@@ -3,6 +3,7 @@ import axios from "../../../axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setSocialLinks } from "../../../redux/slice/infoSlice";
 import Isloading from "../../../components/Isloading";
+import { updateSocialLinks } from "../../../redux/slice/menuSlice";
 
 
 const SocialLinksForm = () => {
@@ -45,6 +46,7 @@ const SocialLinksForm = () => {
         },
       });
       dispatch(setSocialLinks(response.data.socialLinks));
+      dispatch(updateSocialLinks(response.data.socialLinks))
       setIsLoading(true);
       console.log(response.data.socialLinks);
     } catch (error) {
@@ -52,7 +54,7 @@ const SocialLinksForm = () => {
       alert("Failed to save links. Please try again.");
     } finally {
       setUploading(false);
-      // setTimeout(() => setIsLoading(false), 3000);
+      setTimeout(() => setIsLoading(false), 3000);
     }
   };
 
