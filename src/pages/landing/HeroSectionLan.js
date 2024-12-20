@@ -13,7 +13,7 @@ const HeroSectionLan = () => {
             Create and manage your digital QR menu with our easy and user-friendly platform.
           </p>
           <Link
-            to="register"
+            to="https://www.qr.cloudymenu.com/register"
             className="inline-block w-full text-center  md:mx-6 cloud-menu-bg md:text-base text-white px-4 sm:px-6 py-3 rounded-sm sm:rounded-lg hover:bg-green-600"
           >
             Get Your Menu

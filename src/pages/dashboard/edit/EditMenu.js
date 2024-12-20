@@ -60,7 +60,6 @@ const EditMenu = () => {
     }
     
     if (menuUSer.menuData.length === 0) {
-      console.log(restaurantInfo.socialLinks)
       dispatch(setMenuData({
         findrestaurant:restaurantInfo.data,
       getcatandProducts:menuData,
@@ -78,7 +77,7 @@ const EditMenu = () => {
       <div className="w-full max-w-[25rem] flex flex-col mx-auto h-full bg-white sm:shadow-xl">
         {show == "edit" && (
           <>
-            <div className="flex cursor-pointer scrollx pb-2 mb-1 items-center gap-7 sm:gap-[2.5rem] sm:pt-5 sm:pb-3 sm:mb-2 pl-3 sm:pl-5 overflow-x-auto">
+            <div className="flex scrollx pb-2 mb-1 items-center gap-7 sm:gap-[2.5rem] sm:pt-5 sm:pb-3 sm:mb-2 pl-3 sm:pl-5 overflow-x-auto">
               <div
                 className="flex-shrink-0 flex cursor-pointer flex-col items-center"
                 onClick={createNewCategory}
@@ -86,13 +85,12 @@ const EditMenu = () => {
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308567/ap8txd7cf811nfevs2oe.png"
                   className="w-10 sm:w-[52px]"
-                  width={52}
                   alt="addicon"
                 />
-                <span className="mt-4 text-sm">Add</span>
+                <span className="mt-4 text-sm">Add Category</span>
               </div>
 
-              {allCategories.length > 0 ? (
+              {allCategories.length > 0 && (
                 allCategories.map((e) => (
                   <Category
                     key={e._id}
@@ -102,8 +100,6 @@ const EditMenu = () => {
                     selectedCategory={selectedCategoryForProducts}
                   />
                 ))
-              ) : (
-                <p>Add the Category</p>
               )}
             </div>
             <div className="scrollx flex-1 overflow-y-auto flex flex-col">
@@ -119,7 +115,7 @@ const EditMenu = () => {
                       className="w-6 sm:w-8"
                       alt="add dish"
                     />
-                    <span className="text-[#5d5d5d]">Add new dish</span>
+                    <span className="text-black">Add new dish</span>
                   </div>
                 </div>
               )}
@@ -169,7 +165,7 @@ const EditMenu = () => {
 const Category = ({ activeCat, selectedCategory, id, editCategory }) => {
   return (
     <div
-      className="flex flex-col gap-3 items-center"
+      className="flex hover:cursor-pointer flex-col gap-3 items-center"
       onClick={() => selectedCategory(id)}
     >
       <div

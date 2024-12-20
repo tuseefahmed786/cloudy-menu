@@ -19,13 +19,11 @@ function UploadLogo() {
     if (type === "logo") {
       setLogoFile(selectedFile);
       if (selectedFile) {
-        console.log(selectedFile);
         setLogoPreview(URL.createObjectURL(selectedFile));
       }
     } else if (type === "cover") {
       setCoverFile(selectedFile);
       if (selectedFile) {
-        console.log(selectedFile);
         setCoverPreview(URL.createObjectURL(selectedFile));
       }
     }
@@ -42,8 +40,6 @@ function UploadLogo() {
   
     if (logoFile) formData.append("logo", logoFile);
     if (coverFile) formData.append("cover", coverFile);
-    console.log(formData);
-  
     try {
       const response = await axios.post("/api/uploadLogo", formData, {
         headers: {

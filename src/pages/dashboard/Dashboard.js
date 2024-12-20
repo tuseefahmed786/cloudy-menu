@@ -21,6 +21,7 @@ const DashboardLayout = () => {
   );
   const location = useLocation();
   const dispatch = useDispatch();
+  const baseUrl = window.location.origin;
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsActive(location.pathname.split("/").pop());
@@ -44,7 +45,6 @@ const DashboardLayout = () => {
         const response = await axios.get("/api/restaurantData", {
           headers: { Authorization: token },
         });
-        console.log(response.data)
         dispatch(setFreeTrails(response.data));
         dispatch(setRestaurantData(response.data));
         dispatch(setSocialLinks(response.data.social));
@@ -61,7 +61,6 @@ const DashboardLayout = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    console.log(restaurantData);
     const name = restaurantData.name;
     if (name) {
       const restaurantSlug = slugify(name, { lower: true });
@@ -70,7 +69,8 @@ const DashboardLayout = () => {
   }, [restaurantData?.name]);
 
   const logoutUser = () => {
-    localStorage.removeItem("token");
+    dispatch({ type: "LOGOUT" });
+    localStorage.clear();
     navigate("/login");
   };
 
@@ -103,7 +103,8 @@ const DashboardLayout = () => {
             to={fetchMenuLink}
             className="text-[9px] sm:text-xs sm:block hover:underline text-[#616161]"
           >
-            https://emenu-sandy.vercel.app{fetchMenuLink}
+            {baseUrl}
+            {fetchMenuLink}
           </Link>
         </div>
         <div className="flex justify-end items-center flex-grow gap-2 sm:gap-3 px-2 sm:px-4">
@@ -154,7 +155,7 @@ const DashboardLayout = () => {
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png"
                   className="hidden sm:block w-4"
-                  alt=""
+                  alt="home image"
                 />
                 Home
               </div>

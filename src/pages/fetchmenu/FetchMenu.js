@@ -26,13 +26,11 @@ function FetchMenu() {
       try {
         if (menuData.length === 0) {
           const responseMenu = await axios.get(`/menu/${restaurantName}`);
-          console.log(responseMenu.data);
           setLogo(responseMenu.data.findrestaurant.logo);
           dispatch(setMenuData(responseMenu.data)); // Save to Redux
           setGetResponse(responseMenu.data.getcatandProducts);
           setselectedCateg(responseMenu?.data.getcatandProducts[0]);
         } else {
-          console.log(menuData);
           setGetResponse(menuData);
           setLogo(findrestaurant.logo);
         }

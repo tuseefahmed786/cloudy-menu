@@ -33,7 +33,7 @@ const HeaderLan = () => {
               </div>
               <div className='hidden md:flex'>
                 <Link
-                  to="/register"
+                  to="https://www.qr.cloudymenu.com/register"
                   className="underline cloud-menu-bg text-white px-6 py-3 rounded-lg text-lg font-bold hover:bg-green-600"
                 >
                   Sign Up

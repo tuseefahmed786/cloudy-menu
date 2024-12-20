@@ -20,7 +20,6 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
   const [isloading, setIsLoading] = useState(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const dispatch = useDispatch();
-console.log(selectedCategory)
   useEffect(() => {
     if (editProduct) {
       setName(editProduct.name || "");
@@ -35,9 +34,8 @@ console.log(selectedCategory)
       if (name.length == 0 || price.length == 0 || description.length == 0) {
         alert("You can't save empty field");
         setIsLoading(false);
-        return
+        return;
       }
-      console.log("uhu")
       setIsLoading(true);
       const selectedCategoryId = selectedCategory._id;
       const formData = new FormData();
@@ -104,8 +102,6 @@ console.log(selectedCategory)
   };
   const deleteTheProduct = async () => {
     setIsLoadingDelete(true);
-    console.log(editProduct)
-    console.log("Delete started, loading set to true");
     try {
       const deletedInDb = await axios.delete(
         `/api/${editProduct._id}/deletedProduct`
@@ -123,7 +119,6 @@ console.log(selectedCategory)
       console.error("Error deleting the product:", error);
     } finally {
       setIsLoadingDelete(false); // Reset loading state to false
-      console.log("Delete finished, loading set to false");
     }
   };
 
