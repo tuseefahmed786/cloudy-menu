@@ -7,6 +7,7 @@ import {
   fetchMenuApi,
   selectCategory,
 } from "../../../redux/slice/fetchMenuForEdit";
+import { fetchMenuUser, setMenuData } from "../../../redux/slice/menuSlice";
 
 const EditMenu = () => {
   const [show, setShow] = useState("edit");
@@ -22,7 +23,8 @@ const EditMenu = () => {
     loading,
     error,
   } = useSelector((state) => state.fetchMenuForEdit);
-  const restaurantInfo = useSelector((state) => state.info.data);
+  const restaurantInfo = useSelector((state) => state.info);
+  const menuUSer = useSelector((state) => state.menuSlice);
   const createNewCategory = () => {
     setShow("category");
     setEditCategory("");
@@ -56,12 +58,20 @@ const EditMenu = () => {
       setAllCategories(menuData);
       setisLoading(false);
     }
+    
+    if (menuUSer.menuData.length === 0) {
+      console.log(restaurantInfo.socialLinks)
+      dispatch(setMenuData({
+        findrestaurant:restaurantInfo.data,
+      getcatandProducts:menuData,
+      socialLink:restaurantInfo.socialLinks,
+      }));
+    }
   }, [dispatch, menuData]);
-
+    
   if (loading || isLoading) {
     return <Isloading width="w-14" height="h-14" />;
   }
-
   return (
     <>
       {/* absolute  h-full  */}
@@ -124,7 +134,7 @@ const EditMenu = () => {
                         key={product._id}
                         productInfo={product}
                         selectProduct={editExistingProduct}
-                        currency={restaurantInfo.currency}
+                        currency={restaurantInfo.data.currency}
                       />
                     ))
                   ) : (

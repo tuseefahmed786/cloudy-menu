@@ -1,5 +1,20 @@
 // menuSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "../../axios";
+
+export const fetchMenuUser = createAsyncThunk(
+  "menu/fetch",
+  async (restaurantName, { rejectWithValue }) => {
+  console.log(restaurantName)
+    try {
+      const response = await axios.get(`/menu/${restaurantName}`);
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  }
+);
 
 const menuSlice = createSlice({
   name: "menu",
@@ -11,6 +26,8 @@ const menuSlice = createSlice({
   },
   reducers: {
     setMenuData: (state, action) => {
+      console.log(action.payload)
+    
       state.menuData = action.payload.getcatandProducts;
       state.restaurantData = action.payload.findrestaurant;
       state.socialLink = action.payload.socialLink;
@@ -82,6 +99,7 @@ const menuSlice = createSlice({
       state.restaurantData.about = action.payload.about;
       state.restaurantData.location = action.payload.location;
       state.restaurantData.name = action.payload.name;
+      state.restaurantData.currency = action.payload.currency
     },
     updateSocialLinks: (state, action) => {
       const { facebookLink, googleMapLink, instagramLink, whatsappLink } =
@@ -94,6 +112,7 @@ const menuSlice = createSlice({
       };
     },
   },
+
 });
 
 export const {

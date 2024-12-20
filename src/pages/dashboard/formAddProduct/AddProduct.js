@@ -32,6 +32,12 @@ console.log(selectedCategory)
 
   const handleAddProduct = async () => {
     if (editProduct && editProduct._id) {
+      if (name.length == 0 || price.length == 0 || description.length == 0) {
+        alert("You can't save empty field");
+        setIsLoading(false);
+        return
+      }
+      console.log("uhu")
       setIsLoading(true);
       const selectedCategoryId = selectedCategory._id;
       const formData = new FormData();
@@ -54,7 +60,6 @@ console.log(selectedCategory)
           },
         }
       );
-      console.log(createProduct.data.updated);
       dispatch(editProducts(createProduct.data.updated));
       dispatch(
         editProductsMenu({
@@ -67,7 +72,7 @@ console.log(selectedCategory)
     } else {
       setIsLoading(true);
       if (name.length == 0 || price.length == 0 || description.length == 0) {
-        alert("empty");
+        alert("You can't save empty field");
         setIsLoading(false);
       } else {
         const selectedCategoryId = selectedCategory._id;
@@ -141,7 +146,8 @@ console.log(selectedCategory)
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full border border-gray-300 p-2 rounded"
-              placeholder="Enter category title"
+              placeholder="Enter Dish Name"
+              required
             />
             <label className="block text-gray-700 ">Product Price</label>
             <input
@@ -149,7 +155,8 @@ console.log(selectedCategory)
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               className="w-full border border-gray-300 p-2 rounded"
-              placeholder="Enter Price"
+              placeholder="Enter Your Price"
+              required
             />
             <label className="block text-gray-700 ">Product description</label>
             <input
@@ -158,6 +165,7 @@ console.log(selectedCategory)
               onChange={(e) => setDescription(e.target.value)}
               className="w-full border border-gray-300 p-2 rounded"
               placeholder="Enter Product description"
+              required
             />
 
             <label className="block text-gray-700">Product Image</label>

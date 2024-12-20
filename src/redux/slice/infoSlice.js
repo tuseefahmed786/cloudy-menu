@@ -28,7 +28,7 @@ const infoRestaurant = createSlice({
       }
     },
     setSocialLinks: (state, action) => {
-      state.socialLinks = action.payload;
+      state.socialLinks = action.payload || [];
     },
   },
 });

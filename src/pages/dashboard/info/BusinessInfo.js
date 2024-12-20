@@ -4,6 +4,8 @@ import Isloading from "../../../components/Isloading";
 import { setRestaurantData } from "../../../redux/slice/infoSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { updateRestaurantInfo } from "../../../redux/slice/menuSlice";
+import Select from "react-select";  // Import react-select
+import currencies from "currencies.json";  // Import the currencies.json library
 
 const BusinessInfo = () => {
   const [isValidName, setIsValidName] = useState(false);
@@ -12,10 +14,9 @@ const BusinessInfo = () => {
   const dispatch = useDispatch();
   const restaurantData = useSelector((state) => state.info.data);
   const token = localStorage.getItem("token");
-
+const currenciess = currencies.currencies
   const [formData, setFormData] = useState({
     restaurantName: "",
-    country: "",
     currency: "",
     about: "",
     location: "",
@@ -46,13 +47,14 @@ const BusinessInfo = () => {
         }
       );
       setIsLoading(true);
-      const response = res.data.restaurant
+      const response = res.data.restaurant;
       dispatch(setRestaurantData(res.data));
-      dispatch(updateRestaurantInfo({
+      dispatch(updateRestaurantInfo({ 
         about: response.about,
         name: response.name,
-        location:response.location
-      }))
+        location: response.location,
+        currency: response.currency
+      }));
     } catch (error) {
       if (error.response?.status === 409) {
         setIsValidName(true);
@@ -65,9 +67,9 @@ const BusinessInfo = () => {
 
   useEffect(() => {
     if (restaurantData) {
+      console.log(restaurantData?.currency)
       setFormData({
         restaurantName: restaurantData?.name,
-        country: restaurantData?.country,
         currency: restaurantData?.currency,
         about: restaurantData?.about || "",
         location: restaurantData?.location || "",
@@ -75,10 +77,28 @@ const BusinessInfo = () => {
     }
   }, [restaurantData]);
 
+  // Create the options for react-select from currencies.json
+  const currencyOptions = Object.keys(currenciess).map((currencyCode) => ({
+    value: currencyCode,
+    label: `${currenciess[currencyCode].name} `,
+    symbol: currenciess[currencyCode].symbol,
+  }));
+  const filteredCurrencyOptions = currencyOptions.filter(
+    (option) => option.label !== 'Israeli New Sheqel (47)' // Remove ILS from the dropdown
+  );
+  // Handle the currency change from react-select
+  const handleCurrencyChange = (selectedOption) => {
+    console.log(selectedOption)
+    setFormData({
+      ...formData,
+      currency: selectedOption?.symbol || "",
+    });
+  };
+
   return (
     <>
       <div className="p-3 w-full sm:w-3/5">
-        <div className=" bg-white rounded-lg flex justify-center flex-col pt-2 px-4 sm:p-6">
+        <div className="bg-white rounded-lg flex justify-center flex-col pt-2 px-4 sm:p-6">
           <form onSubmit={handleSubmit}>
             {/* Restaurant Name */}
             <div className="mb-3 sm:mb-4">
@@ -109,34 +129,6 @@ const BusinessInfo = () => {
               )}
             </div>
 
-            {/* Country */}
-            <div className="mb-3 sm:mb-4">
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium mb-1"
-              >
-                Country
-              </label>
-
-              <select
-                name="country"
-                id="country"
-                value={formData.country}
-                onChange={handleChange}
-                className="w-full p-2 sm:p-3 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="" disabled hidden>
-                  select your Country
-                </option>
-                <option value="UAE">UAE</option>
-                <option value="Saudi Arabia">Saudi Arabia</option>
-                <option value="Qatar">Qatar</option>
-                <option value="Kuwait">Kuwait</option>
-                <option value="Bahrain">Bahrain</option>
-                <option value="Oman">Oman</option>
-              </select>
-            </div>
-
             {/* Currency */}
             <div className="mb-3 sm:mb-4">
               <label
@@ -145,22 +137,14 @@ const BusinessInfo = () => {
               >
                 Currency
               </label>
-              <select
+              <Select
                 name="currency"
                 id="currency"
-                value={formData.currency}
-                onChange={handleChange}
-                className="w-full p-2 sm:p-3 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="" disabled hidden>
-                  Sselect your Currency
-                </option>
-                <option value="AED">UAE - AED</option>
-                <option value="OMR">Oman - OMR</option>
-                <option value="KWT">Kuwait - KWT</option>
-                <option value="SAR">Saudi Arabia - SAR</option>
-                <option value="QAR">Qatar - QAR</option>
-              </select>
+                options={filteredCurrencyOptions}
+                value={currencyOptions.find((option) => option.symbol === formData.currency)}
+                onChange={handleCurrencyChange}
+                placeholder="Select your Currency"
+              />
             </div>
 
             {/* About */}

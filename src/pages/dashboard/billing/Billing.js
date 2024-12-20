@@ -5,13 +5,9 @@ import { setBillingTrail } from '../../../redux/slice/infoSlice';
 const Billing = () => {
     const [billingData, setBillingData] = useState(null); // Change to `null` for an object
     const [loading, setLoading] = useState(true);
-    const [isFetching, setIsFetching] = useState(false);
     const dispatch = useDispatch()
     useEffect(() => {
-
-
         const token = localStorage.getItem('token');
-        console.log(token);
         const paymentHistory = async () => {
             try {
                 const getData = await axios.get('/paymentDetails', {
@@ -20,7 +16,6 @@ const Billing = () => {
                         'Authorization': `${token}`
                     }
                 });
-console.log(getData.data.subscriptionStatus)
                 setBillingData(getData.data.data);
                 dispatch(setBillingTrail(getData.data.subscriptionStatus))
             } catch (error) {
@@ -28,7 +23,6 @@ console.log(getData.data.subscriptionStatus)
 
             } finally {
                 setLoading(false);
-                setIsFetching(false);
             }
         };
         paymentHistory();
@@ -58,9 +52,9 @@ console.log(getData.data.subscriptionStatus)
                 </div>
 
                 {billingData ? (
-                    billingData.map((billingData) => {
+                    billingData.map((billingData,i) => {
                         return (
-                            <div className="flex justify-between items-center px-4 py-3">
+                            <div key={i} className="flex justify-between items-center px-4 py-3">
                                 <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309053/gfefcgm6ucelgv73caou.png" alt="invoice" width={36} />
                                 <div className='hidden sm:flex flex-col'>
                                     <p className="font-medium text-xs">

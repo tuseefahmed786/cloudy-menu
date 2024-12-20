@@ -31,7 +31,6 @@ function Register() {
       })
       console.log('you are registered', registered.data)
       navigate("/login")
-
     } catch (error) {
       if (error.status == 409 && error.response.data == "Email already exists") {
         setIsEmailValidate(true)

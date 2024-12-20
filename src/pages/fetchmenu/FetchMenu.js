@@ -9,8 +9,7 @@ import { setMenuData } from "../../redux/slice/menuSlice";
 function FetchMenu() {
   const menuData = useSelector((state) => state.menuSlice.menuData);
   const findrestaurant
-  = useSelector((state) => state.menuSlice.restaurantData); // Get menu data from Redux store
-  // Get menu data from Redux store
+  = useSelector((state) => state.menuSlice.restaurantData); 
   const { restaurant } = useParams();
   const dispatch = useDispatch();
   const [getResponse, setGetResponse] = useState([]);
