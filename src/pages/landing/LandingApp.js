@@ -1,16 +1,17 @@
-import React from 'react';
-import HeroSectionLan from './HeroSectionLan';
-import HeaderLan from './HeaderLan';
-import PricingLan from './PricingLan';
-import FooterLanding from './FooterLanding';
+import React, { useEffect } from "react";
+import PricingPlan from "./PricingPlan";
+import FooterLanding from "./FooterLanding";
+import Hero from "./Hero";
+import Testimonials from "./Testimonials";
 
 function LandingApp() {
   return (
-    <div className='bg-[#c8ffdd]'>
-      <HeroSectionLan />
-      <PricingLan />
+    <>
+      <Hero />
+      <PricingPlan />
+      <Testimonials />
       <FooterLanding />
-    </div>
+    </>
   );
 }
 

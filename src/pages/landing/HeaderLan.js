@@ -8,8 +8,8 @@ const HeaderLan = () => {
   };
   return (
     <>
-      <header className=''>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header>
+        <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex justify-between items-center w-full">
               <div className="flex-shrink-0 flex gap-3 items-center">
@@ -21,23 +21,31 @@ const HeaderLan = () => {
                   Home
                 </Link>
 
-                <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                <a href="#plan" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
                   Pricing
-                </Link>
-                <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                </a>
+                <a href="#about" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
                   About
-                </Link>
+                </a>
                 <a href="https://www.linkedin.com/company/cloud-menu-ae" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
                   Contact Us
                 </a>
               </div>
               <div className='hidden md:flex'>
-                <Link
+              <div className='flex justify-center items-center gap-2'>
+              <Link
                   to="https://www.qr.cloudymenu.com/register"
-                  className="underline cloud-menu-bg text-white px-6 py-3 rounded-lg text-lg font-bold hover:bg-green-600"
+                  className=" cloud-menu-bg text-white px-3 py-2 rounded-md text-base font-medium hover:bg-green-600"
                 >
                   Sign Up
                 </Link>
+
+                <Link
+                  to="https://www.qr.cloudymenu.com/login"
+                  className=" cloud-menu-bg text-white px-3 py-2 rounded-md text-base font-medium hover:bg-green-600"
+                >
+                  Login In                </Link>
+              </div>
               </div>
               <div className="md:hidden flex justify-between items-center p-4">
                 <button onClick={toggleNavbar} className="focus:outline-none">
@@ -74,11 +82,11 @@ const HeaderLan = () => {
             </button>
             <nav className="flex flex-col space-y-6 text-white text-3xl">
               <a href="/#home" onClick={toggleNavbar}>Home</a>
-              <a href="/#pricing" onClick={toggleNavbar}>Pricing</a>
-              <a href="/#pricing" onClick={toggleNavbar}>About</a>
+              <a href="#plan" onClick={toggleNavbar}>Pricing</a>
+              <a href="#about" onClick={toggleNavbar}>About</a>
               <a href="https://www.linkedin.com/company/cloud-menu-ae" onClick={toggleNavbar}>Contact</a>
-              <Link to="/login" onClick={toggleNavbar}>Login</Link>
-              <Link to="/register" onClick={toggleNavbar}>Sign Up</Link>
+              <Link to="https://www.qr.cloudymenu.com/login" onClick={toggleNavbar}>Login</Link>
+              <Link to="https://www.qr.cloudymenu.com/register" onClick={toggleNavbar}>Sign Up</Link>
             </nav>
           </div>
         )}
