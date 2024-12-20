@@ -77,8 +77,8 @@ const HeaderLan = () => {
               <a href="/#pricing" onClick={toggleNavbar}>Pricing</a>
               <a href="/#pricing" onClick={toggleNavbar}>About</a>
               <a href="https://www.linkedin.com/company/cloud-menu-ae" onClick={toggleNavbar}>Contact</a>
-              <Link to="/login" onClick={toggleNavbar}>Login</Link>
-              <Link to="/register" onClick={toggleNavbar}>Sign Up</Link>
+              <Link to="https://www.qr.cloudymenu.com/login" onClick={toggleNavbar}>Login</Link>
+              <Link to="https://www.qr.cloudymenu.com/register" onClick={toggleNavbar}>Sign Up</Link>
             </nav>
           </div>
         )}
