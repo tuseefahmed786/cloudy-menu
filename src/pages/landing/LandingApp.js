@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {  } from "react";
 import PricingPlan from "./PricingPlan";
 import FooterLanding from "./FooterLanding";
 import Hero from "./Hero";
