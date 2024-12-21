@@ -4,9 +4,7 @@ const { SitemapStream } = require('sitemap');
 const { Readable } = require('stream');
 
 const urls = [
-  { url: '/', changefreq: 'daily', priority: 1.0 },
-  { url: '/about', changefreq: 'monthly', priority: 0.7 },
-  // Add other URLs here
+  { url: '/', changefreq: 'daily', priority: 1.0 }  // Add other URLs here
 ];
 
 const sitemapStream = new SitemapStream({ hostname: 'https://cloudymenu.com' });
