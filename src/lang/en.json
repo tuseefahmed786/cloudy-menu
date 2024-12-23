@@ -5,15 +5,17 @@
     "about": "About",
     "contact": "Contact Us",
     "login": "Log In",
-    "signup": "Sign Up",
+    "signup": "Create Menu",
     "excellent": "Excellent",
     "reviews_on": "110+ Reviews On",
     "trustpilot": "Trustpilot",
-    "hero_title": "The Fastest Way To Create Digital Menu",
-    "hero_description": "Create and manage your digital QR menu with our easy and user-friendly platform.",
-    "create_menu_button": "Create QR Online Menu for Free",
+    "hero_title": "Create QR Menu",
+    "hero_p":"Next-Level Dining",
+    "hero_description": "Create and manage your digital QR menu with your menu Management!",
+    "create_menu_button": "Create QR Menu",
+    "view_menu" :"View Menu",
     "how_it_works_title": "How It Works?",
-    "how_it_works_description": "You can easily create a non-contact digital menu for free and many more! Follow the Next 6 Steps",
+    "how_it_works_description": "You can easily create a non-contact digital menu for free and many more!",
     "steps": {
       "sign_up": "Sign up",
       "sign_up_description": "Enter details about your business in the sign-up form.",
@@ -21,7 +23,7 @@
       "prepare_menu_description": "Create a new digital menu from scratch."
     },
     "create_digital_menu": "Create Your Digital Menu" ,
-    "choose_plan_title": "Choose Your Plan",
+    "choose_plan_title": "Plans & Pricing",
     "pricing_description": "Cloud Menu offers commission-free and simple pricing plans for all sizes of businesses.",
     "plans": [
       {
@@ -113,11 +115,18 @@
     "tryMenuDemo": "Try Menu Demo",
     "registerCafe": "Register Your Cafe",
     "navigationLinks": {
-      "plansPricing": "Plans & Pricing",
+      "pricing": "Plans & Pricing",
       "features": "Features",
       "careers": "Careers"
     },
     "copyright": "© 2024 Cloudy Menu. All rights reserved."
-  }
+  },
+  "login_title": "Login as Cloud Menu",
+  "email_label": "Email address",
+  "password_label": "Password",
+  "login_button": "Sign In",
+  "not_member": "Not a member?",
+  "register_link": "Now Register",
+  "incorrect_pass": "Your email or password are incorrect. Please try again!"
   }
   

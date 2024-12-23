@@ -24,39 +24,35 @@ const HeaderLan = () => {
               </div>
            
               <div className="hidden justify-center gap-7 sm:-my-px sm:ml-6 lg:flex">
-                <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-gray-800">
               {  t('home')}
                 </Link>
 
-                <a href="#plan" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                <a href="#plan" className="ml-4 font-semibold text-gray-700 hover:text-gray-800">
                 {  t('pricing')}
                 </a>
-                <a href="#about" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                <a href="#about" className="ml-4 font-semibold text-gray-700 hover:text-gray-800">
                 {  t('about')}
 
                 </a>
-                <a href="https://www.linkedin.com/company/cloud-menu-ae" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
+                <a href="https://www.linkedin.com/company/cloud-menu-ae" className="ml-4 font-semibold text-gray-700 hover:text-gray-800">
                 {  t('contact')}
 
                 </a>
               </div>
               <div className='hidden lg:flex'>
               <div className='flex justify-center items-center gap-2'>
-              <Link
-                  to="https://www.qr.cloudymenu.com/register"
-                  className=" cloud-menu-bg text-white px-3 py-2 rounded-md text-base font-medium hover:bg-green-600"
-                >
-                                            {  t('signup')}
-
-                </Link>
-
-                <Link
-                  to="https://www.qr.cloudymenu.com/login"
-                  className=" cloud-menu-bg text-white px-3 py-2 rounded-md text-base font-medium hover:bg-green-600"
+              <LanguageToggle/>
+           
+              <a
+                  href="https://www.qr.cloudymenu.com/login"
+                  className=" text-black px-3 py-2 rounded-md text-base font-medium"
                 >
                             {  t('login')}
-                            </Link>
-                  <LanguageToggle/>
+                            </a>
+          <a href='https://www.qr.cloudymenu.com/register' className="bg-slate-950 text-center font-semibold text-white text-base px-6 hover:bg-[#030303cc] py-3 rounded-full">{t('signup')}</a>
+
+               
             
               </div>
 

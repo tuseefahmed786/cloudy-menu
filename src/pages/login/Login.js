@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../../axios";
 import { Link, useNavigate } from "react-router-dom";
 import Isloading from "../../components/Isloading";
+import { useTranslation } from "react-i18next";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [inCorrectPass, setInCorrectPass] = useState(false);
+const {t,i18n} = useTranslation()
+useEffect(() => {
+  const lng = i18n.language;
+  document.documentElement.setAttribute('dir', lng  === 'ar' ? 'rtl' : 'ltr');
+}, [i18n.changeLanguage])
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -56,15 +62,14 @@ function Login() {
             <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308759/a7q5yuen7emg6aiv0duo.png" alt="logo" width={45} />
             <a href="https://www.cloudymenu.com/">
          <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">
-              Cloudy Menu
+              {t('logo')}
             </h1>
          </a>
           </div>
           <div className="flex flex-col h-full justify-center">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <h2 className="pt-6 sm:pt-0 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Login as Cloud Menu
-              </h2>
+              {t('login_title')}              </h2>
             </div>
 
             <div className="pt-5 sm:pt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -74,8 +79,7 @@ function Login() {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Email address
-                  </label>
+     {t('email_label')}                   </label>
                   <div className="mt-1">
                     <input
                       id="email"
@@ -96,8 +100,7 @@ function Login() {
                       htmlFor="password"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Password
-                    </label>
+ {t('password_label')}                        </label>
                   </div>
                   <div className="mt-1">
                     <input
@@ -121,20 +124,20 @@ function Login() {
                     {isLoading ? (
                       <Isloading width="w-6" height="h-6" />
                     ) : (
-                      "Sign In"
+                     t('login_button')
                     )}
                   </button>
                 </div>
               </form>
 
               <p className="pt-4 sm:pt-6 text-center text-xs sm:text-sm text-gray-500">
-                Not a member?{" "}
+             {t('not_member')}
                 <Link
                   to="/register"
                   className="font-semibold leading-6 cloud-menu-color hover:text-[#31ad5f]"
                 >
-                  Now Register
-                </Link>
+             {t('register_link')}
+             </Link>
               </p>
               {inCorrectPass && (
                 <div className="mt-3 max-w-lg w-full p-4 items-center bg-red-50 border border-red-200 rounded-lg flex space-x-4">
@@ -156,7 +159,7 @@ function Login() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-red-700">
-                      your email or password are incorrect. Please Try Again!
+                    {t('incorrect_pass')}
                     </p>
                   </div>
                 </div>

@@ -10,6 +10,7 @@ import {
   setSocialLinks,
 } from "../../redux/slice/infoSlice";
 import Isloading from "../../components/Isloading";
+import { useTranslation } from "react-i18next";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -69,6 +70,15 @@ const DashboardLayout = () => {
     }
   }, [restaurantData?.name]);
 
+
+  const {t,i18n} = useTranslation()
+  useEffect(() => {
+    const currentLanguage = navigator.language || navigator.userLanguage;
+    console.log(currentLanguage);
+    const lng = i18n.language;
+    console.log(i18n)
+    document.documentElement.setAttribute('dir', lng.includes('en')  === 'ar' ? 'rtl' : 'ltr');
+  }, [i18n.changeLanguage])
   const logoutUser = () => {
     dispatch({ type: "LOGOUT" });
     localStorage.clear();

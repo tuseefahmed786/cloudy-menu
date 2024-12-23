@@ -87,7 +87,7 @@ const PricingPlan = () => {
   return (
     
     <div className="bg-white py-10 px-5 sm:px-10">
-      <h2 id="plan" className="text-2xl sm:text-4xl font-bold text-center mb-4">{t('choose_plan_title')}</h2>
+      <h2 id="plan" className="text-2xl sm:text-6xl font-bold text-center mb-4">{t('choose_plan_title')}</h2>
       <p className="text-center text-gray-600 mb-10">
       {t('pricing_description')}
       </p>

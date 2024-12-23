@@ -5,26 +5,23 @@ const Hero = () => {
   const { t } = useTranslation();
   return (
    <>
-     <div className="pt-4 sm:pt-0 bg-gray-50 flex flex-col items-center">
+     <div className="pt-4 sm:pt-4 bg-gray-50 flex flex-col items-center">
       <main className="flex w-full flex-col lg:flex-row items-center ">
         <div className="lg:w-1/2 px-4 sm:px-6 lg:px-8 sm:p-9">
-          <div className="sm:flex flex-wrap items-center space-x-2 mb-4 hidden">
-            <span className="text-green-600 text-sm sm:text-lg">{t('excellent')}</span>
-            <div className="flex">
-              {/* Add stars */}
-              <span>⭐⭐⭐⭐⭐</span>
-            </div>
-            <span className="text-gray-600">{t('reviews_on')}</span>
-            <span className="text-green-500">{t('trustpilot')}</span>
-          </div>
-          <h1 className="text-5xl font-bold mb-4">
+        
+          <h1 className="text-4xl sm:text-6xl text-center sm:text-start  font-bold sm:mb-4">
           {t('hero_title')}
           </h1>
-          <p className="text-gray-700 mb-6">
+          <h1 className="text-4xl sm:text-6xl text-center sm:text-start font-bold mb-4">
+          Next-Level Dining
+          </h1>
+          <p className="hidden sm:block text-gray-500 text-xl font-semibold mb-6">
           {t('hero_description')}
           </p>
-          <div className="flex space-x-4">
-            <a href='https://www.qr.cloudymenu.com/register' className="bg-[#00FF75] w-full text-center font-medium text-black text-sm px-6 py-3 rounded-lg">{t('create_menu_button')}</a>
+          <div className='flex gap-2 flex-col sm:flex-row justify-center items-center sm:justify-start'>
+          <a href='https://www.qr.cloudymenu.com/register' className="bg-[#00FF75]  text-center font-semibold text-black text-base px-10 hover:bg-[#00ff77cc] py-4 rounded-full">{t('create_menu_button')}</a>
+          <a href='https://www.qr.cloudymenu.com/late-cafe-ae' className="bg-white shadow-sm text-center font-semibold text-black text-base px-10 py-4 rounded-full">{t('view_menu')}</a>
+            
           </div>
         </div>
         <div className="w-full sm:w-1/2 bg-transparent lg:bg-[#f4f4f4] flex justify-center px-6 pt-6">
@@ -37,7 +34,7 @@ const Hero = () => {
     <div>
     <section className="bg-white pb-6 pt-6 sm:pt-24" id="about">
         <div className="px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-6">{t('how_it_works_title')}</h2>
+          <h2 className="text-5xl font-bold mb-6">{t('how_it_works_title')}</h2>
           <p className="text-gray-700 mb-8">{t('how_it_works_description')}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <a href="https://www.qr.cloudymenu.com/register">

@@ -14,7 +14,7 @@ const FooterLanding = () => {
             <span className="text-xl font-bold">{t('logo')}</span>
           </div>
           <div className="mt-4 flex flex-wrap gap-2 flex-col-reverse sm:flex-row">
-            <a href="https://qr.cloudymenu.com/late-cafe-ae" target="_blank" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            <a href="https://www.qr.cloudymenu.com/late-cafe-ae" target="_blank" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
             {t('footer.tryMenuDemo')}
             </a>
             <a href="https://www.qr.cloudymenu.com/register" className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300">
@@ -32,7 +32,7 @@ const FooterLanding = () => {
             <a href="#" aria-label="Twitter">
               <i className="fab fa-twitter"></i>
             </a> */}
-            <a href="https://www.linkedin.com/in/tuseef-ahmed-286a9521b/" aria-label="Linkedin">
+            <a href="https://www.linkedin.com/company/cloud-menu-ae" aria-label="Linkedin">
               <i className="fab fa-linkedin"></i>
             </a>
           </div>
@@ -47,7 +47,7 @@ const FooterLanding = () => {
           {t('footer.navigationLinks.features')}
 
           </a>
-          <a href="https://www.linkedin.com/in/tuseef-ahmed-286a9521b/" className="hover:underline">
+          <a href="https://www.linkedin.com/company/cloud-menu-ae" className="hover:underline">
           {t('footer.navigationLinks.careers')}
 
                     </a>
