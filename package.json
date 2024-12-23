@@ -33,7 +33,7 @@
     "postbuild": "node generate-sitemap.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-      "install": "npm install --legacy-peer-deps",
+      "install": "npm install --legacy-peer-deps"
   },
   "eslintConfig": {
     "extends": [
