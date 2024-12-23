@@ -1,29 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
+  const { t } = useTranslation();
   return (
    <>
      <div className="pt-4 sm:pt-0 bg-gray-50 flex flex-col items-center">
       <main className="flex w-full flex-col lg:flex-row items-center ">
         <div className="lg:w-1/2 px-4 sm:px-6 lg:px-8 sm:p-9">
           <div className="sm:flex flex-wrap items-center space-x-2 mb-4 hidden">
-            <span className="text-green-600 text-sm sm:text-lg">Excellent</span>
+            <span className="text-green-600 text-sm sm:text-lg">{t('excellent')}</span>
             <div className="flex">
               {/* Add stars */}
               <span>⭐⭐⭐⭐⭐</span>
             </div>
-            <span className="text-gray-600">110+ Review On</span>
-            <span className="text-green-500">Trustpilot</span>
+            <span className="text-gray-600">{t('reviews_on')}</span>
+            <span className="text-green-500">{t('trustpilot')}</span>
           </div>
           <h1 className="text-5xl font-bold mb-4">
-            The Fastest Way To Create Digital Menu
+          {t('hero_title')}
           </h1>
           <p className="text-gray-700 mb-6">
-            Create and manage your digital QR menu with our easy and user-friendly platform.
+          {t('hero_description')}
           </p>
           <div className="flex space-x-4">
-            <a href='' className="bg-[#00FF75] w-full text-center font-medium text-black text-sm px-6 py-3 rounded-lg">Get Your Demo Now with Free Trail</a>
+            <a href='https://www.qr.cloudymenu.com/register' className="bg-[#00FF75] w-full text-center font-medium text-black text-sm px-6 py-3 rounded-lg">{t('create_menu_button')}</a>
           </div>
         </div>
         <div className="w-full sm:w-1/2 bg-transparent lg:bg-[#f4f4f4] flex justify-center px-6 pt-6">
@@ -36,20 +37,20 @@ const Hero = () => {
     <div>
     <section className="bg-white pb-6 pt-6 sm:pt-24" id="about">
         <div className="px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-6">How It Works?</h2>
-          <p className="text-gray-700 mb-8">You can easily create non-contact digital menu for free and many more! Follow the Next 6 Steps</p>
+          <h2 className="text-4xl font-bold mb-6">{t('how_it_works_title')}</h2>
+          <p className="text-gray-700 mb-8">{t('how_it_works_description')}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <a href="https://www.qr.cloudymenu.com/register">
             <div className="p-4 sm:py-8 bg-gray-100 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold mb-2">Sign up <span className="text-lg">➔</span></h3>
-              <p className="text-gray-600">Enter details about your business in the sign-up form, ensures your privacy.</p>
+            <h3 className="text-xl font-semibold mb-2">{t('steps.sign_up')}<span className="text-lg">➔</span></h3>
+              <p className="text-gray-600">{t('steps.sign_up_description')}</p>
               
             </div>
             </a>
            <a href='https://www.qr.cloudymenu.com/register'>
            <div className="p-4 sm:py-8 bg-gray-100 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-2">Prepare menu <span className="text-lg">➔</span></h3>
-              <p className="text-gray-600">Upload your existing menu in PDF format or create a new digital menu from scratch.</p>
+              <h3 className="text-xl font-semibold mb-2">{t('steps.prepare_menu')} <span className="text-lg">➔</span></h3>
+              <p className="text-gray-600">{t('steps.prepare_menu_description')}</p>
             </div>
            </a>
           </div>
@@ -66,7 +67,7 @@ const Hero = () => {
           </div>
           <div>
             <h1 className="text-white text-center md:text-5xl text-4xl font-extrabold">
-              Create Your Digital Menu
+              {t('create_digital_menu')}
             </h1>
           </div>
           <div>

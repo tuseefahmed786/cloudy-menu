@@ -1,0 +1,123 @@
+{
+    "logo": "Cloudy Menu",
+    "home": "Home",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact Us",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "excellent": "Excellent",
+    "reviews_on": "110+ Reviews On",
+    "trustpilot": "Trustpilot",
+    "hero_title": "The Fastest Way To Create Digital Menu",
+    "hero_description": "Create and manage your digital QR menu with our easy and user-friendly platform.",
+    "create_menu_button": "Create QR Online Menu for Free",
+    "how_it_works_title": "How It Works?",
+    "how_it_works_description": "You can easily create a non-contact digital menu for free and many more! Follow the Next 6 Steps",
+    "steps": {
+      "sign_up": "Sign up",
+      "sign_up_description": "Enter details about your business in the sign-up form.",
+      "prepare_menu": "Prepare menu",
+      "prepare_menu_description": "Create a new digital menu from scratch."
+    },
+    "create_digital_menu": "Create Your Digital Menu" ,
+    "choose_plan_title": "Choose Your Plan",
+    "pricing_description": "Cloud Menu offers commission-free and simple pricing plans for all sizes of businesses.",
+    "plans": [
+      {
+        "title": "Free Trial",
+        "subtitle": "For 7 days",
+        "price": "Free",
+        "buttonText": "Free Trial",
+        "buttonLink": "https://www.qr.cloudymenu.com/register",
+        "details": [
+          "Easy to use menu editor",
+          "Design customization",
+          "Shareable menu link",
+          "QR code menu",
+          "Tablet menu",
+          "No setup fee",
+          "No hidden cost"
+        ]
+      },
+      {
+        "title": "Pro /month",
+        "price": "AED 49",
+        "subtitle": "every month",
+        "buttonText": "Go Pro /month",
+        "buttonLink": "https://www.qr.cloudymenu.com/register",
+        "isHighlighted": true,
+        "details": [
+          "Easy to use menu editor",
+          "Design customization",
+          "Shareable menu link",
+          "QR code menu",
+          "Tablet menu",
+          "No setup fee",
+          "No hidden cost"
+        ]
+      },
+      {
+        "title": "Pro /Yearly",
+        "price": "AED 588",
+        "saveInfo": "SAVE 19%",
+        "subtitle": "one time, billed annually",
+        "buttonText": "Go Pro /Yearly",
+        "buttonLink": "https://www.qr.cloudymenu.com/register",
+        "details": [
+          "Easy to use menu editor",
+          "Design customization",
+          "Shareable menu link",
+          "QR code menu",
+          "Tablet menu",
+          "No setup fee",
+          "No hidden cost"
+        ]
+      }
+    ],
+    "client":"What Our Client's Say",
+    "clientReview":"Excellent ⭐⭐⭐⭐⭐ 110+ Review On Trustpilot",
+    "testimonials": [
+    {
+      "logo": "https://via.placeholder.com/64",
+      "review": "Our Customers Love Using QR Code Menu. They Can See Pictures, Descriptions, And Business Details In One Page. The Backend Website Is Super User Friendly.",
+      "name": "Jack Somara"
+    },
+    {
+      "logo": "https://via.placeholder.com/64",
+      "review": "Good Service In This Country Is Hard To Come By And This Platform Is Everything Needed. It Is Simple To Use And Cost Effective. You Definitely Have My Recommendation!",
+      "name": "Cena Loma"
+    },
+    {
+      "logo": "https://via.placeholder.com/64",
+      "review": "Delivery On Time As We Deal, Good Quality, My Customers Are Satisfied. From UAE To Brazil.",
+      "name": "Ali Ahmed"
+    },
+    {
+      "logo": "https://via.placeholder.com/64",
+      "review": "Amazing Platform! Helped Us Streamline Our Menu Management And Increased Customer Satisfaction.",
+      "name": "Maria Smith"
+    },
+    {
+      "logo": "https://via.placeholder.com/64",
+      "review": "The UI Is Clean, And The Functionality Is Just Perfect For Our Business Needs.",
+      "name": "John Doe"
+    },
+    {
+      "logo": "https://via.placeholder.com/64",
+      "review": "We Have Been Using This Platform For Months, And It Has Transformed Our Operations.",
+      "name": "Sarah Lee"
+    }
+  ],
+  "footer": {
+    "tryMenuDemo": "Try Menu Demo",
+    "registerCafe": "Register Your Cafe",
+    "navigationLinks": {
+      "plansPricing": "Plans & Pricing",
+      "features": "Features",
+      "careers": "Careers"
+    },
+    "copyright": "© 2024 Cloudy Menu. All rights reserved."
+  }
+  }
+  

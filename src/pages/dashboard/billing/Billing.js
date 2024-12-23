@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../axios';
 import { useDispatch } from 'react-redux';
 import { setBillingTrail } from '../../../redux/slice/infoSlice';
+import Isloading from '../../../components/Isloading';
 const Billing = () => {
     const [billingData, setBillingData] = useState(null); // Change to `null` for an object
     const [loading, setLoading] = useState(true);
@@ -30,8 +31,8 @@ const Billing = () => {
     }, []);
 
     if (loading) {
-        return <div className="w-full h-full flex justify-center items-center">Loading...</div>;
-    }
+        return <Isloading width="w-14" height="h-14" />;
+      }
 
     return (
         <div className="w-full h-full bg-white">

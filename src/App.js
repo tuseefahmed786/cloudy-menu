@@ -15,12 +15,12 @@ import BusinessInfo from './pages/dashboard/info/BusinessInfo';
 import UploadLogo from './pages/dashboard/info/UploadLogo';
 import Subscription from './pages/dashboard/subscription/Subscription';
 import Billing from './pages/dashboard/billing/Billing';
-
-
 import HomeDashboard from './pages/dashboard/Home DS/HomeDashboard';
 import PaymentDone from './pages/dashboard/subscription/PaymentDone';
 import SocialLinksForm from './pages/dashboard/info/SocialLinksForm';
 import CustomersList from './customers/CustomersList';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 function App() {
   return (
     <>

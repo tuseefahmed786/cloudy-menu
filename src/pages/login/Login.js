@@ -27,7 +27,6 @@ function Login() {
         }
       );
       const token = logined.data.token;
-      console.log(logined);
       localStorage.setItem("token", token);
       navigate("/dashboard/home");
     } catch (error) {
@@ -55,9 +54,11 @@ function Login() {
         <div className="flex min-h-full sm:w-2/4 flex-grow flex-col justify-start px-3 sm:px-6 py-5 sm:py-3 lg:px-8">
           <div className="flex gap-3 items-center">
             <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308759/a7q5yuen7emg6aiv0duo.png" alt="logo" width={45} />
-            <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">
-              Cloud Menu{" "}
+            <a href="https://www.cloudymenu.com/">
+         <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">
+              Cloudy Menu
             </h1>
+         </a>
           </div>
           <div className="flex flex-col h-full justify-center">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">

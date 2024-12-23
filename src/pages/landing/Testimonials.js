@@ -1,5 +1,6 @@
 // Import necessary dependencies
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // TestimonialCard Component
 const TestimonialCard = ({ logo, review, name }) => (
@@ -46,8 +47,11 @@ const Testimonials = () => {
     },
   ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { t } = useTranslation();  // Get translation function
+  const testimonialsTranslation = t('testimonials', { returnObjects: true }); 
 
+
+  const [currentIndex, setCurrentIndex] = useState(0);
   // Navigation handlers
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1));
@@ -58,11 +62,11 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 pt-3 sm:pt-10">
+    <div className="px-4 sm:px-6 lg:px-8 pt-3 sm:py-10">
   <div className='flex justify-between items-center px-'>
   <div>
-  <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">What Our Client's Say</h2>
-  <p className="text-center text-gray-600 mb-6">Excellent ⭐⭐⭐⭐⭐ 110+ Review On Trustpilot</p>
+  <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">{t('client')}</h2>
+  <p className="text-center text-gray-600 mb-6">{t('clientReview')}</p>
   </div>
       <div className='flex gap-2 p-4'>
     <button
@@ -90,7 +94,7 @@ const Testimonials = () => {
             className="flex gap-5 transition-transform duration-500"
             style={{ transform: `translateX(-${currentIndex * 320}px)` }}
           >
-            {testimonials.map((testimonial, index) => (
+            {testimonialsTranslation.map((testimonial, index) => (
               <TestimonialCard
                 key={index}
                 logo={testimonial.logo}

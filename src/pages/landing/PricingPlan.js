@@ -1,5 +1,6 @@
 // Import React
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Reusable PlanCard Component
 const PlanCard = ({ title, subtitle, price, details, buttonText, buttonLink, isHighlighted, saveInfo }) => {
@@ -9,7 +10,7 @@ const PlanCard = ({ title, subtitle, price, details, buttonText, buttonLink, isH
       {subtitle && <p className="text-sm text-gray-500 mb-2">{subtitle}</p>}
       <div className="flex items-center gap-2">
         <p className="text-2xl font-bold text-gray-800 mb-2">{price}</p>
-        {saveInfo && <p className="text-sm text-green-500 font-semibold mb-2">{saveInfo}</p>}
+        {/* {saveInfo && <p className="text-sm text-green-500 font-semibold mb-2">{saveInfo}</p>} */}
       </div>
       <a
         href={buttonLink}
@@ -64,7 +65,7 @@ const PricingPlan = () => {
     },
     {
       title: 'Pro /Yearly',
-      price: 'AED 534',
+      price: 'AED 588',
       saveInfo: 'SAVE 19%',
       subtitle: 'one time, billed annually',
       buttonText: 'Go Pro /Yearly',
@@ -80,15 +81,18 @@ const PricingPlan = () => {
       ],
     },
   ];
+  const { t } = useTranslation();  // Get translation function
+  const plansTranslation = t('plans', { returnObjects: true }); // Load plans from translation file
 
   return (
+    
     <div className="bg-white py-10 px-5 sm:px-10">
-      <h2 id="plan" className="text-2xl sm:text-4xl font-bold text-center mb-4">Choose Your Plan</h2>
+      <h2 id="plan" className="text-2xl sm:text-4xl font-bold text-center mb-4">{t('choose_plan_title')}</h2>
       <p className="text-center text-gray-600 mb-10">
-        Cloud Menu offers commission-free and simple pricing plans for all sizes of businesses.
+      {t('pricing_description')}
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-        {plans.map((plan, index) => (
+        {plansTranslation.map((plan, index) => (
           <PlanCard key={index} {...plan} />
         ))}
       </div>

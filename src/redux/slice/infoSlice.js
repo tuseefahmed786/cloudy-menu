@@ -12,10 +12,21 @@ const infoRestaurant = createSlice({
       state.data = action.payload.restaurant;
     },
     setFreeTrails: (state, action) => {
-      if (action.payload.userFound.subscriptionType == "free_trial") {
-        state.freeTrails = action.payload.daysLeft;
+      const { userFound } = action.payload;
+    
+      if (userFound.subscriptionType === "free_trial") {
+        const now = new Date();
+        const trialExpiresAt = new Date(userFound.trialExpiresAt);
+    
+        // Calculate remaining days
+        if (trialExpiresAt >= now) {
+          const daysLeft = Math.ceil((trialExpiresAt - now) / (1000 * 60 * 60 * 24));
+          state.freeTrails = daysLeft;
+        } else {
+          state.freeTrails = "expiry";
+        }
       } else {
-        state.freeTrails = action.payload.userFound.subscriptionType;
+        state.freeTrails = userFound.subscriptionType;
       }
     },
     updateRestaurantLogo: (state, action) => {

@@ -45,6 +45,7 @@ const DashboardLayout = () => {
         const response = await axios.get("/api/restaurantData", {
           headers: { Authorization: token },
         });
+        console.log(response.data)
         dispatch(setFreeTrails(response.data));
         dispatch(setRestaurantData(response.data));
         dispatch(setSocialLinks(response.data.social));

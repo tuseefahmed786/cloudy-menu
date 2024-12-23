@@ -72,7 +72,9 @@ function FetchMenu() {
   return (
     <>
       <div className="h-screen overflow-hidden max-w-[25rem] mx-auto bg-white  shadow-xl top-0 left-0 right-0">
-        {isLoading && <Isloading width="w-14" height="h-14" />}
+        {isLoading && <>
+         <Isloading width="w-14" height="h-14" />
+        </>}
 
         <div className="group-home">
           <div className="restaurantName py-3 px-4 flex justify-between items-center">

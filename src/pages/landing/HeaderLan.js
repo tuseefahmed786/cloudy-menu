@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import LanguageToggle from '../../components/LanguageToggle';
+import { useTranslation } from 'react-i18next';
+
 const HeaderLan = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { t, i18n } = useTranslation();
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
+  console.log(i18n.language)
   return (
     <>
       <header>
@@ -14,40 +18,51 @@ const HeaderLan = () => {
             <div className="flex justify-between items-center w-full">
               <div className="flex-shrink-0 flex gap-3 items-center">
                 <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308759/a7q5yuen7emg6aiv0duo.png" alt='logo' width={45} />
-                <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">Cloud Menu </h1>
+                <span className="text-sm xs:text-xl font-bold">{t('logo')}</span>
+
+
               </div>
-              <div className="hidden justify-center gap-7 sm:-my-px sm:ml-6 md:flex">
+           
+              <div className="hidden justify-center gap-7 sm:-my-px sm:ml-6 lg:flex">
                 <Link to="/" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
-                  Home
+              {  t('home')}
                 </Link>
 
                 <a href="#plan" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
-                  Pricing
+                {  t('pricing')}
                 </a>
                 <a href="#about" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
-                  About
+                {  t('about')}
+
                 </a>
                 <a href="https://www.linkedin.com/company/cloud-menu-ae" className="ml-4 font-semibold text-gray-700 hover:text-green-500">
-                  Contact Us
+                {  t('contact')}
+
                 </a>
               </div>
-              <div className='hidden md:flex'>
+              <div className='hidden lg:flex'>
               <div className='flex justify-center items-center gap-2'>
               <Link
                   to="https://www.qr.cloudymenu.com/register"
                   className=" cloud-menu-bg text-white px-3 py-2 rounded-md text-base font-medium hover:bg-green-600"
                 >
-                  Sign Up
+                                            {  t('signup')}
+
                 </Link>
 
                 <Link
                   to="https://www.qr.cloudymenu.com/login"
                   className=" cloud-menu-bg text-white px-3 py-2 rounded-md text-base font-medium hover:bg-green-600"
                 >
-                  Login In                </Link>
+                            {  t('login')}
+                            </Link>
+                  <LanguageToggle/>
+            
               </div>
+
               </div>
-              <div className="md:hidden flex justify-between items-center p-4">
+              <div className="lg:hidden flex gap-2 justify-between items-center p-4">
+              <LanguageToggle/>
                 <button onClick={toggleNavbar} className="focus:outline-none">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
