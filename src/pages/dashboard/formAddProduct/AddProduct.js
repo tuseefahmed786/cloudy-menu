@@ -30,12 +30,14 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
   }, [editProduct]);
 
   const handleAddProduct = async () => {
+    if (/[^a-zA-Z0-9 ]/g.test(name)) {
+      return alert("Special characters are not allowed");
+    }
+    if (name.length == 0 || price.length == 0 || description.length == 0) {
+      alert("You can't save empty field");
+      return;
+    }
     if (editProduct && editProduct._id) {
-      if (name.length == 0 || price.length == 0 || description.length == 0) {
-        alert("You can't save empty field");
-        setIsLoading(false);
-        return;
-      }
       setIsLoading(true);
       const selectedCategoryId = selectedCategory._id;
       const formData = new FormData();
@@ -69,10 +71,6 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
       setShow("edit");
     } else {
       setIsLoading(true);
-      if (name.length == 0 || price.length == 0 || description.length == 0) {
-        alert("You can't save empty field");
-        setIsLoading(false);
-      } else {
         const selectedCategoryId = selectedCategory._id;
         const formData = new FormData();
         formData.append("name", name);
@@ -98,7 +96,6 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
         );
         setShow("edit");
       }
-    }
   };
   const deleteTheProduct = async () => {
     setIsLoadingDelete(true);
@@ -122,6 +119,26 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
     }
   };
 
+  const buttonLabel = isloading ? (
+    <Isloading width="w-6" height="h-6" />
+  ) : editProduct ? (
+    "Update Product"
+  ) : (
+    "Add Product"
+  );
+
+  const deleteButton = editProduct && (
+    <button
+      onClick={deleteTheProduct}
+      className="w-full bg-red-500 text-white p-2 mb-1  rounded-full"
+    >
+      {isLoadingDelete ? (
+        <Isloading width="w-6" height="h-6" />
+      ) : (
+        "Delete The Product"
+      )}
+    </button>
+  )
   return (
     <>
       <div className="flex px-3 justify-center h-full items-center">
@@ -166,30 +183,17 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
             <label className="block text-gray-700">Product Image</label>
             <input
               type="file"
-              onChange={(e) => setImage(e.target.files[0])} // Handle file selection
+              onChange={(e) => setImage(e.target.files[0])}
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
-          {/* Add Button */}
-
-          {editProduct && (
-            <button
-              onClick={deleteTheProduct}
-              className="w-full bg-red-500 text-white p-2 mb-1  rounded-full"
-            >
-              {isLoadingDelete ? (
-                <Isloading width="w-6" height="h-6" />
-              ) : (
-                "Delete The Product"
-              )}
-            </button>
-          )}
+          {deleteButton}
           <button
             onClick={handleAddProduct}
             className="w-full bg-blue-500 text-white p-2  rounded-full"
           >
-            {isloading ? <Isloading width="w-6" height="h-6" /> : "Add Product"}
-          </button>
+
+            {buttonLabel}          </button>
         </div>
       </div>
     </>

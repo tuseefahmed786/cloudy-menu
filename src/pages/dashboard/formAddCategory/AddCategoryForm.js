@@ -34,7 +34,6 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
 
   useEffect(() => {
     if (editCategory) {
-      console.log("hjdjj");
       setTitle(editCategory.title);
       setSelectedIcon(editCategory.icon);
     }
@@ -42,11 +41,11 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
 
   const handleAddCategory = async () => {
     const token = localStorage.getItem("token");
-    if (editCategory && editCategory._id) {
-      if (title.length == 0 || selectedIcon == null) {
-        alert("You can't save empty field");
-        return;
-      }
+    if (title.length == 0 || selectedIcon == null) {
+      alert("You can't save empty field");
+      return;
+    }
+    if (editCategory && editCategory._id) { 
       setIsLoadingAddBtn(true);
       try {
         const updatedCategory = await axios.put(
@@ -76,9 +75,6 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
         setIsLoadingAddBtn(false);
       }
     } else {
-      if (title.length == 0 || selectedIcon == null) {
-        alert("You can't save empty field");
-      } else {
         setIsLoadingAddBtn(true);
         try {
           const createCategory = await axios.post(
@@ -106,7 +102,6 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
           setIsLoadingAddBtn(false);
         }
       }
-    }
   };
 
   const deleteTheCategory = async () => {
@@ -125,6 +120,24 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
     }
   };
 
+  const deleteButton = editCategory && (
+    <button
+      onClick={deleteTheCategory}
+      className="w-full bg-red-500 mb-1 text-white p-2 rounded-full"
+    >
+      {isLoadingDelete ? (
+        <Isloading width="w-6" height="h-6" />
+      ) : (
+        "Delete Category"
+      )}
+    </button>
+  )
+
+  const updateOrDelete =  isLoadingAddBtn ? (
+    <Isloading width="w-6" height="h-6" />
+  ) : (
+    "Add Category"
+  )
   return (
     <div className="flex p-2 sm:p-3 justify-center h-full items-center">
       <div className="w-full flex items-start flex-col h-full">
@@ -180,29 +193,13 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
           </div>
         )}
 
-        {/* Add Button */}
-
-        {editCategory && (
-          <button
-            onClick={deleteTheCategory}
-            className="w-full bg-red-500 mb-1 text-white p-2 rounded-full"
-          >
-            {isLoadingDelete ? (
-              <Isloading width="w-6" height="h-6" />
-            ) : (
-              "Delete Category"
-            )}
-          </button>
-        )}
+{deleteButton}
+       
         <button
           onClick={handleAddCategory}
           className="w-full bg-blue-500 text-white p-2 rounded-full"
         >
-          {isLoadingAddBtn ? (
-            <Isloading width="w-6" height="h-6" />
-          ) : (
-            "Add Category"
-          )}
+       {updateOrDelete}
         </button>
       </div>
     </div>

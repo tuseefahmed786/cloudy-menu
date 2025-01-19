@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../axios";
 import Isloading from "../../components/Isloading";
@@ -9,7 +9,7 @@ import { setMenuData } from "../../redux/slice/menuSlice";
 function FetchMenu() {
   const menuData = useSelector((state) => state.menuSlice.menuData);
   const findrestaurant
-  = useSelector((state) => state.menuSlice.restaurantData); 
+    = useSelector((state) => state.menuSlice.restaurantData);
   const { restaurant } = useParams();
   const dispatch = useDispatch();
   const [getResponse, setGetResponse] = useState([]);
@@ -18,7 +18,8 @@ function FetchMenu() {
   const [logo, setLogo] = useState(null);
   const navigate = useNavigate();
 
-  // Decode the slug to get the original name (replace '-' with ' ').
+  const scrollContainerRef = useRef(null);
+
   const restaurantName = restaurant.replace(/-/g, " ");
   useEffect(() => {
     const fetchMenuData = async () => {
@@ -68,12 +69,24 @@ function FetchMenu() {
     const productSlug = product.product.name.replace(/\s+/g, "-").toLowerCase();
     navigate(`/${restaurant}/${categorySlug}/${productSlug}`);
   };
+  const getCurrentScrollValue = () => {
+    if (scrollContainerRef.current) {
+      console.log(scrollContainerRef.current.scrollLeft); // Log the current horizontal scroll position
+    }
+  };
+  useEffect(() => {
+    // Set the scroll position to 250 pixels horizontally
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = 410;
+    }
+  }, []);
+
 
   return (
     <>
       <div className="h-screen overflow-hidden max-w-[25rem] mx-auto bg-white  shadow-xl top-0 left-0 right-0">
         {isLoading && <>
-         <Isloading width="w-14" height="h-14" />
+          <Isloading width="w-14" height="h-14" />
         </>}
 
         <div className="group-home">
@@ -101,7 +114,7 @@ function FetchMenu() {
               alt="account's"
             />
           </div>
-          <div className="flex scroll-hidden scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
+          <div ref={scrollContainerRef} className="flex scroll-hidden  scrollx items-center gap-[1.7rem] mb-3 py-4 pl-4 pr-4 pb-4 overflow-x-auto">
             {getResponse?.map((e) => (
               <Category
                 activeCat={selectedCateg}
@@ -113,24 +126,24 @@ function FetchMenu() {
           </div>
 
           {selectedCateg &&
-          selectedCateg.products &&
-          selectedCateg.products.length > 0 ? (
+            selectedCateg.products &&
+            selectedCateg.products.length > 0 ? (
             <h1 className="px-4 text-[1.2rem]">{selectedCateg.title}</h1>
           ) : (
             ""
           )}
           <div className="scrollx flex-col h-[calc(100vh-220px)] pb-5 overflow-y-auto flex">
             {selectedCateg &&
-            selectedCateg.products &&
-            selectedCateg.products.length > 0
+              selectedCateg.products &&
+              selectedCateg.products.length > 0
               ? selectedCateg.products.map((p) => (
-                  <DishCard
-                    name={p}
-                    key={p._id}
-                    currency={findrestaurant.currency}
-                    selectPerProduct={selectPerProduct}
-                  />
-                ))
+                <DishCard
+                  name={p}
+                  key={p._id}
+                  currency={findrestaurant.currency}
+                  selectPerProduct={selectPerProduct}
+                />
+              ))
               : <p className="text-center">You don't have product in this category</p>}
           </div>
         </div>
@@ -145,9 +158,8 @@ const Category = ({ activeCat, selectedCateg, id }) => (
     onClick={() => selectedCateg(id)}
   >
     <div
-      className={`w-16 h-16 ${
-        id.title === activeCat.title ? "bg-yellow-400" : ""
-      } rounded-xl flex items-center justify-center text-2xl shadow-sm`}
+      className={`w-16 h-16 ${id.title === activeCat.title ? "bg-yellow-400" : ""
+        } rounded-xl flex items-center justify-center text-2xl shadow-sm`}
     >
       <img src={`${id.icon}`} width={40} height={40} alt="icons image" />
     </div>
