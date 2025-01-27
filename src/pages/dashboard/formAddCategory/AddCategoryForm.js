@@ -13,6 +13,8 @@ import {
   setMenuCategory,
   setMenuEditCategory,
 } from "../../../redux/slice/menuSlice";
+import { createCategoryApi, updateCategoryApi,} from "../../../api/api";
+
 const AddCategoryForm = ({ setShow, editCategory }) => {
   const [title, setTitle] = useState("");
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -24,9 +26,7 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
 
   useEffect(() => {
     if (!fetchAllIcons || fetchAllIcons.length === 0) {
-      dispatch(fetchIcons("/icons")).finally(() => {
-        setIsLoading(false);
-      });
+      dispatch(fetchIcons("/icons"))
     } else {
       setIsLoading(false);
     }
@@ -39,69 +39,109 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
     }
   }, [editCategory]);
 
+  // const handleAddCategory = async () => {
+  //   const token = localStorage.getItem("token");
+  //   if (title.length == 0 || selectedIcon == null) {
+  //     alert("You can't save empty field");
+  //     return;
+  //   }
+  //   if (editCategory && editCategory._id) {
+  //     setIsLoadingAddBtn(true);
+  //     try {
+  //       const updatedCategory = await axios.put(
+  //         `/updatedCategory/${editCategory._id}`,
+  //         {
+  //           title,
+  //           selectedIcon,
+  //         },
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `${token}`,
+  //           },
+  //         }
+  //       );
+  //       dispatch(editCategories(updatedCategory.data.category));
+  //       dispatch(setMenuEditCategory(updatedCategory.data.category));
+  //       setShow("edit");
+  //     } catch (error) {
+  //       if (
+  //         error.response.data.message ==
+  //         "category with this title already exists for this user"
+  //       ) {
+  //         alert("This category name already exists in your category.");
+  //       }
+  //     } finally {
+  //       setIsLoadingAddBtn(false);
+  //     }
+  //   } else {
+  //     setIsLoadingAddBtn(true);
+  //     try {
+  //       const createCategory = await axios.post(
+  //         "/addCategory",
+  //         {
+  //           title,
+  //           selectedIcon,
+  //         },
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `${token}`,
+  //           },
+  //         }
+  //       );
+  //       const create = createCategory.data.category;
+  //       dispatch(addCategory(create));
+  //       dispatch(setMenuCategory(create));
+  //       setShow("edit");
+  //     } catch (error) {
+  //       if (error.response.data.message == "Category already exists") {
+  //         alert("This category name already exists in your category.");
+  //       }
+  //     } finally {
+  //       setIsLoadingAddBtn(false);
+  //     }
+  //   }
+  // };
+
+
   const handleAddCategory = async () => {
     const token = localStorage.getItem("token");
-    if (title.length == 0 || selectedIcon == null) {
-      alert("You can't save empty field");
+
+    if (!title || !selectedIcon) {
+      alert("You can't save empty fields");
       return;
     }
-    if (editCategory && editCategory._id) { 
-      setIsLoadingAddBtn(true);
-      try {
-        const updatedCategory = await axios.put(
-          `/updatedCategory/${editCategory._id}`,
-          {
-            title,
-            selectedIcon,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `${token}`,
-            },
-          }
+    setIsLoadingAddBtn(true);
+    try {
+      if (editCategory && editCategory._id) {
+        // Update existing category
+        const updatedData = await updateCategoryApi(
+          editCategory._id,
+          title,
+          selectedIcon,
+          token
         );
-        dispatch(editCategories(updatedCategory.data.category));
-        dispatch(setMenuEditCategory(updatedCategory.data.category));
-        setShow("edit");
-      } catch (error) {
-        if (
-          error.response.data.message ==
-          "category with this title already exists for this user"
-        ) {
-          alert("This category name already exists in your category.");
-        }
-      } finally {
-        setIsLoadingAddBtn(false);
+        dispatch(editCategories(updatedData.category));
+        dispatch(setMenuEditCategory(updatedData.category));
+        setShow("edit")
+      } else {
+        // Create new category
+        const createdData = await createCategoryApi(title, selectedIcon, token);
+        dispatch(addCategory(createdData.category));
+        dispatch(setMenuCategory(createdData.category));
       }
-    } else {
-        setIsLoadingAddBtn(true);
-        try {
-          const createCategory = await axios.post(
-            "/addCategory",
-            {
-              title,
-              selectedIcon,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `${token}`,
-              },
-            }
-          );
-          const create = createCategory.data.category;
-          dispatch(addCategory(create));
-          dispatch(setMenuCategory(create));
-          setShow("edit");
-        } catch (error) {
-          if (error.response.data.message == "Category already exists") {
-            alert("This category name already exists in your category.");
-          }
-        } finally {
-          setIsLoadingAddBtn(false);
-        }
+      setShow("edit");
+    } catch (error) {
+      const errorMessage = error.response?.data?.message;
+      if (errorMessage === "Category already exists" || errorMessage === "category with this title already exists for this user") {
+        alert("This category name already exists in your category.");
+      } else {
+        console.error("Error:", errorMessage);
       }
+    } finally {
+      setIsLoadingAddBtn(false);
+    }
   };
 
   const deleteTheCategory = async () => {
@@ -133,11 +173,12 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
     </button>
   )
 
-  const updateOrDelete =  isLoadingAddBtn ? (
+  const createCategoryBtn = isLoadingAddBtn ? (
     <Isloading width="w-6" height="h-6" />
   ) : (
     "Add Category"
   )
+
   return (
     <div className="flex p-2 sm:p-3 justify-center h-full items-center">
       <div className="w-full flex items-start flex-col h-full">
@@ -147,8 +188,6 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
         >
           &times;
         </button>
-
-        {/* Title Input */}
         <div className="mb-2 sm:mb-4 w-full">
           <label className="block text-gray-700 mb-2">Title</label>
           <input
@@ -174,11 +213,10 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
                 <button
                   key={index}
                   onClick={() => setSelectedIcon(icon.url)}
-                  className={`p-2 rounded-full w-16 sm:w-20 flex items-center justify-center border ${
-                    selectedIcon === icon.url
-                      ? "border-blue-500 border-2 "
-                      : "border-gray-300"
-                  }`}
+                  className={`p-2 rounded-full w-16 sm:w-20 flex items-center justify-center border ${selectedIcon === icon.url
+                    ? "border-blue-500 border-2 "
+                    : "border-gray-300"
+                    }`}
                 >
                   <img
                     className="text-2xl"
@@ -193,13 +231,13 @@ const AddCategoryForm = ({ setShow, editCategory }) => {
           </div>
         )}
 
-{deleteButton}
-       
+        {deleteButton}
+
         <button
           onClick={handleAddCategory}
           className="w-full bg-blue-500 text-white p-2 rounded-full"
         >
-       {updateOrDelete}
+          {createCategoryBtn}
         </button>
       </div>
     </div>

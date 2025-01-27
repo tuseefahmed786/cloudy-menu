@@ -14,7 +14,7 @@ const EditMenu = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [editCategory, setEditCategory] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState([]);
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
   const {
@@ -27,13 +27,13 @@ const EditMenu = () => {
   const menuUSer = useSelector((state) => state.menuSlice);
 
   useEffect(() => {
-    // Fetch categories if they are not already in the  state
+    // Fetch categories if data are not already in the state
     if (menuData.length == 0 && fetched == false) {
       dispatch(fetchMenuApi("/categories"));
     } else {
-      // Update local states when menuData is available
+      // Update local states when Data is available
       setAllCategories(menuData);
-      setisLoading(false);
+      setIsLoading(false);
     }
 
     if (menuUSer.menuData.length == 0) {
@@ -190,7 +190,7 @@ const Category = ({ activeCat, selectedCategory, id, editCategory }) => {
       </div>
     </div>
   );
-}; // Category Component
+}; 
 
 const DishCard = ({ productInfo, selectProduct, currency }) => {
   return (
@@ -227,35 +227,6 @@ const DishCard = ({ productInfo, selectProduct, currency }) => {
       </div>
     </>
   );
-}; // DishCard Component
+}; 
 
 export default EditMenu;
-{/* <div className="w-full max-w-[25rem] flex flex-col mx-auto h-full bg-white sm:shadow-xl">
-        {show == "edit" && (
-          <>
-            <div className="flex scrollx pb-2 mb-1 items-center gap-7 sm:gap-[2.5rem] sm:pt-5 sm:pb-3 sm:mb-2 pl-3 sm:pl-5 overflow-x-auto">
-              <div
-                className="flex-shrink-0 flex cursor-pointer flex-col items-center"
-                onClick={createNewCategory}
-              >
-                <img
-                  src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308567/ap8txd7cf811nfevs2oe.png"
-                  className="w-10 sm:w-[52px]"
-                  alt="addicon"
-                />
-                <span className="mt-4 text-sm">Add Category</span>
-              </div>
-              {allCategory}
-            </div>
-            <div className="scrollx flex-1 overflow-y-auto flex flex-col">
-              {isProductHave}
-              <div className="w-full flex-grow">
-                {allProducts}
-              </div>
-            </div>
-          </>
-        )}
-
-        {categoryForm}
-        {ProductForm}
-      </div> */}

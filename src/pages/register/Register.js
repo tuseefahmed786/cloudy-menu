@@ -1,4 +1,4 @@
-import axios from "../../axios";
+import axios, { createUserApi } from "../../api/api";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Isloading from "../../components/Isloading";
@@ -14,24 +14,12 @@ function Register() {
 
   const registerInDb = async (e) => {
     e.preventDefault();
+    setIsEmailValidate(false);
+    setIsValidName(false);
+    setIsLoading(true);
     try {
-      // https://menuserver-eight.vercel.app
-      setIsEmailValidate(false);
-      setIsValidName(false);
-      setIsLoading(true);
-      const registered = await axios.post(
-        "/signup",
-        {
-          email,
-          password,
-          restaurantName,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+     const data = await createUserApi(email, password, restaurantName)
+     console.log(data)
       navigate("/login");
     } catch (error) {
       if (
@@ -52,7 +40,7 @@ function Register() {
       }
     }
   };
-
+  
   return (
     <>
       <div className="flex sm:h-screen flex-col-reverse sm:flex-row">
@@ -63,11 +51,11 @@ function Register() {
               alt="logo"
               width={45}
             />
-         <a href="https://www.cloudymenu.com/">
-         <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">
-              Cloudy Menu
-            </h1>
-         </a>
+            <a href="https://www.cloudymenu.com/">
+              <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">
+                Cloudy Menu
+              </h1>
+            </a>
           </div>
           <div className="flex flex-col justify-center h-full">
             <div className="sm:mx-auto flex gap-2 flex-col items-center sm:w-full sm:max-w-sm">
@@ -95,11 +83,10 @@ function Register() {
                       required
                       value={restaurantName}
                       onChange={(e) => setRestaurantName(e.target.value)}
-                      className={`${
-                        isValidName
-                          ? "border-red-500 border-1  ring-red-500 text-red-500"
-                          : "border-0 ring-gray-300 text-gray-900"
-                      } block px-3 w-full rounded-md py-[9px] shadow-sm ring-1 ring-inset  placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                      className={`${isValidName
+                        ? "border-red-500 border-1  ring-red-500 text-red-500"
+                        : "border-0 ring-gray-300 text-gray-900"
+                        } block px-3 w-full rounded-md py-[9px] shadow-sm ring-1 ring-inset  placeholder:text-gray-400 sm:text-sm sm:leading-6`}
                     />
                     {isValidName && (
                       <p className="font-medium text-red-500 text-xs pt-1">
@@ -125,11 +112,10 @@ function Register() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       autoComplete="email"
-                      className={`${
-                        isEmailValidate
-                          ? "border-red-500 border-1  ring-red-500 text-red-500"
-                          : "border-0 ring-gray-300 text-gray-900"
-                      } block px-3 w-full rounded-md py-[9px]  shadow-sm ring-1 ring-inset  placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                      className={`${isEmailValidate
+                        ? "border-red-500 border-1  ring-red-500 text-red-500"
+                        : "border-0 ring-gray-300 text-gray-900"
+                        } block px-3 w-full rounded-md py-[9px]  shadow-sm ring-1 ring-inset  placeholder:text-gray-400 sm:text-sm sm:leading-6`}
                     />
                     {isEmailValidate && (
                       <p className="font-medium text-red-500 text-xs pt-1">

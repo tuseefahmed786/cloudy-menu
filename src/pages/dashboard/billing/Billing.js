@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../../../axios';
+import axios from '../../../api/api';
 import { useDispatch } from 'react-redux';
 import { setBillingTrail } from '../../../redux/slice/infoSlice';
 import Isloading from '../../../components/Isloading';

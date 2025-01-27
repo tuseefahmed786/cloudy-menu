@@ -1,46 +1,34 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../axios";
 import { Link, useNavigate } from "react-router-dom";
 import Isloading from "../../components/Isloading";
 import { useTranslation } from "react-i18next";
+import { loginUserApi } from "../../api/api";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [inCorrectPass, setInCorrectPass] = useState(false);
-const {t,i18n} = useTranslation()
-useEffect(() => {
-  const lng = i18n.language;
-  document.documentElement.setAttribute('dir', lng  === 'ar' ? 'rtl' : 'ltr');
-}, [i18n.changeLanguage])
+  const { t, i18n } = useTranslation()
+  
+  useEffect(() => {
+    const lng = i18n.language;
+    document.documentElement.setAttribute('dir', lng === 'ar' ? 'rtl' : 'ltr');
+  }, [i18n.changeLanguage])
 
   const loginUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // https://menuserver-eight.vercel.app
-      const logined = await axios.post(
-        "/login",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const token = logined.data.token;
-      localStorage.setItem("token", token);
+      const data = await loginUserApi(email, password);
+      localStorage.setItem("token", data.token);
       navigate("/dashboard/home");
     } catch (error) {
-      if (error.status == 401 || error.status == 400) {
+      if (error.response?.status === 401 || error.response?.status === 400) {
         setInCorrectPass(true);
-        setIsLoading(false);
       }
     } finally {
+      setIsLoading(false);
       setTimeout(() => {
         setInCorrectPass(false);
       }, 4000);
@@ -61,15 +49,15 @@ useEffect(() => {
           <div className="flex gap-3 items-center">
             <img src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734308759/a7q5yuen7emg6aiv0duo.png" alt="logo" width={45} />
             <a href="https://www.cloudymenu.com/">
-         <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">
-              {t('logo')}
-            </h1>
-         </a>
+              <h1 className="text-xl sm:text-2xl font-bold cloud-menu-color">
+                {t('logo')}
+              </h1>
+            </a>
           </div>
           <div className="flex flex-col h-full justify-center">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <h2 className="pt-6 sm:pt-0 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              {t('login_title')}              </h2>
+                {t('login_title')}              </h2>
             </div>
 
             <div className="pt-5 sm:pt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -79,7 +67,7 @@ useEffect(() => {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-     {t('email_label')}                   </label>
+                    {t('email_label')}                   </label>
                   <div className="mt-1">
                     <input
                       id="email"
@@ -100,7 +88,7 @@ useEffect(() => {
                       htmlFor="password"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
- {t('password_label')}                        </label>
+                      {t('password_label')}                        </label>
                   </div>
                   <div className="mt-1">
                     <input
@@ -124,20 +112,20 @@ useEffect(() => {
                     {isLoading ? (
                       <Isloading width="w-6" height="h-6" />
                     ) : (
-                     t('login_button')
+                      t('login_button')
                     )}
                   </button>
                 </div>
               </form>
 
               <p className="pt-4 sm:pt-6 text-center text-xs sm:text-sm text-gray-500">
-             {t('not_member')}
+                {t('not_member')}
                 <Link
                   to="/register"
                   className="font-semibold leading-6 cloud-menu-color hover:text-[#31ad5f]"
                 >
-             {t('register_link')}
-             </Link>
+                  {t('register_link')}
+                </Link>
               </p>
               {inCorrectPass && (
                 <div className="mt-3 max-w-lg w-full p-4 items-center bg-red-50 border border-red-200 rounded-lg flex space-x-4">
@@ -159,7 +147,7 @@ useEffect(() => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-red-700">
-                    {t('incorrect_pass')}
+                      {t('incorrect_pass')}
                     </p>
                   </div>
                 </div>

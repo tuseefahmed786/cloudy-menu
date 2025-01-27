@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import slugify from "slugify";
-import axios from "../../axios";
-
+import axios from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFreeTrails,
@@ -13,16 +12,15 @@ import Isloading from "../../components/Isloading";
 import { useTranslation } from "react-i18next";
 
 const DashboardLayout = () => {
-  const navigate = useNavigate();
+  const { data: restaurantData, freeTrails } = useSelector((state) => state.info);
   const [fetchMenuLink, setFetchMenuLink] = useState("");
   const [isActive, setIsActive] = useState("");
   const [isloading, setIsLoading] = useState(false);
-  const { data: restaurantData, freeTrails } = useSelector(
-    (state) => state.info
-  );
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const baseUrl = window.location.origin;
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsActive(location.pathname.split("/").pop());
@@ -46,7 +44,6 @@ const DashboardLayout = () => {
         const response = await axios.get("/api/restaurantData", {
           headers: { Authorization: token },
         });
-        console.log(response.data)
         dispatch(setFreeTrails(response.data));
         dispatch(setRestaurantData(response.data));
         dispatch(setSocialLinks(response.data.social));
@@ -70,15 +67,6 @@ const DashboardLayout = () => {
     }
   }, [restaurantData?.name]);
 
-
-  const {t,i18n} = useTranslation()
-  useEffect(() => {
-    const currentLanguage = navigator.language || navigator.userLanguage;
-    console.log(currentLanguage);
-    const lng = i18n.language;
-    console.log(i18n)
-    document.documentElement.setAttribute('dir', lng.includes('en')  === 'ar' ? 'rtl' : 'ltr');
-  }, [i18n.changeLanguage])
   const logoutUser = () => {
     dispatch({ type: "LOGOUT" });
     localStorage.clear();
@@ -94,6 +82,7 @@ const DashboardLayout = () => {
       </>
     );
   }
+
   return (
     <div className="flex flex-col sm:w-screen overflow-hidden sm:h-screen">
       {/* Header and navigation code */}
@@ -130,10 +119,6 @@ const DashboardLayout = () => {
             </p>
           </div>
           <div className="hover:cursor-pointer bg-[#f8f9fa] hover:bg-[#e1e2e3] px-2 rounded py-2">
-            {/* <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" color="#203461" className="text-[#203461]" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="7" r="4"></circle>
-              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-            </svg> */}
             <p className="text-sm" onClick={logoutUser}>
               Log Out
             </p>
@@ -279,8 +264,6 @@ const DashboardLayout = () => {
           </div>
         </aside>
 
-        {/* 
-        //sm:overflow-hidden h-[90%] */}
         <main className="sm:w-[80%] h-full sm:overflow-y-scroll bg-white sm:bg-gray-100">
           <Outlet />
         </main>
