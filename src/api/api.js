@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
     // 'https://menuserver-eight.vercel.app', 
-    baseURL: 'http://localhost:3002',
+    baseURL: 'https://menuserver-eight.vercel.app',
 });
 
 
