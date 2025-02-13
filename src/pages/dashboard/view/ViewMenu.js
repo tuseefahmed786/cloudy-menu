@@ -11,7 +11,7 @@ function ViewMenu() {
     const name = restaurantData.name
     if (name) {
       const restaurantSlug = slugify(name, { lower: true });
-      const menuLink = `https://emenu-sandy.vercel.app/${restaurantSlug}`;
+      const menuLink = `/${restaurantSlug}`;
       setQrLink(menuLink);
     }
   }, [restaurantData.name]);
