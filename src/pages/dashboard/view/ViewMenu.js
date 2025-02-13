@@ -11,7 +11,7 @@ function ViewMenu() {
     const name = restaurantData.name
     if (name) {
       const restaurantSlug = slugify(name, { lower: true });
-      const menuLink = `/${restaurantSlug}`;
+      const menuLink = `https://www.qr.cloudymenu.com/${restaurantSlug}`;
       setQrLink(menuLink);
     }
   }, [restaurantData.name]);
