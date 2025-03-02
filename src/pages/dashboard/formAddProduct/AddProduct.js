@@ -33,60 +33,51 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
     if (/[^a-zA-Z0-9 ]/g.test(name)) {
       return alert("Special characters are not allowed");
     }
-    if (name.length == 0 || price.length == 0 || description.length == 0) {
-      alert("You can't save empty field");
+    if (name.length === 0 || price.length === 0 || description.length === 0) {
+      alert("You can't save empty fields");
       return;
     }
-    if (editProduct && editProduct._id) {
-      setIsLoading(true);
-      const selectedCategoryId = selectedCategory._id;
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("price", price);
-      formData.append("description", description);
-      formData.append("id", editProduct._id);
-
-      if (typeof image === "string") {
-        formData.append("imageUrl", image); // Pass existing image URL separately
+  
+    setIsLoading(true);
+    const selectedCategoryId = selectedCategory._id;
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("description", description);
+  
+    // Append the image only if it's provided
+    if (image) {
+      formData.append("image", image);
+    }
+  
+    try {
+      if (editProduct && editProduct._id) {
+        formData.append("id", editProduct._id);
+  
+        const createProduct = await axios.put(
+          `/categories/${selectedCategoryId}/editProducts`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+  
+        dispatch(editProducts(createProduct.data.updated));
+        dispatch(
+          editProductsMenu({
+            product: createProduct.data.updated,
+            id: selectedCategoryId,
+          })
+        );
       } else {
-        formData.append("image", image); // Pass new image file
-      }
-      const createProduct = await axios.put(
-        `/categories/${selectedCategoryId}/editProducts`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      dispatch(editProducts(createProduct.data.updated));
-      dispatch(
-        editProductsMenu({
-          product: createProduct.data.updated,
-          id: selectedCategoryId,
-        })
-      );
-
-      setShow("edit");
-    } else {
-      setIsLoading(true);
-        const selectedCategoryId = selectedCategory._id;
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("price", price);
-        formData.append("description", description);
-        formData.append("image", image);
-
         const createProduct = await axios.post(
           `/categories/${selectedCategoryId}/products`,
           formData,
           {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+            headers: { "Content-Type": "multipart/form-data" },
           }
         );
+  
         dispatch(addProduct(createProduct.data.product));
         dispatch(
           addProductMenu({
@@ -94,9 +85,16 @@ function AddProduct({ setShow, selectedCategory, editProduct }) {
             id: selectedCategoryId,
           })
         );
-        setShow("edit");
       }
+  
+      setShow("edit");
+    } catch (error) {
+      console.error("Error saving product:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
   const deleteTheProduct = async () => {
     setIsLoadingDelete(true);
     try {

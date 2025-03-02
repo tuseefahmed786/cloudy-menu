@@ -182,13 +182,17 @@ const DishCard = ({ name, selectPerProduct, currency }) => (
         <p className="text-sm">{name.price}</p>
       </div>
     </div>
-    <div className="w-[25%] h-[90px]">
-      <img
-        className="object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5]"
-        src={name.imageUrl}
-        alt="pic here product"
-      />
-    </div>
+  
+
+    {name.imageUrl && (
+       <div className="w-[25%] h-[90px]">
+       <img
+         className="object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5]"
+         src={name.imageUrl}
+         alt="pic here product"
+       />
+     </div>
+        )}
   </div>
 );
 

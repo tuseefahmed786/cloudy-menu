@@ -217,13 +217,19 @@ const DishCard = ({ productInfo, selectProduct, currency }) => {
 
          
         </div>
-        <div className="w-48 h-48">
-          <img
-            className="object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5] "
-            src={productInfo.imageUrl}
-            alt="pic here product"
-          />
-        </div>
+        {productInfo.imageUrl ? (
+          <div className="w-48 h-48">
+            <img
+              className="object-cover w-full h-full p-[2px] rounded-md border border-[#d5d5d5]"
+              src={productInfo.imageUrl}
+              alt="Product"
+            />
+          </div>
+        ) : (
+          <div className="w-48 h-48 flex items-center justify-center bg-gray-100 border border-[#d5d5d5] rounded-md">
+            <p className="text-xs text-gray-500">No Image Available</p>
+          </div>
+        )}
       </div>
     </>
   );
