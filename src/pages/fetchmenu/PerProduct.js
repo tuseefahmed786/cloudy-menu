@@ -26,13 +26,16 @@ function PerProduct() {
     <div>
       <div className="h-screen overflow-hidden max-w-[25rem] mx-auto bg-white h-full shadow-xl top-0 left-0 right-0">
         <div className="flex w-full flex-col border-b border-b-[#80808057]">
+         {product.imageUrl && (
           <div className="w-full h-64">
-            <img
-              className="object-cover w-full h-full"
-              src={product.imageUrl}
-              alt="pic here product"
-            />
-          </div>
+           <img
+             className="object-cover w-full h-full"
+             src={product.imageUrl}
+             alt="pic here product"
+           />
+         </div>
+         )
+         }
           <div className="w-full px-3 pt-4 flex-col flex gap-1">
             <div className="flex justify-between items-center">
               <h1>{product.name}</h1>
