@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "../../axios";
+import axios from "../../api/api";
 import Isloading from "../../components/Isloading";
 import { setProductDetails } from "../../redux/slice/selectedProductSlice";
 import { useDispatch, useSelector } from "react-redux";
