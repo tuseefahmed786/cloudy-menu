@@ -36,7 +36,7 @@ function Login() {
     }
   };
   const handleGoogleLogin = async () => {
-    window.location.href = "http://localhost:3002/google";
+    window.location.href = "https://menuserver-eight.vercel.app/google";
 };
   return (
     <>
