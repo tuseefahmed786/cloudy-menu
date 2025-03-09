@@ -21,13 +21,20 @@ const DashboardLayout = () => {
   const dispatch = useDispatch();
   const baseUrl = window.location.origin;
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsActive(location.pathname.split("/").pop());
-    if (!token) {
-      navigate("/login");
-    }
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tokenFromUrl = urlParams.get("token");
+  if (tokenFromUrl) {
+    console.log("Extracted Token:", tokenFromUrl);
+    localStorage.setItem("token", tokenFromUrl); // Save token if found in URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } 
+}, [])
 
+
+  useEffect(() => {
+    setIsActive(location.pathname.split("/").pop());
+    const token = localStorage.getItem("token");
     const verifyToken = async () => {
       setIsLoading(true);
       try {
@@ -44,6 +51,7 @@ const DashboardLayout = () => {
         const response = await axios.get("/api/restaurantData", {
           headers: { Authorization: token },
         });
+        console.log(response)
         dispatch(setFreeTrails(response.data));
         dispatch(setRestaurantData(response.data));
         dispatch(setSocialLinks(response.data.social));
@@ -57,6 +65,7 @@ const DashboardLayout = () => {
       verifyToken();
       getUserData();
     }
+    
   }, [location.pathname]);
 
   useEffect(() => {
@@ -142,11 +151,10 @@ const DashboardLayout = () => {
               <div
                 id="home"
                 onClick={(e) => setIsActive(e.target.id)}
-                className={`${
-                  isActive === "home"
+                className={`${isActive === "home"
                     ? "border-b-2 border-b-black sm:text-white sm:bg-green-500"
                     : "sm:bg-[#f1f4f9]"
-                } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
+                  } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png"
@@ -160,11 +168,10 @@ const DashboardLayout = () => {
               <div
                 onClick={(e) => setIsActive(e.target.id)}
                 id="edit"
-                className={`${
-                  isActive === "edit"
+                className={`${isActive === "edit"
                     ? "border-b-2 border-b-black sm:text-white sm:bg-green-500"
                     : "sm:bg-[#f1f4f9]"
-                } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
+                  } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/zgzn725rblci74b6zktj.png"
@@ -178,13 +185,12 @@ const DashboardLayout = () => {
               <div
                 id="info"
                 onClick={(e) => setIsActive(e.target.id)}
-                className={`${
-                  isActive === "info" ||
-                  isActive === "logo" ||
-                  isActive == "social"
+                className={`${isActive === "info" ||
+                    isActive === "logo" ||
+                    isActive == "social"
                     ? "border-b-2 border-b-black sm:text-white sm:bg-green-500"
                     : "sm:bg-[#f1f4f9]"
-                } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
+                  } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png"
@@ -211,11 +217,10 @@ const DashboardLayout = () => {
               <div
                 id="view"
                 onClick={(e) => setIsActive(e.target.id)}
-                className={`${
-                  isActive === "view"
+                className={`${isActive === "view"
                     ? "border-b-2 border-b-black sm:text-white sm:bg-green-500"
                     : "sm:bg-[#f1f4f9]"
-                } sm:border-[white] items-center gap-2 sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
+                  } sm:border-[white] items-center gap-2 sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309432/mmpxgmslsiui6j8srnxx.png"
@@ -229,11 +234,10 @@ const DashboardLayout = () => {
               <div
                 id="subscription"
                 onClick={(e) => setIsActive(e.target.id)}
-                className={`${
-                  isActive === "subscription" || isActive === "subscription"
+                className={`${isActive === "subscription" || isActive === "subscription"
                     ? "border-b-2 border-b-black sm:text-white sm:bg-green-500"
                     : "sm:bg-[#f1f4f9]"
-                } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
+                  } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png"
@@ -247,11 +251,10 @@ const DashboardLayout = () => {
               <div
                 id="billing"
                 onClick={(e) => setIsActive(e.target.id)}
-                className={`${
-                  isActive === "billing" || isActive === "billing"
+                className={`${isActive === "billing" || isActive === "billing"
                     ? "border-b-2 border-b-black sm:text-white sm:bg-green-500"
                     : "sm:bg-[#f1f4f9]"
-                } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
+                  } gap-2 items-center sm:border-[white] sm:mb-2 whitespace-nowrap sm:w-full flex text-left mr-4 sm:mr-0 sm:px-4 sm:py-2 sm:border-2 text-[#000000] sm:rounded-lg`}
               >
                 <img
                   src="https://res.cloudinary.com/dlefxmkgz/image/upload/v1734309431/wyel9inlwvwsosrj6fqv.png"

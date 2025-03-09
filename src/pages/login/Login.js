@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Isloading from "../../components/Isloading";
 import { useTranslation } from "react-i18next";
 import { loginUserApi } from "../../api/api";
+import GoogleButton from "../../components/GoogleButton";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +35,9 @@ function Login() {
       }, 4000);
     }
   };
+  const handleGoogleLogin = async () => {
+    window.location.href = "http://localhost:3002/google";
+};
   return (
     <>
       <div className="flex sm:h-screen flex-col-reverse sm:flex-row-reverse">
@@ -117,14 +121,15 @@ function Login() {
                   </button>
                 </div>
               </form>
+              <GoogleButton handleButton={handleGoogleLogin} buttonText="Sign in" />
 
               <p className="pt-4 sm:pt-6 text-center text-xs sm:text-sm text-gray-500">
-                {t('not_member')}
+                 {t('not_member')} 
                 <Link
                   to="/register"
                   className="font-semibold leading-6 cloud-menu-color hover:text-[#31ad5f]"
                 >
-                  {t('register_link')}
+                   {t('register_link')}
                 </Link>
               </p>
               {inCorrectPass && (

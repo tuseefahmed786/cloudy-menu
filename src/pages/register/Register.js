@@ -1,6 +1,7 @@
 import axios, { createUserApi } from "../../api/api";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleButton from "../../components/GoogleButton";
 import Isloading from "../../components/Isloading";
 function Register() {
   const [email, setEmail] = useState("");
@@ -40,7 +41,9 @@ function Register() {
       }
     }
   };
-  
+  const handleGoogleLogin = async () => {
+          window.location.href = "http://localhost:3002/google";
+};
   return (
     <>
       <div className="flex sm:h-screen flex-col-reverse sm:flex-row">
@@ -163,8 +166,11 @@ function Register() {
                 </div>
               </form>
 
-              <p
-                className="pt-2 flex gap-1 justify-center items-center
+         
+              {/* <p className="flex justify-center">or</p> */}
+          <GoogleButton handleButton={handleGoogleLogin} buttonText="Sign up" />
+    <p
+                className="pt-1 flex gap-1 justify-center items-center
              sm:pt-3 text-xs sm:text-sm text-gray-500"
               >
                 Already have an account?
@@ -176,6 +182,7 @@ function Register() {
                 </Link>
               </p>
             </div>
+           
           </div>
         </div>
 

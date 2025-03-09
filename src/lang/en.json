@@ -125,7 +125,7 @@
   "email_label": "Email address",
   "password_label": "Password",
   "login_button": "Sign In",
-  "not_member": "Not a member?",
+  "not_member": "Not a member? ",
   "register_link": "Now Register",
   "incorrect_pass": "Your email or password are incorrect. Please try again!"
   }
